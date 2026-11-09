@@ -1,0 +1,83 @@
+# ==========================================
+# Multi-Candidate Semantic Talent Engine
+# Root .gitignore
+# ==========================================
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment Variables & Secrets (CRITICAL: Never commit credentials)
+.env
+.env.local
+.env.*.local
+.env.production
+*.pem
+*.key
+*.cert
+
+# Python & Backend Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+backend/.venv/
+
+# Testing & Coverage
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js & Next.js Frontend
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+
+# Local Storage & Uploads
+backend/storage/resumes/
+backend/storage/temp/
+uploads/
+storage/
+temp/
+*.log
+
+# Keep sample test fixtures if explicitly committed under tests/fixtures/
+!backend/tests/fixtures/*.pdf
