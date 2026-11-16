@@ -5,11 +5,13 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models.candidate import Candidate
 from app.models.chunk import ResumeChunk
 from app.models.pool import TalentPool
 from app.models.resume import Resume
+from app.schemas.resume import CandidateListItem
 from app.schemas.search import CandidateSearchResult, SearchChunkResult
 from app.services.chunking import ChunkResult
 
@@ -70,6 +72,57 @@ class VectorStoreService:
         query = select(TalentPool).where(TalentPool.id == pool_id)
         result = await session.execute(query)
         return result.scalar_one_or_none()
+
+    async def list_candidates_for_pool(
+        self,
+        session: AsyncSession,
+        pool_id: UUID,
+    ) -> list[CandidateListItem]:
+        """Lists all candidates within a talent pool with resume metadata."""
+        query = (
+            select(Candidate)
+            .where(Candidate.pool_id == pool_id)
+            .options(
+                selectinload(Candidate.resumes),
+                selectinload(Candidate.chunks),
+            )
+            .order_by(Candidate.created_at.desc())
+        )
+        res = await session.execute(query)
+        candidates = res.scalars().all()
+
+        items: list[CandidateListItem] = []
+        for c in candidates:
+            latest_resume = c.resumes[0] if c.resumes else None
+            items.append(
+                CandidateListItem(
+                    id=c.id,
+                    pool_id=c.pool_id,
+                    full_name=c.full_name,
+                    email=c.email,
+                    resume_id=latest_resume.id if latest_resume else None,
+                    filename=latest_resume.filename if latest_resume else None,
+                    page_count=latest_resume.page_count if latest_resume else 1,
+                    chunks_count=len(c.chunks) if c.chunks else 0,
+                    created_at=c.created_at,
+                )
+            )
+        return items
+
+    async def get_candidate_resume(
+        self,
+        session: AsyncSession,
+        candidate_id: UUID,
+    ) -> Resume | None:
+        """Retrieves the latest resume for a candidate."""
+        query = (
+            select(Resume)
+            .where(Resume.candidate_id == candidate_id)
+            .order_by(Resume.created_at.desc())
+            .limit(1)
+        )
+        res = await session.execute(query)
+        return res.scalar_one_or_none()
 
     async def delete_pool(
         self,

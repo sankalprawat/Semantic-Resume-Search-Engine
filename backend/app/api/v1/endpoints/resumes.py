@@ -3,6 +3,7 @@ from pathlib import Path
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
@@ -119,4 +120,31 @@ async def upload_resumes(
         pool_id=pool_id,
         total_uploaded=len(uploaded_results),
         resumes=uploaded_results,
+    )
+
+
+@router.get("/{candidate_id}/file")
+async def get_candidate_resume_file(
+    candidate_id: UUID,
+    db: AsyncSession = Depends(get_db),
+) -> FileResponse:
+    """Streams the raw candidate resume PDF file for client-side rendering."""
+    resume = await vector_store.get_candidate_resume(session=db, candidate_id=candidate_id)
+    if not resume:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Resume for candidate {candidate_id} not found",
+        )
+
+    file_path = Path(resume.file_path)
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Resume PDF file does not exist on disk",
+        )
+
+    return FileResponse(
+        path=str(file_path),
+        filename=resume.filename,
+        media_type="application/pdf",
     )

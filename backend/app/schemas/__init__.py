@@ -5,7 +5,11 @@ from app.schemas.evaluation import (
     EvaluationResponse,
 )
 from app.schemas.pool import TalentPoolCreate, TalentPoolResponse, TalentPoolUpdate
-from app.schemas.resume import BatchResumeUploadResponse, ResumeUploadResponse
+from app.schemas.resume import (
+    BatchResumeUploadResponse,
+    CandidateListItem,
+    ResumeUploadResponse,
+)
 from app.schemas.search import (
     CandidateSearchResult,
     SearchChunkResult,
@@ -17,6 +21,7 @@ __all__ = [
     "TalentPoolCreate",
     "TalentPoolUpdate",
     "TalentPoolResponse",
+    "CandidateListItem",
     "ResumeUploadResponse",
     "BatchResumeUploadResponse",
     "SearchQueryRequest",

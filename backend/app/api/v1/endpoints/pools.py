@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.schemas.pool import TalentPoolCreate, TalentPoolResponse
+from app.schemas.resume import CandidateListItem
 from app.services.vector_store import vector_store
 
 router = APIRouter()
@@ -60,6 +61,21 @@ async def get_talent_pool(
         created_at=pool.created_at,
         updated_at=pool.updated_at,
     )
+
+
+@router.get("/{pool_id}/candidates", response_model=list[CandidateListItem])
+async def list_pool_candidates(
+    pool_id: UUID,
+    db: AsyncSession = Depends(get_db),
+) -> list[CandidateListItem]:
+    """Fetch all candidates and their resume details within a talent pool."""
+    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
+    if not pool:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Talent pool with id {pool_id} not found",
+        )
+    return await vector_store.list_candidates_for_pool(session=db, pool_id=pool_id)
 
 
 @router.delete("/{pool_id}", status_code=status.HTTP_204_NO_CONTENT)
