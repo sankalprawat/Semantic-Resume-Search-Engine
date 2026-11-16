@@ -142,24 +142,20 @@ export function Header() {
             <span className="text-[11px] text-ink-muted">Indexed</span>
           </div>
 
-          {/* Upload Resumes "+" Circular Button with Hover Tooltip */}
-          <div className="relative group flex items-center">
-            <button
-              onClick={() => setIsUploadModalOpen(true)}
-              disabled={!activePool}
-              aria-label="Upload Resumes"
-              className="w-8 h-8 rounded-full bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-stone-700 hover:text-stone-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-2xs cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-
-            {/* Hover Tooltip */}
-            <div className="absolute top-full right-0 mt-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50 whitespace-nowrap">
-              <div className="px-2.5 py-1 text-[11px] font-medium text-ink-primary bg-white/95 backdrop-blur-md border border-surface-200 rounded-lg shadow-md">
-                Upload Resumes
-              </div>
+          {/* Expanding "+" to "+ Upload Resumes" Pill Button */}
+          <button
+            onClick={() => setIsUploadModalOpen(true)}
+            disabled={!activePool}
+            aria-label="Upload Resumes"
+            className="group h-8 rounded-full bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-stone-700 hover:text-stone-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center transition-all duration-300 ease-in-out shadow-2xs cursor-pointer overflow-hidden"
+          >
+            <div className="w-8 h-8 flex items-center justify-center shrink-0">
+              <Plus className="w-4 h-4 text-stone-700 transition-transform duration-300 group-hover:rotate-90" />
             </div>
-          </div>
+            <div className="max-w-0 group-hover:max-w-[140px] opacity-0 group-hover:opacity-100 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out pr-0 group-hover:pr-3.5 text-xs font-medium text-ink-primary">
+              Upload Resumes
+            </div>
+          </button>
         </div>
       </header>
   );
