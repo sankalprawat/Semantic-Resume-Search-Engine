@@ -2,13 +2,15 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useEngine } from "@/context/EngineContext";
-import { Check, ChevronDown, FolderPlus, Layers, Plus } from "lucide-react";
+import { deletePool } from "@/lib/api";
+import { Check, ChevronDown, FolderPlus, Layers, Plus, Trash2 } from "lucide-react";
 
 export function PoolDropdown() {
   const {
     pools,
     activePool,
     setActivePool,
+    refreshPools,
     setIsCreatePoolOpen,
   } = useEngine();
 
@@ -71,32 +73,62 @@ export function PoolDropdown() {
               pools.map((pool) => {
                 const isSelected = activePool?.id === pool.id;
                 return (
-                  <button
+                  <div
                     key={pool.id}
-                    type="button"
-                    onClick={() => {
-                      setActivePool(pool);
-                      setIsOpen(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-3 py-2 text-xs rounded-xl transition-colors text-left ${
+                    className={`w-full flex items-center justify-between px-3 py-1.5 text-xs rounded-xl transition-colors group/item ${
                       isSelected
                         ? "bg-surface-100 font-semibold text-ink-primary"
                         : "text-ink-secondary hover:text-ink-primary hover:bg-surface-50"
                     }`}
                   >
-                    <div className="flex items-center space-x-2 truncate mr-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActivePool(pool);
+                        setIsOpen(false);
+                      }}
+                      className="flex items-center space-x-2 truncate flex-1 text-left py-0.5"
+                    >
                       <div className="w-4 flex items-center justify-center shrink-0">
                         {isSelected && (
                           <Check className="w-3.5 h-3.5 text-stone-900" />
                         )}
                       </div>
                       <span className="truncate">{pool.title}</span>
-                    </div>
+                    </button>
 
-                    <span className="text-[10px] text-ink-muted px-2 py-0.5 rounded-full bg-surface-100 shrink-0">
-                      {pool.candidate_count} {pool.candidate_count === 1 ? "cand" : "cands"}
-                    </span>
-                  </button>
+                    <div className="flex items-center space-x-1.5 shrink-0 ml-2">
+                      <span className="text-[10px] text-ink-muted px-2 py-0.5 rounded-full bg-white/80 border border-surface-200/60">
+                        {pool.candidate_count} {pool.candidate_count === 1 ? "cand" : "cands"}
+                      </span>
+
+                      <button
+                        type="button"
+                        title={`Delete pool "${pool.title}"`}
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                          if (
+                            confirm(
+                              `Delete talent pool "${pool.title}" and all its candidate resumes?`
+                            )
+                          ) {
+                            try {
+                              await deletePool(pool.id);
+                              await refreshPools();
+                              if (activePool?.id === pool.id) {
+                                setActivePool(null);
+                              }
+                            } catch (err) {
+                              alert(`Failed to delete pool: ${err}`);
+                            }
+                          }
+                        }}
+                        className="p-1 rounded-md text-ink-muted hover:text-red-600 hover:bg-red-50 transition-colors opacity-70 group-hover/item:opacity-100 cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
                 );
               })
             )}
