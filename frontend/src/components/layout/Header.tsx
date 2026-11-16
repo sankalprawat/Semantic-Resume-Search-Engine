@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useEngine } from "@/context/EngineContext";
 import { fetchHealth } from "@/lib/api";
+import { PoolDropdown } from "@/components/pool/PoolDropdown";
 import {
   Briefcase,
   ChevronDown,
@@ -118,35 +119,9 @@ export function Header() {
           </div>
         </div>
 
-        {/* Center: Pool Selector & Switcher */}
+        {/* Center: Custom Pool Selector & Switcher */}
         <div className="flex items-center space-x-2">
-          <div className="relative flex items-center">
-            <label htmlFor="pool-select" className="sr-only">
-              Select Talent Pool
-            </label>
-            <select
-              id="pool-select"
-              value={activePool?.id || ""}
-              onChange={(e) => {
-                const selected = pools.find((p) => p.id === e.target.value);
-                if (selected) setActivePool(selected);
-              }}
-              className="appearance-none bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-8 py-1.5 focus:outline-none focus:ring-1 focus:ring-amber-600 transition-colors shadow-2xs cursor-pointer min-w-[200px]"
-            >
-              {pools.length === 0 ? (
-                <option value="" disabled>
-                  No Talent Pools Found
-                </option>
-              ) : (
-                pools.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.title} ({p.candidate_count} candidates)
-                  </option>
-                ))
-              )}
-            </select>
-            <ChevronDown className="w-3.5 h-3.5 text-ink-secondary absolute right-3 pointer-events-none" />
-          </div>
+          <PoolDropdown />
 
           <button
             onClick={() => setIsCreatePoolOpen(true)}
