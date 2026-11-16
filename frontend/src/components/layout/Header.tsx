@@ -9,7 +9,7 @@ import {
   ChevronDown,
   FolderPlus,
   Info,
-  PlusCircle,
+  Plus,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -133,8 +133,8 @@ export function Header() {
         </div>
 
         {/* Right: Actions & Vitals */}
-        <div className="flex items-center space-x-2.5">
-          <div className="flex items-center space-x-1.5 text-xs text-ink-secondary px-3 py-1 rounded-full bg-surface-100 border border-surface-200">
+        <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1.5 text-xs text-ink-secondary px-3 py-1.5 rounded-full bg-surface-50 border border-surface-200">
             <Users className="w-3.5 h-3.5 text-stone-600" />
             <span className="font-semibold text-ink-primary">
               {candidates.length}
@@ -142,14 +142,24 @@ export function Header() {
             <span className="text-[11px] text-ink-muted">Indexed</span>
           </div>
 
-          <button
-            onClick={() => setIsUploadModalOpen(true)}
-            disabled={!activePool}
-            className="inline-flex items-center space-x-1.5 text-xs font-medium px-4 py-1.5 rounded-full bg-stone-900 text-stone-50 hover:bg-stone-800 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-2xs"
-          >
-            <PlusCircle className="w-3.5 h-3.5 text-amber-400" />
-            <span>Upload Resumes</span>
-          </button>
+          {/* Upload Resumes "+" Circular Button with Hover Tooltip */}
+          <div className="relative group flex items-center">
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              disabled={!activePool}
+              aria-label="Upload Resumes"
+              className="w-8 h-8 rounded-full bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-stone-700 hover:text-stone-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-2xs cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+
+            {/* Hover Tooltip */}
+            <div className="absolute top-full right-0 mt-2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50 whitespace-nowrap">
+              <div className="px-2.5 py-1 text-[11px] font-medium text-ink-primary bg-white/95 backdrop-blur-md border border-surface-200 rounded-lg shadow-md">
+                Upload Resumes
+              </div>
+            </div>
+          </div>
         </div>
       </header>
   );
