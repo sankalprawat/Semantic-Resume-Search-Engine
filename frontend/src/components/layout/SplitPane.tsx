@@ -8,7 +8,7 @@ import { GroundedPdfViewer } from "@/components/viewer/GroundedPdfViewer";
 
 export function SplitPane() {
   return (
-    <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden p-4 gap-4 bg-surface-50 max-w-7xl mx-auto w-full">
+    <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden gap-3.5 w-full">
       {/* Left Pane: Recruiter Command & Comparative Synthesis Console */}
       <section className="flex-1 md:w-1/2 flex flex-col min-h-0 gap-3.5">
         <QueryBar />

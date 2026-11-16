@@ -48,9 +48,8 @@ export function Header() {
   }, []);
 
   return (
-    <div className="pt-3 px-4 shrink-0 z-20">
-      <header className="max-w-7xl mx-auto h-13 bg-white/95 backdrop-blur-md border border-surface-200/90 rounded-full px-5 shadow-xs flex items-center justify-between transition-all">
-        {/* Brand & Mandate */}
+    <header className="w-full h-14 bg-white/95 backdrop-blur-md border border-surface-200/90 rounded-full px-5 shadow-xs flex items-center justify-between shrink-0 z-20">
+      {/* Brand & Mandate */}
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-2xs">
             <Briefcase className="w-4 h-4 text-amber-400" />
@@ -172,6 +171,5 @@ export function Header() {
           </button>
         </div>
       </header>
-    </div>
   );
 }
