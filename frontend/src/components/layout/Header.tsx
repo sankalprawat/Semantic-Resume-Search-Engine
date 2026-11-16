@@ -75,33 +75,33 @@ export function Header() {
               </button>
 
               {showTooltip && (
-                <div className="absolute top-full left-0 mt-2 w-64 p-3 bg-stone-900 text-stone-100 text-[11px] rounded-lg shadow-lg border border-stone-800 z-50 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="flex items-center gap-1.5 font-semibold text-amber-400 mb-1.5 pb-1 border-b border-stone-800">
-                    <Sparkles className="w-3 h-3" />
+                <div className="absolute top-full left-0 mt-2.5 w-64 p-3.5 bg-white/85 backdrop-blur-md text-[11px] rounded-xl shadow-lg border border-surface-200/90 z-50 text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150">
+                  <div className="flex items-center gap-1.5 font-semibold text-ink-primary mb-2 pb-1.5 border-b border-surface-200">
+                    <Sparkles className="w-3.5 h-3.5 text-stone-700" />
                     <span>AI Engine Architecture</span>
                   </div>
-                  <div className="space-y-1.5 text-stone-300">
+                  <div className="space-y-2">
                     <div>
-                      <span className="text-stone-400 block text-[10px] uppercase tracking-wider">
+                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
                         Synthesis Model
                       </span>
-                      <span className="font-mono text-amber-200">
+                      <span className="font-semibold text-ink-primary">
                         {modelInfo.completion_model}
                       </span>
                     </div>
                     <div>
-                      <span className="text-stone-400 block text-[10px] uppercase tracking-wider">
+                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
                         Dense Embeddings
                       </span>
-                      <span className="font-mono text-stone-200">
+                      <span className="font-semibold text-ink-primary">
                         {modelInfo.embedding_model} (768-dim)
                       </span>
                     </div>
                     <div>
-                      <span className="text-stone-400 block text-[10px] uppercase tracking-wider">
+                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
                         Vector Database
                       </span>
-                      <span className="text-stone-200">
+                      <span className="font-medium text-ink-primary">
                         Supabase PostgreSQL 17 + pgvector HNSW
                       </span>
                     </div>
