@@ -30,16 +30,16 @@ export function PoolDropdown() {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative w-64" ref={dropdownRef}>
       {/* Pill Trigger Button */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="flex items-center space-x-2 bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 transition-all shadow-2xs cursor-pointer min-w-[210px] justify-between"
+        className="w-full flex items-center justify-between space-x-2 bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 transition-all shadow-2xs cursor-pointer"
       >
-        <div className="flex items-center space-x-2 truncate">
+        <div className="flex items-center space-x-2 truncate flex-1 mr-1">
           <Layers className="w-3.5 h-3.5 text-stone-700 shrink-0" />
-          <span className="truncate max-w-[130px]">
+          <span className="truncate text-left">
             {activePool ? activePool.title : "Select Talent Pool"}
           </span>
           {activePool && (
@@ -55,9 +55,9 @@ export function PoolDropdown() {
         />
       </button>
 
-      {/* Custom Dropdown Menu */}
+      {/* Custom Dropdown Menu (Matches Button Width Exactly) */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-surface-200/90 z-50 p-1.5 animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute top-full left-0 right-0 w-full mt-2 bg-white rounded-2xl shadow-xl border border-surface-200/90 z-50 p-1.5 animate-in fade-in zoom-in-95 duration-150">
           <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
             Talent Pools ({pools.length})
           </div>
