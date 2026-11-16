@@ -75,13 +75,23 @@ export function Header() {
               </button>
 
               {showTooltip && (
-                <div className="absolute top-full left-0 mt-2.5 w-60 p-3 bg-white/45 backdrop-blur-xl text-[11px] rounded-xl shadow-lg border border-white/60 ring-1 ring-black/5 z-50 text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150">
-                  <div className="space-y-2">
+                <div
+                  style={{
+                    backgroundColor: "rgba(255, 255, 255, 0.72)",
+                    backdropFilter: "blur(20px) saturate(180%)",
+                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
+                    boxShadow:
+                      "0 12px 32px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9)",
+                    border: "1px solid rgba(255, 255, 255, 0.65)",
+                  }}
+                  className="absolute top-full left-0 mt-3 w-64 p-3.5 rounded-2xl z-50 text-[11px] text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150"
+                >
+                  <div className="space-y-2.5">
                     <div>
                       <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
                         Synthesis Model
                       </span>
-                      <span className="font-semibold text-ink-primary">
+                      <span className="font-semibold text-ink-primary text-xs">
                         {modelInfo.completion_model}
                       </span>
                     </div>
