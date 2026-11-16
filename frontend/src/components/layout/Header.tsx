@@ -55,31 +55,27 @@ export function Header() {
             <Briefcase className="w-4 h-4 text-amber-400" />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <h1 className="text-xs font-semibold text-ink-primary tracking-tight">
+          <div className="flex items-center gap-1.5">
+            <h1 className="text-xs font-semibold text-ink-primary tracking-tight leading-none">
               Semantic Talent Engine
             </h1>
 
             {/* Model Information Icon with Hover Tooltip */}
             <div
-              className="relative flex items-center"
+              className="relative inline-flex items-center"
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
             >
               <button
                 type="button"
-                className="text-ink-muted hover:text-stone-800 p-1 rounded-full transition-colors cursor-help"
+                className="text-ink-muted hover:text-ink-primary transition-colors cursor-help inline-flex items-center justify-center p-0.5 rounded"
                 aria-label="AI Model Information"
               >
                 <Info className="w-3.5 h-3.5" />
               </button>
 
               {showTooltip && (
-                <div className="absolute top-full left-0 mt-2.5 w-64 p-3.5 bg-white/85 backdrop-blur-md text-[11px] rounded-xl shadow-lg border border-surface-200/90 z-50 text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150">
-                  <div className="flex items-center gap-1.5 font-semibold text-ink-primary mb-2 pb-1.5 border-b border-surface-200">
-                    <Sparkles className="w-3.5 h-3.5 text-stone-700" />
-                    <span>AI Engine Architecture</span>
-                  </div>
+                <div className="absolute top-full left-0 mt-2.5 w-60 p-3 bg-white/45 backdrop-blur-xl text-[11px] rounded-xl shadow-lg border border-white/60 ring-1 ring-black/5 z-50 text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150">
                   <div className="space-y-2">
                     <div>
                       <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
