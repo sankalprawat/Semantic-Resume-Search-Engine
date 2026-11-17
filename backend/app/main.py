@@ -39,8 +39,9 @@ if settings.CORS_ORIGINS:
         allow_headers=["*"],
     )
 
-# Mount versioned API routes
+# Mount versioned API routes and root aliases
 app.include_router(api_router, prefix=settings.API_V1_PREFIX)
+app.include_router(api_router)
 
 
 @app.get("/health", tags=["Health"])
