@@ -10,6 +10,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Semantic Theme Tokens (Auto-adapts between Light and Dark via CSS variables)
+        "surface-canvas": "var(--surface-canvas)",
+        "surface-card": "var(--surface-card)",
+        "surface-subtle": "var(--surface-subtle)",
+        "surface-elevated": "var(--surface-elevated)",
+        "border-default": "var(--border-default)",
+        "border-subtle": "var(--border-subtle)",
+
         // Warm Editorial & Executive Professional Palette (Zero neon / purple AI-slop)
         surface: {
           50: "#FAF9F6",  // Warm off-white paper canvas

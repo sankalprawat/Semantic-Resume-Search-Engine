@@ -7,6 +7,17 @@
   --background: #FAF9F6;
   --foreground: #1C1917;
 
+  /* Semantic Theme Tokens — Light Mode */
+  --surface-canvas: #FAF9F6;
+  --surface-card: #FFFFFF;
+  --surface-subtle: #F7F6F2;
+  --surface-elevated: #FFFFFF;
+  --border-default: #E6E4DD;
+  --border-subtle: #F0EDE7;
+  --ink-primary: #1C1917;
+  --ink-secondary: #57534E;
+  --ink-muted: #8C857B;
+
   /* Scrollbar Tokens */
   --scrollbar-thumb: #DCD6CB;
   --scrollbar-thumb-hover: #8C857B;
@@ -54,6 +65,17 @@
   color-scheme: dark;
   --background: #0E0D0C;
   --foreground: #F5F4F0;
+
+  /* Semantic Theme Tokens — Dark Mode */
+  --surface-canvas: #0E0D0C;
+  --surface-card: #1E1C1A;
+  --surface-subtle: #262422;
+  --surface-elevated: #2A2724;
+  --border-default: #38342F;
+  --border-subtle: #2E2B27;
+  --ink-primary: #F5F4F0;
+  --ink-secondary: #A8A29E;
+  --ink-muted: #78716C;
 
   /* Scrollbar Tokens */
   --scrollbar-thumb: #383531;

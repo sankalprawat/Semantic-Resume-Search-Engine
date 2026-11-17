@@ -5,6 +5,8 @@ import { useEngine } from "@/context/EngineContext";
 import { useTheme } from "@/context/ThemeContext";
 import { fetchHealth } from "@/lib/api";
 import { PoolDropdown } from "@/components/pool/PoolDropdown";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import {
   Briefcase,
   FolderPlus,
@@ -88,17 +90,17 @@ export function Header() {
   const needsCandidates = Boolean(activePool) && candidates.length === 0;
 
   const IndexedBadge = ({ compact = false }: { compact?: boolean }) => (
-    <div
-      className={`inline-flex items-center rounded-full bg-[#F7F6F2] dark:bg-[#262422] border border-[#E6E4DD] dark:border-[#38342F] text-stone-600 dark:text-stone-300 whitespace-nowrap ${
-        compact ? "gap-1 text-[11px] px-2.5 py-1" : "gap-1.5 text-xs px-3 py-1.5"
-      }`}
+    <Badge
+      size={compact ? "sm" : "md"}
+      icon={
+        <Users
+          className={`${
+            compact ? "w-3 h-3" : "w-3.5 h-3.5"
+          } text-stone-500 dark:text-stone-400`}
+        />
+      }
       title="Total resumes indexed in active pool"
     >
-      <Users
-        className={`${
-          compact ? "w-3 h-3" : "w-3.5 h-3.5"
-        } text-stone-500 dark:text-stone-400`}
-      />
       <span className="font-semibold text-stone-900 dark:text-stone-100 tabular-nums">
         {candidates.length}
       </span>
@@ -109,34 +111,30 @@ export function Header() {
       >
         Indexed
       </span>
-    </div>
+    </Badge>
   );
 
   const UploadButton = ({ mobile = false }: { mobile?: boolean }) => (
-    <button
-      type="button"
+    <Button
+      variant={needsCandidates ? "primary" : "secondary"}
+      size={mobile ? "sm" : "md"}
       onClick={() => setIsUploadModalOpen(true)}
       disabled={!activePool}
+      icon={
+        <Plus
+          className={`w-3.5 h-3.5 ${
+            needsCandidates ? "text-amber-400 dark:text-stone-950" : "text-current"
+          }`}
+        />
+      }
       title={
         activePool
           ? "Upload candidate PDF resumes"
           : "Select or create a talent pool first"
       }
-      className={`inline-flex items-center rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
-        mobile ? "gap-1 px-3 py-1.5 min-h-[36px]" : "gap-1.5 px-3.5 py-1.5"
-      } ${
-        needsCandidates
-          ? "bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 hover:bg-stone-800 dark:hover:bg-amber-400 border border-stone-900 dark:border-amber-500 shadow-xs cursor-pointer"
-          : "bg-white dark:bg-[#262422] hover:bg-stone-50 dark:hover:bg-[#2F2C29] text-stone-900 dark:text-stone-100 border border-[#E6E4DD] dark:border-[#38342F] hover:border-stone-300 cursor-pointer disabled:bg-stone-100 dark:disabled:bg-stone-800 disabled:text-stone-400 dark:disabled:text-stone-600 disabled:border-stone-200 dark:disabled:border-stone-800 disabled:cursor-not-allowed"
-      }`}
     >
-      <Plus
-        className={`w-3.5 h-3.5 ${
-          needsCandidates ? "text-amber-400 dark:text-stone-950" : "text-current"
-        }`}
-      />
       <span>{mobile ? "Upload" : "Upload PDFs"}</span>
-    </button>
+    </Button>
   );
 
   const ThemeToggleButton = ({ mobile = false }: { mobile?: boolean }) => (
@@ -250,26 +248,25 @@ export function Header() {
           <PoolDropdown />
         </div>
 
-        <button
-          type="button"
+        <Button
+          variant={needsPool ? "primary" : "secondary"}
+          size="md"
           onClick={() => setIsCreatePoolOpen(true)}
           title="Create New Talent Pool"
-          className={`inline-flex items-center gap-1.5 px-3 py-1.5 min-h-[40px] md:min-h-[34px] rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer shrink-0 ${
-            needsPool
-              ? "bg-stone-900 dark:bg-amber-500 text-white dark:text-stone-950 hover:bg-stone-800 dark:hover:bg-amber-400 border border-stone-900 dark:border-amber-500 shadow-xs"
-              : "bg-white dark:bg-[#262422] hover:bg-stone-50 dark:hover:bg-[#2F2C29] text-stone-800 dark:text-stone-200 border border-[#E6E4DD] dark:border-[#38342F] hover:border-stone-300"
-          }`}
+          icon={
+            <FolderPlus
+              className={`w-3.5 h-3.5 ${
+                needsPool
+                  ? "text-amber-400 dark:text-stone-950"
+                  : "text-stone-600 dark:text-stone-400"
+              }`}
+            />
+          }
+          className="shrink-0"
         >
-          <FolderPlus
-            className={`w-3.5 h-3.5 ${
-              needsPool
-                ? "text-amber-400 dark:text-stone-950"
-                : "text-stone-600 dark:text-stone-400"
-            }`}
-          />
           <span className="md:hidden">Pool</span>
           <span className="hidden md:inline">New Pool</span>
-        </button>
+        </Button>
 
         <div className="md:hidden">
           <ThemeToggleButton mobile />
