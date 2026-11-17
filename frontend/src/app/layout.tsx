@@ -14,6 +14,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const stored = localStorage.getItem('talent_engine_theme');
+                if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                  document.body && document.body.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                  document.body && document.body.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-surface-50 dark:bg-[#121110] text-ink-primary dark:text-[#F5F4F0] font-sans antialiased selection:bg-yellow-300 selection:text-stone-900 transition-colors duration-200">
         <ThemeProvider>{children}</ThemeProvider>
       </body>

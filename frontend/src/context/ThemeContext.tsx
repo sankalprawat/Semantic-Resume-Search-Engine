@@ -35,23 +35,35 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const applyTheme = (t: Theme) => {
+    if (typeof document === "undefined") return;
     const root = document.documentElement;
+    const body = document.body;
     if (t === "dark") {
       root.classList.add("dark");
+      if (body) body.classList.add("dark");
     } else {
       root.classList.remove("dark");
+      if (body) body.classList.remove("dark");
     }
   };
 
   const setTheme = (t: Theme) => {
     setThemeState(t);
-    localStorage.setItem(STORAGE_KEY, t);
+    try {
+      localStorage.setItem(STORAGE_KEY, t);
+    } catch {}
     applyTheme(t);
   };
 
   const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
+    setThemeState((prevTheme) => {
+      const next = prevTheme === "dark" ? "light" : "dark";
+      try {
+        localStorage.setItem(STORAGE_KEY, next);
+      } catch {}
+      applyTheme(next);
+      return next;
+    });
   };
 
   return (
