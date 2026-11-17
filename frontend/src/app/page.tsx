@@ -1,11 +1,24 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import { EngineProvider } from "@/context/EngineContext";
 import { Header } from "@/components/layout/Header";
 import { SplitPane } from "@/components/layout/SplitPane";
-import { CreatePoolModal } from "@/components/pool/CreatePoolModal";
-import { ResumeDropzoneModal } from "@/components/upload/ResumeDropzoneModal";
+
+const CreatePoolModal = dynamic(
+  () =>
+    import("@/components/pool/CreatePoolModal").then((m) => m.CreatePoolModal),
+  { ssr: false }
+);
+
+const ResumeDropzoneModal = dynamic(
+  () =>
+    import("@/components/upload/ResumeDropzoneModal").then(
+      (m) => m.ResumeDropzoneModal
+    ),
+  { ssr: false }
+);
 
 export default function Home() {
   return (

@@ -102,7 +102,7 @@ export function GroundedPdfViewer() {
       try {
         if (!pdfjsModuleRef.current) {
           const pdfjs = await import("pdfjs-dist");
-          pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+          pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
           pdfjsModuleRef.current = pdfjs;
         }
 

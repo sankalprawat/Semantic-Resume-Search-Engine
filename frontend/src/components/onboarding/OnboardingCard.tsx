@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
 import {
   Briefcase,
   CheckCircle2,
@@ -13,14 +13,8 @@ import {
 } from "lucide-react";
 
 export function OnboardingCard() {
-  const {
-    activePool,
-    candidates,
-    setIsCreatePoolOpen,
-    setIsUploadModalOpen,
-    loadSamplePool,
-    isSeedingSample,
-  } = useEngine();
+  const { activePool, candidates, loadSamplePool, isSeedingSample } = usePoolData();
+  const { setIsCreatePoolOpen, setIsUploadModalOpen } = useWorkspaceUi();
 
   return (
     <div className="w-full max-w-xl mx-auto bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl border border-[#E6E4DD] dark:border-white/12 rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.18)] p-5 sm:p-8 transition-all">

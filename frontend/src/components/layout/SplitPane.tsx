@@ -1,12 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { QueryBar } from "@/components/synthesis/QueryBar";
 import { SynthesisStream } from "@/components/synthesis/SynthesisStream";
-import { GroundedPdfViewer } from "@/components/viewer/GroundedPdfViewer";
 import { OnboardingCard } from "@/components/onboarding/OnboardingCard";
-import { ArrowLeft, FileText, Sparkles, X } from "lucide-react";
+import { ArrowLeft, FileText, Loader2, Sparkles, X } from "lucide-react";
+
+const GroundedPdfViewer = dynamic(
+  () =>
+    import("@/components/viewer/GroundedPdfViewer").then(
+      (m) => m.GroundedPdfViewer
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 text-stone-500 dark:text-stone-400">
+        <Loader2 className="w-6 h-6 animate-spin text-amber-600 dark:text-amber-400 mb-2" />
+        <span className="text-xs font-medium">Loading PDF Inspector...</span>
+      </div>
+    ),
+  }
+);
 
 export function SplitPane() {
   const { candidates, activeCandidate } = usePoolData();
