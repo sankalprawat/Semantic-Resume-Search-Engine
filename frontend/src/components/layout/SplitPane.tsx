@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { QueryBar } from "@/components/synthesis/QueryBar";
 import { SynthesisStream } from "@/components/synthesis/SynthesisStream";
-import { OnboardingCard } from "@/components/onboarding/OnboardingCard";
 import { ArrowLeft, FileText, Loader2, Sparkles, X } from "lucide-react";
 
 const GroundedPdfViewer = dynamic(
@@ -39,15 +38,6 @@ export function SplitPane() {
       }
     }
   }, [activeCitation]);
-
-  // State 1 (Progressive Disclosure): 0 Candidates Indexed -> Focused Centered Onboarding
-  if (candidates.length === 0) {
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center min-h-0 w-full overflow-y-auto py-4 sm:py-6 animate-in fade-in duration-300">
-        <OnboardingCard />
-      </div>
-    );
-  }
 
   // Right pane inspector component (reusable for desktop pane & mobile drawer)
   const renderPdfInspector = () => (

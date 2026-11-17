@@ -24,6 +24,7 @@ async def seed_sample_talent_pool(
     return await seed_or_get_sample_pool(session=db)
 
 
+@router.post("", response_model=TalentPoolResponse, status_code=status.HTTP_201_CREATED)
 @router.post("/", response_model=TalentPoolResponse, status_code=status.HTTP_201_CREATED)
 async def create_talent_pool(
     pool_in: TalentPoolCreate,
@@ -45,6 +46,7 @@ async def create_talent_pool(
     )
 
 
+@router.get("", response_model=list[TalentPoolResponse])
 @router.get("/", response_model=list[TalentPoolResponse])
 async def list_talent_pools(
     db: AsyncSession = Depends(get_db),
