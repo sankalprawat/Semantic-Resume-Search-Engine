@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Multi-Candidate Semantic Talent Engine",
+  title: "SemanticPin",
   description: "Enterprise Semantic Search & Grounded Comparative Candidate Evaluation",
   icons: {
     icon: [

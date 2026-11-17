@@ -163,14 +163,14 @@ export function Header() {
         <div className="flex items-center gap-2 min-w-0">
           <div
             className="w-8 h-8 md:w-7 md:h-7 rounded-lg bg-surface-200/60 dark:bg-white/[0.06] border border-stone-200/70 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden p-0.5"
-            title="Semantic Talent Engine"
+            title="SemanticPin"
           >
             <BrandLogo className="w-full h-full" />
           </div>
 
           <div className="flex items-center gap-1.5 min-w-0">
             <h1 className="hidden md:block text-xs font-semibold text-stone-900 dark:text-stone-100 tracking-tight leading-none whitespace-nowrap">
-              Semantic Talent Engine
+              SemanticPin
             </h1>
 
             {/* Model Architecture Popover */}

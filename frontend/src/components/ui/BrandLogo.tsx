@@ -15,7 +15,7 @@ const SIZE_MAP = {
 };
 
 /**
- * BrandLogo - Official vector logo for Multi-Candidate Semantic Talent Engine.
+ * BrandLogo - Official vector logo for SemanticPin.
  * Features a textured candidate resume card overlaid with an illuminated 3D semantic neural graph.
  */
 export function BrandLogo({ size, className = "", ...props }: BrandLogoProps) {
@@ -31,7 +31,7 @@ export function BrandLogo({ size, className = "", ...props }: BrandLogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 select-none ${sizeClass} ${className}`.trim()}
-      aria-label="Semantic Talent Engine Logo"
+      aria-label="SemanticPin Logo"
       {...props}
     >
       <defs>

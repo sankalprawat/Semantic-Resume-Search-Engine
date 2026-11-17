@@ -25,7 +25,7 @@ export function OnboardingCard() {
         </div>
 
         <h2 className="text-lg sm:text-xl font-bold text-ink-primary dark:text-stone-100 tracking-tight">
-          Semantic Talent Intelligence Console
+          SemanticPin Intelligence Console
         </h2>
         <p className="text-xs text-ink-secondary dark:text-stone-400 mt-1.5 max-w-md leading-relaxed">
           Dense semantic vector search and multi-candidate comparative briefs powered by{" "}
