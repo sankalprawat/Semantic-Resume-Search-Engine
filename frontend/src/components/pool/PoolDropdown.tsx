@@ -62,21 +62,21 @@ export function PoolDropdown() {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between space-x-2 bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 min-h-[40px] md:min-h-[34px] transition-all shadow-2xs cursor-pointer"
+          className="w-full flex items-center justify-between space-x-2 bg-surface-50 dark:bg-[#262422] hover:bg-surface-100 dark:hover:bg-[#2F2C29] border border-surface-200 dark:border-[#38342F] hover:border-surface-300 text-ink-primary dark:text-stone-100 text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 min-h-[40px] md:min-h-[34px] transition-all shadow-2xs cursor-pointer"
         >
           <div className="flex items-center space-x-2 truncate flex-1 mr-1">
-            <Layers className="w-3.5 h-3.5 text-stone-700 shrink-0" />
+            <Layers className="w-3.5 h-3.5 text-stone-700 dark:text-amber-400 shrink-0" />
             <span className="truncate text-left">
               {activePool ? activePool.title : "Select Talent Pool"}
             </span>
             {activePool && (
-              <span className="text-[10px] text-ink-muted bg-surface-200/60 px-1.5 py-0.5 rounded-full shrink-0">
+              <span className="text-[10px] text-ink-muted dark:text-stone-400 bg-surface-200/60 dark:bg-[#1C1A18] px-1.5 py-0.5 rounded-full shrink-0">
                 {activePool.candidate_count}
               </span>
             )}
           </div>
           <ChevronDown
-            className={`w-3.5 h-3.5 text-ink-secondary transition-transform duration-200 shrink-0 ${
+            className={`w-3.5 h-3.5 text-ink-secondary dark:text-stone-400 transition-transform duration-200 shrink-0 ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -85,13 +85,13 @@ export function PoolDropdown() {
         {/* Custom Frosted Glass Dropdown Menu */}
         {isOpen && (
           <div className="absolute top-full left-0 right-0 w-full mt-2 frosted-glass-dropdown z-50 p-1.5 animate-in fade-in zoom-in-95 duration-150">
-            <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
+            <div className="px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink-muted dark:text-stone-400">
               Talent Pools ({pools.length})
             </div>
 
             <div className="max-h-56 overflow-y-auto space-y-0.5">
               {pools.length === 0 ? (
-                <div className="px-3 py-3 text-xs text-ink-muted text-center">
+                <div className="px-3 py-3 text-xs text-ink-muted dark:text-stone-400 text-center">
                   No pools available yet.
                 </div>
               ) : (
@@ -102,8 +102,8 @@ export function PoolDropdown() {
                       key={pool.id}
                       className={`w-full flex items-center justify-between px-3 py-1.5 text-xs rounded-xl transition-colors group/item ${
                         isSelected
-                          ? "bg-white/75 font-semibold text-ink-primary shadow-2xs"
-                          : "text-ink-secondary hover:text-ink-primary hover:bg-white/50"
+                          ? "bg-white/75 dark:bg-white/10 font-semibold text-ink-primary dark:text-stone-100 shadow-2xs"
+                          : "text-ink-secondary dark:text-stone-300 hover:text-ink-primary dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5"
                       }`}
                     >
                       <button
@@ -116,14 +116,14 @@ export function PoolDropdown() {
                       >
                         <div className="w-4 flex items-center justify-center shrink-0">
                           {isSelected && (
-                            <Check className="w-3.5 h-3.5 text-stone-900" />
+                            <Check className="w-3.5 h-3.5 text-stone-900 dark:text-amber-400" />
                           )}
                         </div>
                         <span className="truncate">{pool.title}</span>
                       </button>
 
                       <div className="flex items-center space-x-1.5 shrink-0 ml-2">
-                        <span className="text-[10px] text-ink-muted px-2 py-0.5 rounded-full bg-white/60 border border-white/80">
+                        <span className="text-[10px] text-ink-muted dark:text-stone-400 px-2 py-0.5 rounded-full bg-white/60 dark:bg-white/5 border border-white/80 dark:border-white/10">
                           {pool.candidate_count}{" "}
                           {pool.candidate_count === 1 ? "cand" : "cands"}
                         </span>
@@ -136,7 +136,7 @@ export function PoolDropdown() {
                             setDeleteError(null);
                             setPoolToDelete(pool);
                           }}
-                          className="p-1 rounded-md text-ink-muted hover:text-red-600 hover:bg-red-500/10 transition-colors opacity-70 group-hover/item:opacity-100 cursor-pointer"
+                          className="p-1 rounded-md text-ink-muted dark:text-stone-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-70 group-hover/item:opacity-100 cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -148,16 +148,16 @@ export function PoolDropdown() {
             </div>
 
             {/* Create New Pool Action */}
-            <div className="border-t border-stone-900/10 mt-1 pt-1">
+            <div className="border-t border-stone-900/10 dark:border-white/10 mt-1 pt-1">
               <button
                 type="button"
                 onClick={() => {
                   setIsOpen(false);
                   setIsCreatePoolOpen(true);
                 }}
-                className="w-full flex items-center space-x-2 px-3 py-2 text-xs text-ink-primary hover:bg-white/50 rounded-xl transition-colors font-medium cursor-pointer"
+                className="w-full flex items-center space-x-2 px-3 py-2 text-xs text-ink-primary dark:text-stone-100 hover:bg-white/50 dark:hover:bg-white/5 rounded-xl transition-colors font-medium cursor-pointer"
               >
-                <div className="w-5 h-5 rounded-md bg-white/70 border border-white/80 flex items-center justify-center text-stone-700">
+                <div className="w-5 h-5 rounded-md bg-white/70 dark:bg-white/10 border border-white/80 dark:border-white/10 flex items-center justify-center text-stone-700 dark:text-amber-400">
                   <Plus className="w-3.5 h-3.5" />
                 </div>
                 <span>Create New Talent Pool</span>

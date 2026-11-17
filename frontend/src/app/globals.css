@@ -7,6 +7,11 @@
   --foreground: #1C1917;
 }
 
+.dark {
+  --background: #121110;
+  --foreground: #F5F4F0;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
@@ -43,6 +48,14 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8C857B;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #383531;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #524E48;
 }
 
 /* Executive Frosted Glass Design System */
@@ -84,6 +97,47 @@ body {
   background: rgba(28, 25, 23, 0.28);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Executive Frosted Glass Design System — Dark Mode */
+.dark .frosted-glass-card {
+  background: linear-gradient(135deg, rgba(30, 28, 26, 0.80) 0%, rgba(22, 20, 19, 0.65) 100%);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
+  border-radius: 22px;
+}
+
+.dark .frosted-glass-dropdown {
+  background: linear-gradient(135deg, rgba(34, 32, 29, 0.90) 0%, rgba(24, 22, 20, 0.78) 100%);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 24px 48px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+}
+
+.dark .frosted-glass-modal {
+  background: linear-gradient(135deg, rgba(38, 35, 32, 0.94) 0%, rgba(26, 24, 22, 0.86) 100%);
+  backdrop-filter: blur(36px) saturate(190%);
+  -webkit-backdrop-filter: blur(36px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 32px 64px -16px rgba(0, 0, 0, 0.75),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+}
+
+.dark .frosted-glass-overlay {
+  background: rgba(8, 7, 6, 0.70);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 /* Hide scrollbar utility for clean mobile horizontal snap carousels */

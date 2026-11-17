@@ -285,14 +285,14 @@ export function GroundedPdfViewer() {
   // Empty state when no resumes exist in the pool
   if (!activeCandidate && candidates.length === 0) {
     return (
-      <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-[#F7F6F2]/50">
-        <div className="w-12 h-12 rounded-full bg-white border border-[#E6E4DD] shadow-2xs flex items-center justify-center mb-3">
-          <FileQuestion className="w-5 h-5 text-stone-500" />
+      <div className="h-full flex flex-col items-center justify-center p-8 text-center bg-[#F7F6F2]/50 dark:bg-[#141312]">
+        <div className="w-12 h-12 rounded-full bg-white dark:bg-[#1C1A18] border border-[#E6E4DD] dark:border-[#2E2B27] shadow-2xs flex items-center justify-center mb-3">
+          <FileQuestion className="w-5 h-5 text-stone-500 dark:text-stone-400" />
         </div>
-        <h3 className="text-xs font-semibold text-stone-900">
+        <h3 className="text-xs font-semibold text-stone-900 dark:text-stone-100">
           No Candidate Resumes Indexed
         </h3>
-        <p className="text-[11px] text-stone-500 max-w-xs mt-1 leading-relaxed">
+        <p className="text-[11px] text-stone-500 dark:text-stone-400 max-w-xs mt-1 leading-relaxed">
           Upload PDF resumes to inspect original documents with synchronized
           evidence bounding boxes.
         </p>
@@ -303,15 +303,15 @@ export function GroundedPdfViewer() {
   // List View (shown when no candidate is active yet, or when user toggles "All PDFs")
   if (!activeCandidate || isListViewOpen) {
     return (
-      <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/60 overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/60 dark:bg-[#141312] overflow-hidden">
         {/* List View Header */}
-        <div className="px-4 py-2.5 border-b border-[#E6E4DD] bg-white flex items-center justify-between gap-2 shrink-0">
+        <div className="px-4 py-2.5 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] flex items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2">
-            <List className="w-3.5 h-3.5 text-stone-600" />
-            <span className="text-xs font-semibold text-stone-900">
+            <List className="w-3.5 h-3.5 text-stone-600 dark:text-stone-400" />
+            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100">
               Candidate Resumes
             </span>
-            <span className="text-[11px] font-medium text-stone-500 bg-[#F7F6F2] border border-[#E6E4DD] px-2 py-0.5 rounded-full tabular-nums">
+            <span className="text-[11px] font-medium text-stone-500 dark:text-stone-400 bg-[#F7F6F2] dark:bg-[#262422] border border-[#E6E4DD] dark:border-[#38342F] px-2 py-0.5 rounded-full tabular-nums">
               {candidates.length}
             </span>
           </div>
@@ -320,7 +320,7 @@ export function GroundedPdfViewer() {
             <button
               type="button"
               onClick={() => setIsListViewOpen(false)}
-              className="text-[11px] font-medium text-stone-700 hover:text-stone-900 px-2.5 py-1 rounded-full bg-[#F7F6F2] hover:bg-stone-200/70 border border-[#E6E4DD] transition-colors cursor-pointer"
+              className="text-[11px] font-medium text-stone-700 dark:text-stone-200 hover:text-stone-900 dark:hover:text-white px-2.5 py-1 rounded-full bg-[#F7F6F2] dark:bg-[#262422] hover:bg-stone-200/70 dark:hover:bg-[#2F2C29] border border-[#E6E4DD] dark:border-[#38342F] transition-colors cursor-pointer"
             >
               Back to PDF
             </button>
@@ -329,15 +329,15 @@ export function GroundedPdfViewer() {
 
         {/* Optional Quick Search when pool has > 4 candidates */}
         {candidates.length > 4 && (
-          <div className="px-4 py-2 border-b border-[#E6E4DD] bg-white/80 shrink-0">
+          <div className="px-4 py-2 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white/80 dark:bg-[#1C1A18]/80 shrink-0">
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filter candidates by name or filename..."
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-[#F7F6F2] border border-[#E6E4DD] rounded-lg text-stone-900 placeholder:text-stone-400 focus:outline-none focus:bg-white focus:border-stone-400"
+                className="w-full pl-8 pr-3 py-1.5 text-xs bg-[#F7F6F2] dark:bg-[#262422] border border-[#E6E4DD] dark:border-[#38342F] rounded-lg text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 focus:outline-none focus:bg-white dark:focus:bg-[#2A2724] focus:border-stone-400 dark:focus:border-amber-400/80"
               />
             </div>
           </div>
@@ -362,16 +362,16 @@ export function GroundedPdfViewer() {
                 onClick={() => handleSelectCandidate(candidate)}
                 className={`w-full min-h-[52px] px-3.5 py-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer ${
                   isSelected
-                    ? "bg-white border-stone-900 shadow-xs ring-1 ring-stone-900/5"
-                    : "bg-white hover:bg-stone-50/90 border-[#E6E4DD] hover:border-stone-300"
+                    ? "bg-white dark:bg-[#262422] border-stone-900 dark:border-amber-400 shadow-xs ring-1 ring-stone-900/5 dark:ring-amber-400/20"
+                    : "bg-white dark:bg-[#1C1A18] hover:bg-stone-50/90 dark:hover:bg-[#24211E] border-[#E6E4DD] dark:border-[#2E2B27] hover:border-stone-300 dark:hover:border-stone-600"
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div
                     className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
                       isSelected
-                        ? "bg-stone-900 border-stone-900 text-amber-400"
-                        : "bg-[#F7F6F2] border-[#E6E4DD] text-stone-600"
+                        ? "bg-stone-900 dark:bg-amber-400 border-stone-900 dark:border-amber-400 text-amber-400 dark:text-stone-950"
+                        : "bg-[#F7F6F2] dark:bg-[#262422] border-[#E6E4DD] dark:border-[#38342F] text-stone-600 dark:text-stone-400"
                     }`}
                   >
                     <FileText className="w-4 h-4" />
@@ -379,14 +379,14 @@ export function GroundedPdfViewer() {
 
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[11px] font-mono text-stone-400">
+                      <span className="text-[11px] font-mono text-stone-400 dark:text-stone-500">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <p className="text-xs font-semibold text-stone-900 truncate">
+                      <p className="text-xs font-semibold text-stone-900 dark:text-stone-100 truncate">
                         {candidate.full_name}
                       </p>
                     </div>
-                    <p className="text-[11px] text-stone-500 truncate mt-0.5">
+                    <p className="text-[11px] text-stone-500 dark:text-stone-400 truncate mt-0.5">
                       {fileName}
                     </p>
                   </div>
@@ -394,18 +394,18 @@ export function GroundedPdfViewer() {
 
                 <div className="flex items-center gap-2 shrink-0">
                   {isCited && (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
-                      <Sparkles className="w-2.5 h-2.5 text-amber-600" />
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 px-2 py-0.5 rounded-full">
+                      <Sparkles className="w-2.5 h-2.5 text-amber-600 dark:text-amber-400" />
                       Cited
                     </span>
                   )}
 
                   {isSelected ? (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-stone-700">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-stone-900" />
+                    <span className="inline-flex items-center gap-1 text-[11px] font-medium text-stone-700 dark:text-amber-400">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-stone-900 dark:text-amber-400" />
                     </span>
                   ) : (
-                    <ChevronRight className="w-4 h-4 text-stone-400" />
+                    <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500" />
                   )}
                 </div>
               </button>
@@ -413,7 +413,7 @@ export function GroundedPdfViewer() {
           })}
 
           {filteredCandidates.length === 0 && (
-            <div className="text-center py-8 text-xs text-stone-500">
+            <div className="text-center py-8 text-xs text-stone-500 dark:text-stone-400">
               No candidates match &ldquo;{searchQuery}&rdquo;
             </div>
           )}
@@ -423,40 +423,40 @@ export function GroundedPdfViewer() {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/70 overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/70 dark:bg-[#141312] overflow-hidden">
       {/* Active Candidate Header Bar (Replaces Horizontal Tabs) */}
-      <div className="px-3 sm:px-4 py-2 border-b border-[#E6E4DD] bg-white flex items-center justify-between gap-2 shrink-0">
+      <div className="px-3 sm:px-4 py-2 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] flex items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           {candidates.length > 1 && (
             <button
               type="button"
               onClick={() => setIsListViewOpen(true)}
               title="View all candidate PDFs"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F7F6F2] hover:bg-stone-200/70 border border-[#E6E4DD] text-[11px] font-medium text-stone-800 transition-colors shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F7F6F2] dark:bg-[#262422] hover:bg-stone-200/70 dark:hover:bg-[#2F2C29] border border-[#E6E4DD] dark:border-[#38342F] text-[11px] font-medium text-stone-800 dark:text-stone-200 transition-colors shrink-0 cursor-pointer"
             >
-              <List className="w-3 h-3 text-stone-600" />
+              <List className="w-3 h-3 text-stone-600 dark:text-stone-400" />
               <span>All PDFs ({candidates.length})</span>
             </button>
           )}
 
           <div className="flex items-center gap-1.5 min-w-0">
-            <FileText className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-            <span className="text-xs font-semibold text-stone-900 truncate">
+            <FileText className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <span className="text-xs font-semibold text-stone-900 dark:text-stone-100 truncate">
               {activeCandidate.full_name}
             </span>
           </div>
         </div>
 
         {isCurrentCitationTarget && (
-          <div className="text-[10px] sm:text-[11px] font-semibold text-amber-800 bg-amber-50 border border-amber-300/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shrink-0">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
+          <div className="text-[10px] sm:text-[11px] font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-800/60 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400 animate-pulse" />
             <span>Evidence Highlighted</span>
           </div>
         )}
       </div>
 
       {/* Pagination & Zoom Toolbar */}
-      <div className="px-3 sm:px-4 py-1.5 border-b border-[#E6E4DD] bg-white/95 flex items-center justify-between gap-2 text-xs shrink-0">
+      <div className="px-3 sm:px-4 py-1.5 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white/95 dark:bg-[#1C1A18]/95 flex items-center justify-between gap-2 text-xs shrink-0">
         {/* Page Navigation */}
         <div className="flex items-center gap-1">
           <button
@@ -464,13 +464,13 @@ export function GroundedPdfViewer() {
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage <= 1 || loading}
             aria-label="Previous page"
-            className="p-1.5 rounded-lg hover:bg-[#F7F6F2] disabled:opacity-30 text-stone-800 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="p-1.5 rounded-lg hover:bg-[#F7F6F2] dark:hover:bg-[#262422] disabled:opacity-30 text-stone-800 dark:text-stone-200 transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-3.5 h-3.5" />
           </button>
 
-          <span className="text-[11px] font-medium text-stone-700 px-1.5 tabular-nums">
-            Page <strong className="text-stone-900">{currentPage}</strong> of{" "}
+          <span className="text-[11px] font-medium text-stone-700 dark:text-stone-400 px-1.5 tabular-nums">
+            Page <strong className="text-stone-900 dark:text-stone-100">{currentPage}</strong> of{" "}
             {totalPages}
           </span>
 
@@ -479,26 +479,26 @@ export function GroundedPdfViewer() {
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage >= totalPages || loading}
             aria-label="Next page"
-            className="p-1.5 rounded-lg hover:bg-[#F7F6F2] disabled:opacity-30 text-stone-800 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="p-1.5 rounded-lg hover:bg-[#F7F6F2] dark:hover:bg-[#262422] disabled:opacity-30 text-stone-800 dark:text-stone-200 transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
 
         {/* Zoom Controls */}
-        <div className="flex items-center gap-1 bg-[#F7F6F2] border border-[#E6E4DD] rounded-lg px-1 py-0.5">
+        <div className="flex items-center gap-1 bg-[#F7F6F2] dark:bg-[#262422] border border-[#E6E4DD] dark:border-[#38342F] rounded-lg px-1 py-0.5">
           <button
             type="button"
             onClick={handleZoomOut}
             disabled={scale <= MIN_SCALE || loading}
             title="Zoom out"
             aria-label="Zoom out"
-            className="p-1 rounded hover:bg-white disabled:opacity-30 text-stone-700 hover:text-stone-900 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="p-1 rounded hover:bg-white dark:hover:bg-[#332F2B] disabled:opacity-30 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
 
-          <span className="text-[11px] font-medium text-stone-800 w-11 text-center font-mono tabular-nums select-none">
+          <span className="text-[11px] font-medium text-stone-800 dark:text-stone-200 w-11 text-center font-mono tabular-nums select-none">
             {Math.round(scale * 100)}%
           </span>
 
@@ -508,12 +508,12 @@ export function GroundedPdfViewer() {
             disabled={scale >= MAX_SCALE || loading}
             title="Zoom in"
             aria-label="Zoom in"
-            className="p-1 rounded hover:bg-white disabled:opacity-30 text-stone-700 hover:text-stone-900 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="p-1 rounded hover:bg-white dark:hover:bg-[#332F2B] disabled:opacity-30 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             <ZoomIn className="w-3.5 h-3.5" />
           </button>
 
-          <div className="w-px h-3.5 bg-[#E6E4DD] mx-0.5" />
+          <div className="w-px h-3.5 bg-[#E6E4DD] dark:bg-[#38342F] mx-0.5" />
 
           <button
             type="button"
@@ -521,7 +521,7 @@ export function GroundedPdfViewer() {
             disabled={loading}
             title="Fit to width"
             aria-label="Fit PDF to container width"
-            className="p-1 rounded hover:bg-white disabled:opacity-30 text-stone-700 hover:text-stone-900 transition-colors cursor-pointer disabled:cursor-not-allowed"
+            className="p-1 rounded hover:bg-white dark:hover:bg-[#332F2B] disabled:opacity-30 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors cursor-pointer disabled:cursor-not-allowed"
           >
             <Maximize2 className="w-3.5 h-3.5" />
           </button>
@@ -534,14 +534,14 @@ export function GroundedPdfViewer() {
         className="flex-1 overflow-auto p-4 sm:p-6"
       >
         {loading ? (
-          <div className="h-full flex flex-col items-center justify-center p-12 text-stone-500">
-            <Loader2 className="w-6 h-6 animate-spin text-stone-700 mb-2" />
+          <div className="h-full flex flex-col items-center justify-center p-12 text-stone-500 dark:text-stone-400">
+            <Loader2 className="w-6 h-6 animate-spin text-stone-700 dark:text-amber-400 mb-2" />
             <span className="text-xs font-medium">
               Rendering candidate PDF...
             </span>
           </div>
         ) : (
-          <div className="relative mx-auto shadow-md border border-[#E6E4DD] rounded-xs bg-white overflow-hidden">
+          <div className="relative mx-auto shadow-md dark:shadow-2xl border border-[#E6E4DD] dark:border-[#2E2B27] rounded-xs bg-white overflow-hidden">
             {/* High-DPI PDF Canvas */}
             <canvas ref={canvasRef} className="block" />
 

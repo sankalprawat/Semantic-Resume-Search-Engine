@@ -34,7 +34,7 @@ export function SplitPane() {
 
   // Right pane inspector component (reusable for desktop pane & mobile drawer)
   const renderPdfInspector = () => (
-    <div className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#1C1A18] overflow-hidden">
       <GroundedPdfViewer />
     </div>
   );
@@ -42,17 +42,17 @@ export function SplitPane() {
   return (
     <div className="flex-1 flex flex-col min-h-0 w-full overflow-hidden animate-in fade-in duration-300">
       {/* Segmented Tab Bar on Mobile & Tablet (< 1024px) */}
-      <div className="lg:hidden flex items-center p-1 bg-surface-100 border border-surface-200 rounded-xl mb-2 shrink-0">
+      <div className="lg:hidden flex items-center p-1 bg-surface-100 dark:bg-[#1C1A18] border border-surface-200 dark:border-[#2E2B27] rounded-xl mb-2 shrink-0">
         <button
           type="button"
           onClick={() => setMobileView("brief")}
           className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer min-h-[40px] flex items-center justify-center gap-1.5 ${
             mobileView === "brief"
-              ? "bg-white text-ink-primary shadow-xs"
-              : "text-ink-secondary hover:text-ink-primary"
+              ? "bg-white dark:bg-[#262422] text-ink-primary dark:text-stone-100 shadow-xs"
+              : "text-ink-secondary dark:text-stone-400 hover:text-ink-primary dark:hover:text-stone-100"
           }`}
         >
-          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
           <span>Comparative Brief</span>
         </button>
 
@@ -61,11 +61,11 @@ export function SplitPane() {
           onClick={() => setMobileView("inspector")}
           className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer min-h-[40px] flex items-center justify-center gap-1.5 ${
             mobileView === "inspector"
-              ? "bg-white text-ink-primary shadow-xs"
-              : "text-ink-secondary hover:text-ink-primary"
+              ? "bg-white dark:bg-[#262422] text-ink-primary dark:text-stone-100 shadow-xs"
+              : "text-ink-secondary dark:text-stone-400 hover:text-ink-primary dark:hover:text-stone-100"
           }`}
         >
-          <FileText className="w-3.5 h-3.5 text-stone-600" />
+          <FileText className="w-3.5 h-3.5 text-stone-600 dark:text-stone-400" />
           <span>PDF Inspector ({candidates.length})</span>
         </button>
       </div>
@@ -84,7 +84,7 @@ export function SplitPane() {
 
         {/* Right Pane (Desktop Dual-Pane / Mobile Active View) */}
         <section
-          className={`flex-1 lg:w-1/2 flex flex-col min-h-0 rounded-2xl border border-surface-200 bg-white shadow-2xs overflow-hidden ${
+          className={`flex-1 lg:w-1/2 flex flex-col min-h-0 rounded-2xl border border-surface-200 dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] shadow-2xs overflow-hidden ${
             mobileView === "inspector" ? "flex" : "hidden lg:flex"
           }`}
         >
@@ -102,21 +102,21 @@ export function SplitPane() {
           />
 
           {/* Slide-Up Sheet */}
-          <div className="relative w-full h-[86dvh] max-h-[86dvh] bg-white rounded-t-3xl border-t border-[#E6E4DD] shadow-2xl overflow-hidden flex flex-col z-10 animate-in slide-in-from-bottom duration-300">
+          <div className="relative w-full h-[86dvh] max-h-[86dvh] bg-white dark:bg-[#1C1A18] rounded-t-3xl border-t border-[#E6E4DD] dark:border-[#2E2B27] shadow-2xl overflow-hidden flex flex-col z-10 animate-in slide-in-from-bottom duration-300">
             {/* Sticky Header with Back to Brief Action */}
-            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-2.5 bg-surface-50 border-b border-surface-200 shrink-0">
+            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-2.5 bg-surface-50 dark:bg-[#22201D] border-b border-surface-200 dark:border-[#2E2B27] shrink-0">
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}
-                className="inline-flex items-center space-x-1.5 text-xs font-semibold text-stone-900 bg-white hover:bg-stone-50 border border-surface-200 px-3.5 py-1.5 rounded-full shadow-2xs cursor-pointer min-h-[36px]"
+                className="inline-flex items-center space-x-1.5 text-xs font-semibold text-stone-900 dark:text-stone-100 bg-white dark:bg-[#2A2724] hover:bg-stone-50 dark:hover:bg-[#332F2B] border border-surface-200 dark:border-[#38342F] px-3.5 py-1.5 rounded-full shadow-2xs cursor-pointer min-h-[36px]"
               >
-                <ArrowLeft className="w-3.5 h-3.5 text-amber-600" />
+                <ArrowLeft className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                 <span>← Back to Brief</span>
               </button>
 
               {activeCitation && (
-                <div className="flex items-center space-x-1.5 text-[11px] font-medium text-amber-900 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full truncate max-w-[180px] sm:max-w-xs">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse shrink-0" />
+                <div className="flex items-center space-x-1.5 text-[11px] font-medium text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 px-2.5 py-1 rounded-full truncate max-w-[180px] sm:max-w-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400 animate-pulse shrink-0" />
                   <span className="truncate">
                     {activeCitation.candidateName} · p.{activeCitation.pageNumber}
                   </span>
@@ -126,7 +126,7 @@ export function SplitPane() {
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}
-                className="p-1.5 rounded-full text-stone-400 hover:text-stone-800 hover:bg-stone-100 transition-colors cursor-pointer"
+                className="p-1.5 rounded-full text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer"
                 aria-label="Close drawer"
               >
                 <X className="w-4 h-4" />

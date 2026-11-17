@@ -56,7 +56,7 @@ export function DeletePoolModal({
             type="button"
             onClick={onClose}
             disabled={isDeleting}
-            className="p-1 rounded-full text-ink-muted hover:text-ink-primary hover:bg-white/50 transition-colors disabled:opacity-40"
+            className="p-1 rounded-full text-ink-muted dark:text-stone-400 hover:text-ink-primary dark:hover:text-stone-100 hover:bg-white/50 dark:hover:bg-white/10 transition-colors disabled:opacity-40"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />
@@ -65,12 +65,12 @@ export function DeletePoolModal({
 
         {/* Content */}
         <div className="mt-4 space-y-2">
-          <h3 className="text-sm font-semibold text-ink-primary tracking-tight">
+          <h3 className="text-sm font-semibold text-ink-primary dark:text-stone-100 tracking-tight">
             Delete Talent Pool?
           </h3>
-          <p className="text-xs text-ink-secondary leading-relaxed">
+          <p className="text-xs text-ink-secondary dark:text-stone-300 leading-relaxed">
             Are you sure you want to permanently delete{" "}
-            <span className="font-semibold text-ink-primary">
+            <span className="font-semibold text-ink-primary dark:text-stone-100">
               &ldquo;{pool.title}&rdquo;
             </span>
             ? All {pool.candidate_count}{" "}
@@ -78,13 +78,13 @@ export function DeletePoolModal({
             extracted text chunks, and vector embeddings in Supabase will be removed.
           </p>
 
-          <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-900 mt-3">
-            <AlertTriangle className="w-3.5 h-3.5 text-amber-700 shrink-0" />
+          <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-900 dark:text-amber-300 mt-3">
+            <AlertTriangle className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 shrink-0" />
             <span>This action is immediate and cannot be undone.</span>
           </div>
 
           {error && (
-            <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-700">
+            <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-700 dark:text-red-400">
               {error}
             </div>
           )}
@@ -96,7 +96,7 @@ export function DeletePoolModal({
             type="button"
             onClick={onClose}
             disabled={isDeleting}
-            className="px-4 py-2 rounded-full text-xs font-medium text-ink-primary bg-white/60 hover:bg-white/90 border border-surface-200 transition-all shadow-2xs disabled:opacity-40"
+            className="px-4 py-2 rounded-full text-xs font-medium text-ink-primary dark:text-stone-200 bg-white/60 dark:bg-white/10 hover:bg-white/90 dark:hover:bg-white/20 border border-surface-200 dark:border-white/10 transition-all shadow-2xs disabled:opacity-40"
           >
             Cancel
           </button>
