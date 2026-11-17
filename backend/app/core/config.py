@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     """
 
     # General Application
-    PROJECT_NAME: str = "Multi-Candidate Semantic Talent Engine"
+    PROJECT_NAME: str = "SemanticPin"
     API_V1_PREFIX: str = "/api/v1"
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
@@ -25,8 +25,9 @@ class Settings(BaseSettings):
     # Google Gemini AI Platform
     GEMINI_API_KEY: str = ""
     EMBEDDING_MODEL: str = "gemini-embedding-2"
-    COMPLETION_MODEL: str = "gemini-3.8-flash"
+    COMPLETION_MODEL: str = "gemini-4-hydrogen"
     EMBEDDING_DIMENSION: int = 768
+    MAX_OUTPUT_TOKENS: int = 2048
 
     # Security & CORS
     CORS_ORIGINS: list[str] | str = ["http://localhost:3000", "http://127.0.0.1:3000"]

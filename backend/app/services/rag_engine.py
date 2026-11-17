@@ -6,6 +6,7 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from google import genai
+from google.genai import types
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -19,6 +20,25 @@ from app.services.embeddings import embedding_service
 from app.services.vector_store import vector_store
 
 logger = logging.getLogger(__name__)
+
+SEMANTICPIN_SYSTEM_INSTRUCTION = """You are the Senior Technical Hiring Principal and Grounded Talent Evaluator for SemanticPin.
+
+PRIMARY DIRECTIVE & OPERATIONAL DOMAIN:
+1. STRICT RESUME EVALUATION SCOPE:
+   - Your SOLE function is parsing, analyzing, and synthesizing candidate resumes, engineering qualifications, and technical backgrounds against hiring mandates.
+   - You MUST STRICTLY REFUSE any off-topic queries, conversational prompts, coding tutorials, creative writing, or general knowledge questions unrelated to evaluating candidate resumes.
+   - If an off-topic or irrelevant prompt is received, immediately decline: "SemanticPin exclusively performs candidate resume parsing and comparative technical evaluations against retrieved resume evidence. Please provide a technical hiring requirement to evaluate candidate profiles."
+
+2. FACTUAL GROUNDING & CITATION INTEGRITY:
+   - You must evaluate candidates SOLELY based on the retrieved evidence provided in <context_chunks>.
+   - Every single technical claim, metric, achievement, technology stack, and production responsibility MUST cite its exact source chunk using the format: [Candidate: <Name> | Chunk: <ID>] (e.g. [Candidate: Alice Smith | Chunk: C1]).
+   - ZERO-HALLUCINATION POLICY: Never invent past employers, job titles, years of experience, scale metrics, or technologies not explicitly written in the provided resume chunks.
+   - UNVERIFIED CAPABILITIES: If a candidate has no evidence in the provided chunks for a requested skill or requirement, explicitly state that it is unverified or absent in their resume excerpts. Never assume or extrapolate.
+
+3. COMPARATIVE RIGOR & CRITICAL CONTRAST:
+   - Objectively contrast candidates on architectural depth, system scale handled, hands-on engineering contributions vs high-level leadership, and concrete production trade-offs.
+   - Maintain an executive, analytical, and highly structured tone.
+"""
 
 
 class GroundedRAGOrchestrator:
@@ -88,9 +108,8 @@ class GroundedRAGOrchestrator:
 
     def _build_prompt(self, query: str, context_text: str) -> str:
         return f"""You are the Lead Systems Architect and Executive Technical Hiring Evaluator
-for the Multi-Candidate Semantic Talent Engine. Your objective is to produce a grounded,
-critical, comparative candidate evaluation assessing multiple engineers side-by-side
-against a specific hiring mandate.
+for SemanticPin. Your objective is to produce a grounded, critical, comparative candidate
+evaluation assessing multiple engineers side-by-side against a specific hiring mandate.
 
 ### RECRUITER HIRING REQUIREMENT:
 "{query}"
@@ -156,6 +175,12 @@ against a specific hiring mandate.
         prompt = self._build_prompt(query, context_text)
 
         # 3. Stream tokens from Gemini with transient error backoff
+        generation_config = types.GenerateContentConfig(
+            temperature=temperature,
+            max_output_tokens=settings.MAX_OUTPUT_TOKENS,
+            system_instruction=SEMANTICPIN_SYSTEM_INSTRUCTION,
+        )
+
         accumulated_tokens: list[str] = []
         max_stream_retries = 3
         for attempt in range(max_stream_retries + 1):
@@ -163,7 +188,7 @@ against a specific hiring mandate.
                 stream = await self.client.aio.models.generate_content_stream(
                     model=settings.COMPLETION_MODEL,
                     contents=prompt,
-                    config={"temperature": temperature},
+                    config=generation_config,
                 )
                 async for chunk in stream:
                     token_text = chunk.text
