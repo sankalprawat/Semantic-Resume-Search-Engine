@@ -31,6 +31,7 @@ export function BrandLogo({ size, className = "", ...props }: BrandLogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 select-none ${sizeClass} ${className}`.trim()}
+      style={{ maxWidth: "100%", maxHeight: "100%" }}
       aria-label="SemanticPin Logo"
       {...props}
     >
