@@ -1,32 +1,49 @@
-import { Candidate, TalentPool } from "@/types";
+import { Candidate, EvaluationDonePayload, TalentPool } from "@/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
 
-export async function fetchHealth(): Promise<{
+export interface HealthResponse {
   status: string;
   completion_model: string;
   embedding_model: string;
-}> {
-  const res = await fetch(`${API_BASE_URL}/health`, { cache: "no-store" });
+}
+
+export interface UploadResponse {
+  total_uploaded: number;
+}
+
+export async function fetchHealth(signal?: AbortSignal): Promise<HealthResponse> {
+  const res = await fetch(`${API_BASE_URL}/health`, {
+    cache: "no-store",
+    signal,
+  });
   if (!res.ok) {
     throw new Error(`Failed to fetch health info: ${res.statusText}`);
   }
   return res.json();
 }
 
-export async function fetchPools(): Promise<TalentPool[]> {
-  const res = await fetch(`${API_BASE_URL}/pools/`, { cache: "no-store" });
+export async function fetchPools(signal?: AbortSignal): Promise<TalentPool[]> {
+  const res = await fetch(`${API_BASE_URL}/pools/`, {
+    cache: "no-store",
+    signal,
+  });
   if (!res.ok) {
     throw new Error(`Failed to fetch talent pools: ${res.statusText}`);
   }
   return res.json();
 }
 
-export async function createPool(title: string, description?: string): Promise<TalentPool> {
+export async function createPool(
+  title: string,
+  description?: string,
+  signal?: AbortSignal
+): Promise<TalentPool> {
   const res = await fetch(`${API_BASE_URL}/pools/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, description }),
+    signal,
   });
   if (!res.ok) {
     throw new Error(`Failed to create pool: ${res.statusText}`);
@@ -34,9 +51,10 @@ export async function createPool(title: string, description?: string): Promise<T
   return res.json();
 }
 
-export async function seedSamplePool(): Promise<TalentPool> {
+export async function seedSamplePool(signal?: AbortSignal): Promise<TalentPool> {
   const res = await fetch(`${API_BASE_URL}/pools/seed-sample`, {
     method: "POST",
+    signal,
   });
   if (!res.ok) {
     throw new Error(`Failed to load sample talent pool: ${res.statusText}`);
@@ -44,18 +62,23 @@ export async function seedSamplePool(): Promise<TalentPool> {
   return res.json();
 }
 
-export async function deletePool(poolId: string): Promise<void> {
+export async function deletePool(poolId: string, signal?: AbortSignal): Promise<void> {
   const res = await fetch(`${API_BASE_URL}/pools/${poolId}`, {
     method: "DELETE",
+    signal,
   });
   if (!res.ok) {
     throw new Error(`Failed to delete pool: ${res.statusText}`);
   }
 }
 
-export async function fetchCandidates(poolId: string): Promise<Candidate[]> {
+export async function fetchCandidates(
+  poolId: string,
+  signal?: AbortSignal
+): Promise<Candidate[]> {
   const res = await fetch(`${API_BASE_URL}/pools/${poolId}/candidates`, {
     cache: "no-store",
+    signal,
   });
   if (!res.ok) {
     throw new Error(`Failed to fetch candidates: ${res.statusText}`);
@@ -65,8 +88,9 @@ export async function fetchCandidates(poolId: string): Promise<Candidate[]> {
 
 export async function uploadResumes(
   poolId: string,
-  files: File[]
-): Promise<{ total_uploaded: number }> {
+  files: File[],
+  signal?: AbortSignal
+): Promise<UploadResponse> {
   const formData = new FormData();
   for (const file of files) {
     formData.append("files", file);
@@ -75,6 +99,7 @@ export async function uploadResumes(
   const res = await fetch(`${API_BASE_URL}/resumes/${poolId}/upload`, {
     method: "POST",
     body: formData,
+    signal,
   });
 
   if (!res.ok) {
@@ -93,8 +118,9 @@ export async function streamEvaluation(
   poolId: string,
   query: string,
   onToken: (token: string) => void,
-  onDone: (data: any) => void,
-  onError: (error: string) => void
+  onDone: (data: EvaluationDonePayload) => void,
+  onError: (error: string) => void,
+  signal?: AbortSignal
 ): Promise<void> {
   try {
     const res = await fetch(`${API_BASE_URL}/pools/${poolId}/evaluate/stream`, {
@@ -106,6 +132,7 @@ export async function streamEvaluation(
         min_similarity: 0.2,
         temperature: 0.2,
       }),
+      signal,
     });
 
     if (!res.ok) {
@@ -124,6 +151,11 @@ export async function streamEvaluation(
     let buffer = "";
 
     while (true) {
+      if (signal?.aborted) {
+        await reader.cancel();
+        return;
+      }
+
       const { done, value } = await reader.read();
       if (done) break;
 
@@ -132,6 +164,11 @@ export async function streamEvaluation(
       buffer = lines.pop() || "";
 
       for (const line of lines) {
+        if (signal?.aborted) {
+          await reader.cancel();
+          return;
+        }
+
         const trimmed = line.trim();
         if (trimmed.startsWith("data: ")) {
           try {
@@ -139,7 +176,7 @@ export async function streamEvaluation(
             if (data.type === "token") {
               onToken(data.content);
             } else if (data.type === "done") {
-              onDone(data);
+              onDone(data as EvaluationDonePayload);
             } else if (data.type === "error") {
               onError(data.message || "Evaluation error");
             }
@@ -150,6 +187,10 @@ export async function streamEvaluation(
       }
     }
   } catch (err: any) {
+    if (err?.name === "AbortError" || signal?.aborted) {
+      // Clean cancellation, do not surface as user error
+      return;
+    }
     onError(err.message || "Network error during evaluation stream");
   }
 }

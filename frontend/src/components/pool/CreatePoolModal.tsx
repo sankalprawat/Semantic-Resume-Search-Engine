@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
 import { createPool } from "@/lib/api";
 import { ModalShell } from "@/components/ui/ModalShell";
 import { FolderPlus, Loader2, X } from "lucide-react";
 
 export function CreatePoolModal() {
-  const { isCreatePoolOpen, setIsCreatePoolOpen, refreshPools, setActivePool } =
-    useEngine();
+  const { refreshPools, setActivePool } = usePoolData();
+  const { isCreatePoolOpen, setIsCreatePoolOpen } = useWorkspaceUi();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);

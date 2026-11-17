@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { getCandidateResumeUrl } from "@/lib/api";
 import {
   CheckCircle2,
@@ -43,11 +43,13 @@ export function GroundedPdfViewer() {
     activeCandidate,
     setActiveCandidate,
     candidates = [],
-    activeCitation,
-  } = useEngine() as {
+  } = usePoolData() as unknown as {
     activeCandidate: CandidateRecord | null;
     setActiveCandidate?: (candidate: CandidateRecord | null) => void;
     candidates?: CandidateRecord[];
+  };
+
+  const { activeCitation } = useSynthesis() as unknown as {
     activeCitation?: {
       candidateId?: string;
       candidateName?: string;

@@ -3,7 +3,7 @@
 import React, { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { CitationBadge } from "./CitationBadge";
 import {
   CheckCircle2,
@@ -17,14 +17,8 @@ import {
 const CITATION_REGEX = /\[Candidate:\s*([^|\]]+)\s*\|\s*Chunk:\s*([A-Za-z0-9_-]+)\]/g;
 
 export function SynthesisStream() {
-  const {
-    streamedContent,
-    isStreaming,
-    doneData,
-    streamError,
-    activePool,
-    candidates,
-  } = useEngine();
+  const { activePool, candidates } = usePoolData();
+  const { streamedContent, isStreaming, doneData, streamError } = useSynthesis();
 
   // Custom text transformer that converts [Candidate: Name | Chunk: CX] into interactive badges
   const renderTextWithBadges = (children: React.ReactNode) => {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { ArrowRight, Loader2, Sparkles, X } from "lucide-react";
 
 interface TemplatePrompt {
@@ -29,6 +29,7 @@ const TEMPLATE_PROMPTS: TemplatePrompt[] = [
 ];
 
 export function QueryBar() {
+  const { activePool, candidates } = usePoolData();
   const {
     query,
     setQuery,
@@ -37,9 +38,7 @@ export function QueryBar() {
     isStreaming,
     streamedContent,
     doneData,
-    activePool,
-    candidates,
-  } = useEngine();
+  } = useSynthesis();
 
   const [hoveredTag, setHoveredTag] = useState<TemplatePrompt | null>(null);
 

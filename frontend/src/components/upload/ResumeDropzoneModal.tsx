@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
 import { uploadResumes } from "@/lib/api";
 import { ModalShell } from "@/components/ui/ModalShell";
 import {
@@ -14,13 +14,8 @@ import {
 } from "lucide-react";
 
 export function ResumeDropzoneModal() {
-  const {
-    activePool,
-    isUploadModalOpen,
-    setIsUploadModalOpen,
-    refreshCandidates,
-    refreshPools,
-  } = useEngine();
+  const { activePool, refreshCandidates, refreshPools } = usePoolData();
+  const { isUploadModalOpen, setIsUploadModalOpen } = useWorkspaceUi();
 
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);

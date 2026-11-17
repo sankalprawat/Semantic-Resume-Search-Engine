@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { QueryBar } from "@/components/synthesis/QueryBar";
 import { SynthesisStream } from "@/components/synthesis/SynthesisStream";
 import { GroundedPdfViewer } from "@/components/viewer/GroundedPdfViewer";
@@ -9,7 +9,8 @@ import { OnboardingCard } from "@/components/onboarding/OnboardingCard";
 import { ArrowLeft, FileText, Sparkles, X } from "lucide-react";
 
 export function SplitPane() {
-  const { candidates, activeCandidate, activeCitation } = useEngine();
+  const { candidates, activeCandidate } = usePoolData();
+  const { activeCitation } = useSynthesis();
   const [mobileView, setMobileView] = useState<"brief" | "inspector">("brief");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 

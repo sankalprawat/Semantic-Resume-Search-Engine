@@ -1,20 +1,15 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
 import { deletePool } from "@/lib/api";
 import { TalentPool } from "@/types";
 import { DeletePoolModal } from "@/components/pool/DeletePoolModal";
 import { Check, ChevronDown, FolderPlus, Layers, Plus, Trash2 } from "lucide-react";
 
 export function PoolDropdown() {
-  const {
-    pools,
-    activePool,
-    setActivePool,
-    refreshPools,
-    setIsCreatePoolOpen,
-  } = useEngine();
+  const { pools, activePool, setActivePool, refreshPools } = usePoolData();
+  const { setIsCreatePoolOpen } = useWorkspaceUi();
 
   const [isOpen, setIsOpen] = useState(false);
   const [poolToDelete, setPoolToDelete] = useState<TalentPool | null>(null);

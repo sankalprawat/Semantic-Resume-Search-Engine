@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useSynthesis } from "@/context/EngineContext";
 import { CheckCircle2, FileSearch } from "lucide-react";
 
 interface CitationBadgeProps {
@@ -10,8 +10,8 @@ interface CitationBadgeProps {
 }
 
 export function CitationBadge({ candidateName, chunkId }: CitationBadgeProps) {
-  const { doneData, candidates, setActiveCandidate, setActiveCitation, activeCitation } =
-    useEngine();
+  const { candidates, setActiveCandidate } = usePoolData();
+  const { doneData, activeCitation, setActiveCitation } = useSynthesis();
 
   // Find corresponding verified citation record
   const citation = doneData?.citations.find((c) => {

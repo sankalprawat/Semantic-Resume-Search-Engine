@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useEngine } from "@/context/EngineContext";
+import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
 import { useTheme } from "@/context/ThemeContext";
 import { fetchHealth } from "@/lib/api";
 import { PoolDropdown } from "@/components/pool/PoolDropdown";
@@ -29,12 +29,8 @@ const DEFAULT_MODEL_INFO: ModelInfo = {
 };
 
 export function Header() {
-  const {
-    activePool,
-    candidates,
-    setIsUploadModalOpen,
-    setIsCreatePoolOpen,
-  } = useEngine();
+  const { activePool, candidates } = usePoolData();
+  const { setIsUploadModalOpen, setIsCreatePoolOpen } = useWorkspaceUi();
   const { theme, toggleTheme } = useTheme();
 
   const [modelInfo, setModelInfo] = useState<ModelInfo>(DEFAULT_MODEL_INFO);
