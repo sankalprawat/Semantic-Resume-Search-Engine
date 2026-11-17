@@ -78,17 +78,7 @@ export function Header() {
 
             {showTooltip && (
               <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.30) 100%)",
-                  backdropFilter: "blur(32px) saturate(190%)",
-                  WebkitBackdropFilter: "blur(32px) saturate(190%)",
-                  boxShadow:
-                    "0 24px 48px -12px rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25)",
-                  border: "1px solid rgba(255, 255, 255, 0.55)",
-                  borderRadius: "22px",
-                }}
-                className="absolute top-full left-0 mt-3 w-72 p-4 z-50 text-[11px] text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3"
+                className="absolute top-full left-0 mt-3 w-72 p-4 z-50 text-[11px] text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3 frosted-glass-card"
               >
                 <div className="space-y-3">
                   <div className="flex items-center gap-1.5 pb-2 border-b border-stone-900/10">
