@@ -264,3 +264,20 @@
     scrollbar-width: none;
   }
 }
+
+/* Decent OS-grade indeterminate loading bar animation */
+@keyframes loadingBarSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(60%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.animate-loading-bar {
+  animation: loadingBarSlide 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}

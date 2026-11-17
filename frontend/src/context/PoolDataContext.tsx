@@ -10,6 +10,7 @@ export interface PoolDataContextType {
   candidates: Candidate[];
   activeCandidate: Candidate | null;
   isSeedingSample: boolean;
+  isInitialLoading: boolean;
 
   setActivePool: (pool: TalentPool | null) => void;
   setActiveCandidate: (cand: Candidate | null) => void;
@@ -26,6 +27,7 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [activeCandidate, setActiveCandidate] = useState<Candidate | null>(null);
   const [isSeedingSample, setIsSeedingSample] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const refreshPools = async () => {
     try {
@@ -79,11 +81,40 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    refreshPools();
+    let isMounted = true;
+    const init = async () => {
+      try {
+        const poolList = await fetchPools();
+        if (!isMounted) return;
+        setPools(poolList);
+        if (poolList.length > 0) {
+          const selected = poolList[0];
+          setActivePoolState(selected);
+          const cands = await fetchCandidates(selected.id);
+          if (!isMounted) return;
+          setCandidates(cands);
+          if (cands.length > 0) {
+            setActiveCandidate(cands[0]);
+          }
+        }
+      } catch (e) {
+        console.error("Initial load error:", e);
+      } finally {
+        if (isMounted) {
+          setTimeout(() => {
+            if (isMounted) setIsInitialLoading(false);
+          }, 550);
+        }
+      }
+    };
+    init();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
-    if (activePool) {
+    if (activePool && !isInitialLoading) {
       refreshCandidates(activePool.id);
     }
   }, [activePool?.id]);
@@ -96,6 +127,7 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
         candidates,
         activeCandidate,
         isSeedingSample,
+        isInitialLoading,
         setActivePool,
         setActiveCandidate,
         refreshPools,

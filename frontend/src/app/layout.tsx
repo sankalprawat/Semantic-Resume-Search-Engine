@@ -29,7 +29,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                const stored = localStorage.getItem('talent_engine_theme');
+                const match = document.cookie.match(/(?:^|;\\s*)semanticpin_theme=([^;]+)/);
+                const cookieVal = match ? match[1] : null;
+                const stored = cookieVal || localStorage.getItem('semanticpin_theme') || localStorage.getItem('talent_engine_theme');
                 if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                   document.documentElement.classList.add('dark');
                   document.body && document.body.classList.add('dark');
