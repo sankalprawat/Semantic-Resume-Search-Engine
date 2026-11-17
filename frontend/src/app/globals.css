@@ -3,45 +3,139 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   --background: #FAF9F6;
   --foreground: #1C1917;
+
+  /* Scrollbar Tokens */
+  --scrollbar-thumb: #DCD6CB;
+  --scrollbar-thumb-hover: #8C857B;
+
+  /* True Optical Frosted Glass Tokens — Light Mode */
+  --glass-surface-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(250, 249, 246, 0.28) 100%
+  );
+  --glass-card-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.46) 0%,
+    rgba(250, 249, 246, 0.32) 100%
+  );
+  --glass-dropdown-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.56) 0%,
+    rgba(250, 249, 246, 0.42) 100%
+  );
+  --glass-modal-bg: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.64) 0%,
+    rgba(250, 249, 246, 0.50) 100%
+  );
+  --glass-overlay-bg: rgba(28, 25, 23, 0.22);
+
+  --glass-filter: blur(28px) saturate(180%) brightness(1.03);
+  --glass-filter-heavy: blur(34px) saturate(185%) brightness(1.04);
+
+  /* Luminous specular rim + ultra-soft definition */
+  --glass-border: rgba(255, 255, 255, 0.72);
+  --glass-shadow:
+    0 20px 44px -12px rgba(28, 25, 23, 0.12),
+    0 0 0 1px rgba(28, 25, 23, 0.05),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.90),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.35);
+  --glass-modal-shadow:
+    0 28px 60px -14px rgba(28, 25, 23, 0.18),
+    0 0 0 1px rgba(28, 25, 23, 0.06),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
 }
 
 .dark {
+  color-scheme: dark;
   --background: #0E0D0C;
   --foreground: #F5F4F0;
+
+  /* Scrollbar Tokens */
+  --scrollbar-thumb: #383531;
+  --scrollbar-thumb-hover: #524E48;
+
+  /* True Optical Frosted Glass Tokens — Dark Mode (Reference-Matched) */
+  --glass-surface-bg: linear-gradient(
+    135deg,
+    rgba(46, 42, 38, 0.36) 0%,
+    rgba(26, 24, 22, 0.26) 100%
+  );
+  --glass-card-bg: linear-gradient(
+    135deg,
+    rgba(52, 47, 42, 0.42) 0%,
+    rgba(28, 25, 23, 0.30) 100%
+  );
+  --glass-dropdown-bg: linear-gradient(
+    135deg,
+    rgba(54, 49, 44, 0.52) 0%,
+    rgba(30, 27, 25, 0.40) 100%
+  );
+  --glass-modal-bg: linear-gradient(
+    135deg,
+    rgba(56, 51, 46, 0.60) 0%,
+    rgba(32, 29, 26, 0.48) 100%
+  );
+  --glass-overlay-bg: rgba(8, 7, 6, 0.55);
+
+  --glass-filter: blur(28px) saturate(185%) brightness(1.08);
+  --glass-filter-heavy: blur(34px) saturate(190%) brightness(1.10);
+
+  /* Subtle bright glass rim matching reference image */
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.06);
+  --glass-modal-shadow:
+    0 32px 64px -16px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    color: var(--foreground);
+    background-color: var(--background);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Atmospheric Ambient Glow for Dark Mode Acrylic Glass Refraction */
+  .dark body {
+    background-image:
+      radial-gradient(ellipse 70% 45% at 50% -10%, rgba(217, 119, 6, 0.16), transparent 75%),
+      radial-gradient(ellipse 50% 35% at 90% 20%, rgba(180, 83, 9, 0.11), transparent 65%),
+      radial-gradient(ellipse 60% 45% at 10% 80%, rgba(217, 119, 6, 0.10), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  /* Prevent native/plugin inner outlines inside custom rounded input containers */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Warm Editorial Text Selection Highlight */
+  ::selection {
+    background-color: #FDE047;
+    color: #18181B;
+  }
 }
 
-/* Atmospheric Ambient Glow for Dark Mode Acrylic Glass Refraction */
-.dark body {
-  background-color: #0E0D0C;
-  background-image: 
-    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(217, 119, 6, 0.14), transparent 75%),
-    radial-gradient(ellipse 50% 35% at 90% 20%, rgba(180, 83, 9, 0.09), transparent 65%),
-    radial-gradient(ellipse 60% 45% at 10% 80%, rgba(217, 119, 6, 0.08), transparent 70%);
-  background-attachment: fixed;
+/* Custom Scrollbars (WebKit + Firefox) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
-/* Custom mouse cursor text selection highlight (Vibrant warm yellow highlighter instead of default OS blue) */
-::selection {
-  background-color: #FDE047 !important;
-  color: #18181B !important;
-}
-
-::-moz-selection {
-  background-color: #FDE047 !important;
-  color: #18181B !important;
-}
-
-/* Custom scrollbars for clean recruiter console */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -52,119 +146,99 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #DCD6CB;
-  border-radius: 3px;
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8C857B;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #383531;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: #524E48;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Executive Frosted Glass Design System */
-.frosted-glass-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.30) 100%);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.12),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25);
-  border-radius: 22px;
+@layer components {
+  .frosted-glass-surface,
+  .frosted-glass-card,
+  .frosted-glass-dropdown,
+  .frosted-glass-modal {
+    isolation: isolate;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .frosted-glass-surface {
+    background: var(--glass-surface-bg);
+    backdrop-filter: var(--glass-filter);
+    -webkit-backdrop-filter: var(--glass-filter);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .frosted-glass-card {
+    background: var(--glass-card-bg);
+    backdrop-filter: var(--glass-filter);
+    -webkit-backdrop-filter: var(--glass-filter);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 22px;
+  }
+
+  .frosted-glass-dropdown {
+    background: var(--glass-dropdown-bg);
+    backdrop-filter: var(--glass-filter-heavy);
+    -webkit-backdrop-filter: var(--glass-filter-heavy);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 20px;
+  }
+
+  .frosted-glass-modal {
+    background: var(--glass-modal-bg);
+    backdrop-filter: var(--glass-filter-heavy);
+    -webkit-backdrop-filter: var(--glass-filter-heavy);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-modal-shadow);
+    border-radius: 24px;
+  }
+
+  .frosted-glass-overlay {
+    background: var(--glass-overlay-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* Crisp text readability over translucent glass in dark mode */
+  .dark .frosted-glass-card,
+  .dark .frosted-glass-dropdown,
+  .dark .frosted-glass-modal {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Fallback for browsers without backdrop-filter support */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .frosted-glass-surface,
+    .frosted-glass-card,
+    .frosted-glass-dropdown,
+    .frosted-glass-modal {
+      background: #FFFFFF;
+    }
+
+    .dark .frosted-glass-surface,
+    .dark .frosted-glass-card,
+    .dark .frosted-glass-dropdown,
+    .dark .frosted-glass-modal {
+      background: #1C1917;
+    }
+  }
 }
 
-.frosted-glass-dropdown {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.45) 100%);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow:
-    0 24px 48px -10px rgba(0, 0, 0, 0.12),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-}
+/* Hide Scrollbar Utility for Horizontal Snap Carousels */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-.frosted-glass-modal {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.60) 100%);
-  backdrop-filter: blur(36px) saturate(190%);
-  -webkit-backdrop-filter: blur(36px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow:
-    0 32px 64px -16px rgba(0, 0, 0, 0.16),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.95);
-  border-radius: 24px;
-}
-
-.frosted-glass-overlay {
-  background: rgba(28, 25, 23, 0.28);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Executive Frosted Glass Design System — Dark Mode */
-.dark .frosted-glass-card {
-  background: linear-gradient(135deg, rgba(32, 29, 27, 0.65) 0%, rgba(20, 18, 17, 0.48) 100%) !important;
-  backdrop-filter: blur(28px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow:
-    0 20px 40px -15px rgba(0, 0, 0, 0.65),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.22),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.45) !important;
-  border-radius: 22px;
-}
-
-.dark .frosted-glass-dropdown {
-  background: linear-gradient(135deg, rgba(34, 31, 28, 0.82) 0%, rgba(22, 20, 18, 0.68) 100%) !important;
-  backdrop-filter: blur(32px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow:
-    0 24px 48px -10px rgba(0, 0, 0, 0.75),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.25) !important;
-  border-radius: 20px;
-}
-
-.dark .frosted-glass-modal {
-  background: linear-gradient(135deg, rgba(36, 33, 30, 0.88) 0%, rgba(24, 22, 20, 0.76) 100%) !important;
-  backdrop-filter: blur(36px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(36px) saturate(200%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  box-shadow:
-    0 32px 64px -16px rgba(0, 0, 0, 0.85),
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.28) !important;
-  border-radius: 24px;
-}
-
-.dark .frosted-glass-surface {
-  background: linear-gradient(135deg, rgba(28, 26, 24, 0.65) 0%, rgba(18, 16, 15, 0.45) 100%) !important;
-  backdrop-filter: blur(24px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
-  box-shadow:
-    0 16px 36px -12px rgba(0, 0, 0, 0.55),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.18) !important;
-}
-
-.dark .frosted-glass-overlay {
-  background: rgba(8, 7, 6, 0.65) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-}
-
-/* Hide scrollbar utility for clean mobile horizontal snap carousels */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
