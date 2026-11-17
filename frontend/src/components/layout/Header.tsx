@@ -49,75 +49,90 @@ export function Header() {
   }, []);
 
   return (
-    <header className="w-full h-14 bg-white/95 backdrop-blur-md border border-surface-200/90 rounded-full px-5 shadow-xs flex items-center justify-between shrink-0 z-20">
+    <header className="w-full h-14 bg-white/95 border border-surface-200/90 rounded-full px-5 shadow-xs flex items-center justify-between shrink-0 z-20">
       {/* Brand & Mandate */}
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-2xs">
-            <Briefcase className="w-4 h-4 text-amber-400" />
-          </div>
+      <div className="flex items-center space-x-3">
+        <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-2xs">
+          <Briefcase className="w-4 h-4 text-amber-400" />
+        </div>
 
-          <div className="flex items-center gap-1.5">
-            <h1 className="text-xs font-semibold text-ink-primary tracking-tight leading-none">
-              Semantic Talent Engine
-            </h1>
+        <div className="flex items-center gap-1.5">
+          <h1 className="text-xs font-semibold text-ink-primary tracking-tight leading-none">
+            Semantic Talent Engine
+          </h1>
 
-            {/* Model Information Icon with Hover Tooltip */}
-            <div
-              className="relative inline-flex items-center"
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
+          {/* Model Information Icon with Frosted Glass Hover/Click Popover */}
+          <div
+            className="relative inline-flex items-center"
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setShowTooltip((prev) => !prev)}
+              className="text-ink-muted hover:text-ink-primary transition-colors cursor-pointer inline-flex items-center justify-center p-0.5 rounded"
+              aria-label="AI Model Information"
             >
-              <button
-                type="button"
-                className="text-ink-muted hover:text-ink-primary transition-colors cursor-help inline-flex items-center justify-center p-0.5 rounded"
-                aria-label="AI Model Information"
-              >
-                <Info className="w-3.5 h-3.5" />
-              </button>
+              <Info className="w-3.5 h-3.5" />
+            </button>
 
-              {showTooltip && (
-                <div
-                  style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.72)",
-                    backdropFilter: "blur(20px) saturate(180%)",
-                    WebkitBackdropFilter: "blur(20px) saturate(180%)",
-                    boxShadow:
-                      "0 12px 32px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.9)",
-                    border: "1px solid rgba(255, 255, 255, 0.65)",
-                  }}
-                  className="absolute top-full left-0 mt-3 w-64 p-3.5 rounded-2xl z-50 text-[11px] text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150"
-                >
-                  <div className="space-y-2.5">
-                    <div>
-                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
-                        Synthesis Model
+            {showTooltip && (
+              <div
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.30) 100%)",
+                  backdropFilter: "blur(32px) saturate(190%)",
+                  WebkitBackdropFilter: "blur(32px) saturate(190%)",
+                  boxShadow:
+                    "0 24px 48px -12px rgba(0, 0, 0, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.25)",
+                  border: "1px solid rgba(255, 255, 255, 0.55)",
+                  borderRadius: "22px",
+                }}
+                className="absolute top-full left-0 mt-3 w-72 p-4 z-50 text-[11px] text-ink-primary font-sans animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1.5 pb-2 border-b border-stone-900/10">
+                    <Sparkles className="w-3.5 h-3.5 text-stone-700" />
+                    <span className="font-semibold text-xs text-ink-primary">
+                      AI Architecture & Models
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
+                      Synthesis & Comparative RAG
+                    </span>
+                    <span className="font-semibold text-ink-primary text-xs">
+                      {modelInfo.completion_model}
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
+                      Dense Semantic Embeddings
+                    </span>
+                    <span className="font-semibold text-ink-primary">
+                      {modelInfo.embedding_model}{" "}
+                      <span className="text-[10px] font-normal text-ink-muted">
+                        (768-dim)
                       </span>
-                      <span className="font-semibold text-ink-primary text-xs">
-                        {modelInfo.completion_model}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
-                        Dense Embeddings
-                      </span>
-                      <span className="font-semibold text-ink-primary">
-                        {modelInfo.embedding_model} (768-dim)
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
-                        Vector Database
-                      </span>
-                      <span className="font-medium text-ink-primary">
-                        Supabase PostgreSQL 17 + pgvector HNSW
-                      </span>
-                    </div>
+                    </span>
+                  </div>
+
+                  <div>
+                    <span className="text-ink-secondary block text-[10px] font-medium tracking-wide">
+                      Vector Indexing
+                    </span>
+                    <span className="font-medium text-ink-primary">
+                      Supabase PostgreSQL 17 + pgvector HNSW
+                    </span>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
+      </div>
 
         {/* Center: Custom Pool Selector & Switcher */}
         <div className="flex items-center space-x-2">
