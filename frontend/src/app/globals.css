@@ -15,6 +15,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Custom mouse cursor text selection highlight (Vibrant warm yellow highlighter instead of default OS blue) */
+::selection {
+  background-color: #FDE047 !important;
+  color: #18181B !important;
+}
+
+::-moz-selection {
+  background-color: #FDE047 !important;
+  color: #18181B !important;
+}
+
 /* Custom scrollbars for clean recruiter console */
 ::-webkit-scrollbar {
   width: 6px;
