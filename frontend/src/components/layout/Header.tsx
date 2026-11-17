@@ -59,7 +59,7 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-1.5 min-w-0">
-            <h1 className="hidden md:block text-xs font-semibold text-stone-900 tracking-tight leading-none truncate">
+            <h1 className="text-xs font-semibold text-stone-900 tracking-tight leading-none whitespace-nowrap">
               Semantic Talent Engine
             </h1>
 
@@ -157,7 +157,7 @@ export function Header() {
                 needsCandidates ? "text-amber-400" : "text-current"
               }`}
             />
-            <span>+ Upload</span>
+            <span>Upload</span>
           </button>
         </div>
       </div>
