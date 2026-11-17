@@ -2,8 +2,8 @@
 
 import React, { useRef } from "react";
 import { usePoolData, useWorkspaceUi } from "@/context/EngineContext";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import {
-  Briefcase,
   CheckCircle2,
   FolderPlus,
   Loader2,
@@ -20,8 +20,8 @@ export function OnboardingCard() {
     <div className="w-full max-w-xl mx-auto bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl border border-[#E6E4DD] dark:border-white/12 rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.18)] p-5 sm:p-8 transition-all">
       {/* Brand & Introduction */}
       <div className="flex flex-col items-center text-center">
-        <div className="w-12 h-12 rounded-2xl bg-stone-900 dark:bg-amber-400/10 dark:border dark:border-amber-400/20 flex items-center justify-center text-white shadow-2xs mb-3.5">
-          <Briefcase className="w-6 h-6 text-amber-400" />
+        <div className="w-14 h-14 rounded-2xl bg-surface-200/60 dark:bg-white/[0.06] border border-stone-200/70 dark:border-white/10 flex items-center justify-center shadow-2xs mb-3.5 p-1">
+          <BrandLogo size="lg" className="w-full h-full" />
         </div>
 
         <h2 className="text-lg sm:text-xl font-bold text-ink-primary dark:text-stone-100 tracking-tight">

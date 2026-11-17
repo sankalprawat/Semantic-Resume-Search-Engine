@@ -7,8 +7,8 @@ import { fetchHealth } from "@/lib/api";
 import { PoolDropdown } from "@/components/pool/PoolDropdown";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import {
-  Briefcase,
   FolderPlus,
   Info,
   Moon,
@@ -162,10 +162,10 @@ export function Header() {
       <div className="flex items-center justify-between w-full md:w-auto gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
-            className="w-8 h-8 md:w-7 md:h-7 rounded-full bg-stone-900 dark:bg-amber-400/10 dark:border dark:border-amber-400/20 flex items-center justify-center shrink-0 shadow-2xs"
+            className="w-8 h-8 md:w-7 md:h-7 rounded-lg bg-surface-200/60 dark:bg-white/[0.06] border border-stone-200/70 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden p-0.5"
             title="Semantic Talent Engine"
           >
-            <Briefcase className="w-4 h-4 md:w-3.5 md:h-3.5 text-amber-400" />
+            <BrandLogo className="w-full h-full" />
           </div>
 
           <div className="flex items-center gap-1.5 min-w-0">
