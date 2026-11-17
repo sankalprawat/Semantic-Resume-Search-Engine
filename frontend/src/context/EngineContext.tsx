@@ -10,6 +10,7 @@ import {
 import {
   fetchCandidates,
   fetchPools,
+  seedSamplePool,
   streamEvaluation,
 } from "@/lib/api";
 
@@ -26,6 +27,7 @@ interface EngineContextType {
   activeCitation: ActiveCitationTarget | null;
   isUploadModalOpen: boolean;
   isCreatePoolOpen: boolean;
+  isSeedingSample: boolean;
 
   // Actions
   setActivePool: (pool: TalentPool | null) => void;
@@ -36,6 +38,7 @@ interface EngineContextType {
   setIsCreatePoolOpen: (open: boolean) => void;
   refreshPools: () => Promise<void>;
   refreshCandidates: (poolId: string) => Promise<void>;
+  loadSamplePool: () => Promise<void>;
   runSynthesis: (mandateQuery?: string) => Promise<void>;
   clearSynthesis: () => void;
 }
@@ -57,6 +60,20 @@ export function EngineProvider({ children }: { children: React.ReactNode }) {
   const [activeCitation, setActiveCitation] = useState<ActiveCitationTarget | null>(null);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isCreatePoolOpen, setIsCreatePoolOpen] = useState(false);
+  const [isSeedingSample, setIsSeedingSample] = useState(false);
+
+  const loadSamplePool = async () => {
+    setIsSeedingSample(true);
+    try {
+      const samplePool = await seedSamplePool();
+      await refreshPools();
+      setActivePool(samplePool);
+    } catch (e) {
+      console.error("Failed to load sample talent pool:", e);
+    } finally {
+      setIsSeedingSample(false);
+    }
+  };
 
   const refreshPools = async () => {
     try {
@@ -154,6 +171,7 @@ export function EngineProvider({ children }: { children: React.ReactNode }) {
         activeCitation,
         isUploadModalOpen,
         isCreatePoolOpen,
+        isSeedingSample,
         setActivePool,
         setActiveCandidate,
         setQuery,
@@ -162,6 +180,7 @@ export function EngineProvider({ children }: { children: React.ReactNode }) {
         setIsCreatePoolOpen,
         refreshPools,
         refreshCandidates,
+        loadSamplePool,
         runSynthesis,
         clearSynthesis,
       }}

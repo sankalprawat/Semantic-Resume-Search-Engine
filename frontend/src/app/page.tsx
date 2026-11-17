@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <EngineProvider>
       <div className="flex flex-col h-screen overflow-hidden bg-surface-50 font-sans antialiased text-ink-primary">
-        <div className="flex flex-col h-full w-full max-w-7xl mx-auto p-3.5 gap-3">
+        <div className="flex flex-col h-full w-full max-w-7xl mx-auto px-4 py-2.5 gap-2.5">
           <Header />
           <SplitPane />
         </div>

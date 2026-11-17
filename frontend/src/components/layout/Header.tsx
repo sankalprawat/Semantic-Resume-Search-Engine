@@ -49,11 +49,11 @@ export function Header() {
   }, []);
 
   return (
-    <header className="w-full h-14 bg-white/95 border border-surface-200/90 rounded-full px-5 shadow-xs flex items-center justify-between shrink-0 z-20">
+    <header className="w-full h-[52px] bg-white border border-[#E6E4DD] rounded-full px-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex items-center justify-between shrink-0 z-20">
       {/* Brand & Mandate */}
       <div className="flex items-center space-x-3">
-        <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-2xs">
-          <Briefcase className="w-4 h-4 text-amber-400" />
+        <div className="w-7 h-7 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-2xs">
+          <Briefcase className="w-3.5 h-3.5 text-amber-400" />
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -124,44 +124,43 @@ export function Header() {
         </div>
       </div>
 
-        {/* Center: Custom Pool Selector & Switcher */}
-        <div className="flex items-center space-x-2">
-          <PoolDropdown />
+      {/* Center: Custom Pool Selector & Labeled New Pool Action */}
+      <div className="flex items-center space-x-2">
+        <PoolDropdown />
 
-          <button
-            onClick={() => setIsCreatePoolOpen(true)}
-            title="Create New Talent Pool"
-            className="p-1.5 rounded-full hover:bg-surface-100 border border-surface-200 text-ink-secondary hover:text-ink-primary transition-colors shadow-2xs"
-          >
-            <FolderPlus className="w-3.5 h-3.5 text-stone-700" />
-          </button>
+        <button
+          type="button"
+          onClick={() => setIsCreatePoolOpen(true)}
+          title="Create New Talent Pool"
+          className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-xs font-medium text-ink-primary transition-all shadow-2xs cursor-pointer"
+        >
+          <FolderPlus className="w-3.5 h-3.5 text-stone-700" />
+          <span>New Pool</span>
+        </button>
+      </div>
+
+      {/* Right: Actions & Vitals */}
+      <div className="flex items-center space-x-2.5">
+        {/* Candidates Indexed Badge */}
+        <div className="flex items-center space-x-1.5 text-xs text-ink-secondary px-3 py-1.5 rounded-full bg-surface-50 border border-surface-200">
+          <Users className="w-3.5 h-3.5 text-stone-600" />
+          <span className="font-semibold text-ink-primary">
+            {candidates.length}
+          </span>
+          <span className="text-[11px] text-ink-muted">Indexed</span>
         </div>
 
-        {/* Right: Actions & Vitals */}
-        <div className="flex items-center space-x-2">
-          <div className="flex items-center space-x-1.5 text-xs text-ink-secondary px-3 py-1.5 rounded-full bg-surface-50 border border-surface-200">
-            <Users className="w-3.5 h-3.5 text-stone-600" />
-            <span className="font-semibold text-ink-primary">
-              {candidates.length}
-            </span>
-            <span className="text-[11px] text-ink-muted">Indexed</span>
-          </div>
-
-          {/* Expanding "+" to "+ Upload Resumes" Pill Button */}
-          <button
-            onClick={() => setIsUploadModalOpen(true)}
-            disabled={!activePool}
-            aria-label="Upload Resumes"
-            className="group h-8 rounded-full bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-stone-700 hover:text-stone-900 disabled:opacity-40 disabled:cursor-not-allowed flex items-center transition-all duration-300 ease-in-out shadow-2xs cursor-pointer overflow-hidden"
-          >
-            <div className="w-8 h-8 flex items-center justify-center shrink-0">
-              <Plus className="w-4 h-4 text-stone-700 transition-transform duration-300 group-hover:rotate-90" />
-            </div>
-            <div className="max-w-0 group-hover:max-w-[140px] opacity-0 group-hover:opacity-100 overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out pr-0 group-hover:pr-3.5 text-xs font-medium text-ink-primary">
-              Upload Resumes
-            </div>
-          </button>
-        </div>
-      </header>
+        {/* Explicitly Labeled "+ Upload PDFs" Button */}
+        <button
+          type="button"
+          onClick={() => setIsUploadModalOpen(true)}
+          disabled={!activePool}
+          className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-xs font-semibold text-ink-primary transition-all shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+        >
+          <Plus className="w-3.5 h-3.5 text-stone-800" />
+          <span>+ Upload PDFs</span>
+        </button>
+      </div>
+    </header>
   );
 }

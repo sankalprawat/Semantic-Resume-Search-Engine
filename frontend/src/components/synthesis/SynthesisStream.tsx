@@ -122,7 +122,7 @@ export function SynthesisStream() {
   );
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-white rounded-lg border border-surface-200 shadow-2xs overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-white rounded-2xl border border-surface-200 shadow-2xs overflow-hidden">
       {/* Trust & Grounding Status Bar */}
       <div className="px-4 py-2.5 border-b border-surface-200 bg-surface-50 flex items-center justify-between text-xs">
         <div className="flex items-center space-x-2">

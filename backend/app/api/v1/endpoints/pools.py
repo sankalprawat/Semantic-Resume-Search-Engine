@@ -6,9 +6,22 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.database import get_db
 from app.schemas.pool import TalentPoolCreate, TalentPoolResponse
 from app.schemas.resume import CandidateListItem
+from app.services.sample_seeder import seed_or_get_sample_pool
 from app.services.vector_store import vector_store
 
 router = APIRouter()
+
+
+@router.post("/seed-sample", response_model=TalentPoolResponse, status_code=status.HTTP_200_OK)
+async def seed_sample_talent_pool(
+    db: AsyncSession = Depends(get_db),
+) -> TalentPoolResponse:
+    """
+    Idempotently creates or returns a pre-populated talent pool with 3
+    pre-indexed sample candidate resumes (Alice Vance, Bob Chen, Carol Rodriguez)
+    with genuine PDF text, bounding box coordinates, and 768-dim embeddings.
+    """
+    return await seed_or_get_sample_pool(session=db)
 
 
 @router.post("/", response_model=TalentPoolResponse, status_code=status.HTTP_201_CREATED)

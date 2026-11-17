@@ -2,29 +2,39 @@
 
 import React from "react";
 import { useEngine } from "@/context/EngineContext";
-import { FileText, Sparkles, User } from "lucide-react";
+import { User } from "lucide-react";
 
 export function CandidateTabs() {
-  const { candidates, activeCandidate, setActiveCandidate, activeCitation } = useEngine();
+  const { candidates, activeCandidate, setActiveCandidate, activeCitation } =
+    useEngine();
 
   if (candidates.length === 0) {
-    return null;
+    return (
+      <div className="flex items-center space-x-1 border-b border-surface-200 bg-surface-100/70 px-3 py-1.5 overflow-x-auto text-xs text-ink-muted shrink-0">
+        <div className="flex items-center space-x-1.5 px-3 py-1 rounded-md bg-white/70 border border-dashed border-surface-300 text-[11px]">
+          <User className="w-3 h-3 text-stone-400" />
+          <span>No candidate tabs loaded yet</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="flex items-center space-x-1 border-b border-surface-200 bg-surface-100 px-3 pt-2 overflow-x-auto">
+    <div className="flex items-center space-x-1 border-b border-surface-200 bg-surface-100 px-3 pt-1.5 overflow-x-auto shrink-0">
       {candidates.map((cand) => {
         const isActive = activeCandidate?.id === cand.id;
         const hasActiveCitation =
           activeCitation &&
           (activeCitation.candidateId === cand.id ||
-            activeCitation.candidateName.toLowerCase().includes(cand.full_name.toLowerCase()));
+            activeCitation.candidateName
+              .toLowerCase()
+              .includes(cand.full_name.toLowerCase()));
 
         return (
           <button
             key={cand.id}
             onClick={() => setActiveCandidate(cand)}
-            className={`flex items-center space-x-2 px-3 py-2 text-xs font-medium rounded-t-md transition-all border-t border-l border-r truncate max-w-[200px] ${
+            className={`flex items-center space-x-2 px-3 py-1.5 text-xs font-medium rounded-t-lg transition-all border-t border-l border-r truncate max-w-[200px] cursor-pointer ${
               isActive
                 ? "bg-white text-ink-primary border-surface-200 shadow-2xs font-semibold"
                 : "bg-surface-100 hover:bg-surface-200/70 text-ink-secondary border-transparent"
