@@ -7,9 +7,10 @@ export const metadata: Metadata = {
   description: "Enterprise Semantic Search & Grounded Comparative Candidate Evaluation",
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/icon.svg",
+    shortcut: "/favicon.ico",
     apple: "/icon.svg",
   },
 };
@@ -22,6 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
