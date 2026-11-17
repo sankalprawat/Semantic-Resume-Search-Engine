@@ -82,12 +82,15 @@ export function Header() {
     };
   }, [showTooltip]);
 
+  const effectiveCandidateCount =
+    candidates.length > 0 ? candidates.length : (activePool?.candidate_count ?? 0);
   const needsPool = !activePool;
-  const needsCandidates = Boolean(activePool) && candidates.length === 0;
+  const needsCandidates = Boolean(activePool) && effectiveCandidateCount === 0;
 
   const IndexedBadge = ({ compact = false }: { compact?: boolean }) => (
     <Badge
       size={compact ? "sm" : "md"}
+      className={compact ? "h-7 min-h-[28px] px-2.5 py-0 inline-flex items-center gap-1.5 text-[11px]" : ""}
       icon={
         <Users
           className={`${
@@ -98,7 +101,7 @@ export function Header() {
       title="Total resumes indexed in active pool"
     >
       <span className="font-semibold text-stone-900 dark:text-stone-100 tabular-nums">
-        {candidates.length}
+        {effectiveCandidateCount}
       </span>
       <span
         className={`${
@@ -114,11 +117,12 @@ export function Header() {
     <Button
       variant={needsCandidates ? "primary" : "secondary"}
       size={mobile ? "sm" : "md"}
+      className={mobile ? "h-7 min-h-[28px] px-2.5 py-0 text-[11px] font-medium inline-flex items-center gap-1" : ""}
       onClick={() => setIsUploadModalOpen(true)}
       disabled={!activePool}
       icon={
         <Plus
-          className={`w-3.5 h-3.5 ${
+          className={`w-3 h-3 ${
             needsCandidates ? "text-amber-400 dark:text-stone-950" : "text-current"
           }`}
         />
@@ -140,16 +144,16 @@ export function Header() {
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       aria-label="Toggle color theme"
       className={`rounded-full text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white bg-[#F7F6F2] dark:bg-[#262422] hover:bg-stone-200/70 dark:hover:bg-stone-700/60 border border-[#E6E4DD] dark:border-[#38342F] transition-all cursor-pointer inline-flex items-center justify-center shrink-0 ${
-        mobile ? "p-2 min-h-[40px] min-w-[40px]" : "p-1.5"
+        mobile ? "p-1.5 min-h-[36px] min-w-[36px]" : "p-1.5"
       }`}
     >
       {theme === "dark" ? (
         <Sun
-          className={`${mobile ? "w-4 h-4" : "w-3.5 h-3.5"} text-amber-400`}
+          className={`${mobile ? "w-3.5 h-3.5" : "w-3.5 h-3.5"} text-amber-400`}
         />
       ) : (
         <Moon
-          className={`${mobile ? "w-4 h-4" : "w-3.5 h-3.5"} text-stone-600`}
+          className={`${mobile ? "w-3.5 h-3.5" : "w-3.5 h-3.5"} text-stone-600`}
         />
       )}
     </button>
@@ -162,7 +166,7 @@ export function Header() {
       <div className="flex items-center justify-between w-full md:w-auto gap-2">
         <div className="flex items-center gap-2 min-w-0">
           <div
-            className="w-8 h-8 md:w-7 md:h-7 rounded-lg bg-surface-200/60 dark:bg-white/[0.06] border border-stone-200/70 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden p-0.5"
+            className="w-7 h-7 rounded-full bg-surface-200/60 dark:bg-white/[0.06] border border-stone-200/70 dark:border-white/10 flex items-center justify-center shrink-0 shadow-2xs overflow-hidden p-0.5"
             title="SemanticPin"
           >
             <BrandLogo className="w-full h-full" />
@@ -185,7 +189,7 @@ export function Header() {
                 onClick={() => setShowTooltip((prev) => !prev)}
                 aria-expanded={showTooltip}
                 aria-label="AI Model Information"
-                className="text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors cursor-pointer inline-flex items-center justify-center p-1.5 md:p-1 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
+                className="text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors cursor-pointer inline-flex items-center justify-center w-6 h-6 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800"
               >
                 <Info className="w-3.5 h-3.5" />
               </button>
