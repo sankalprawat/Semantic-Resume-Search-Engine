@@ -34,7 +34,7 @@ export function SplitPane() {
 
   // Right pane inspector component (reusable for desktop pane & mobile drawer)
   const renderPdfInspector = () => (
-    <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#1C1A18] overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl overflow-hidden">
       <GroundedPdfViewer />
     </div>
   );
@@ -42,7 +42,7 @@ export function SplitPane() {
   return (
     <div className="flex-1 flex flex-col min-h-0 w-full overflow-hidden animate-in fade-in duration-300">
       {/* Segmented Tab Bar on Mobile & Tablet (< 1024px) */}
-      <div className="lg:hidden flex items-center p-1 bg-surface-100 dark:bg-[#1C1A18] border border-surface-200 dark:border-[#2E2B27] rounded-xl mb-2 shrink-0">
+      <div className="lg:hidden flex items-center p-1 bg-surface-100 dark:bg-[#1E1C1A]/60 dark:backdrop-blur-md border border-surface-200 dark:border-white/10 rounded-xl mb-2 shrink-0">
         <button
           type="button"
           onClick={() => setMobileView("brief")}
@@ -84,7 +84,7 @@ export function SplitPane() {
 
         {/* Right Pane (Desktop Dual-Pane / Mobile Active View) */}
         <section
-          className={`flex-1 lg:w-1/2 flex flex-col min-h-0 rounded-2xl border border-surface-200 dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] shadow-2xs overflow-hidden ${
+          className={`flex-1 lg:w-1/2 flex flex-col min-h-0 rounded-2xl border border-surface-200 dark:border-white/10 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl shadow-2xs dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.12)] overflow-hidden ${
             mobileView === "inspector" ? "flex" : "hidden lg:flex"
           }`}
         >
@@ -102,9 +102,9 @@ export function SplitPane() {
           />
 
           {/* Slide-Up Sheet */}
-          <div className="relative w-full h-[86dvh] max-h-[86dvh] bg-white dark:bg-[#1C1A18] rounded-t-3xl border-t border-[#E6E4DD] dark:border-[#2E2B27] shadow-2xl overflow-hidden flex flex-col z-10 animate-in slide-in-from-bottom duration-300">
+          <div className="relative w-full h-[86dvh] max-h-[86dvh] bg-white dark:bg-[#1E1C1A]/85 dark:backdrop-blur-2xl rounded-t-3xl border-t border-[#E6E4DD] dark:border-white/15 shadow-2xl overflow-hidden flex flex-col z-10 animate-in slide-in-from-bottom duration-300">
             {/* Sticky Header with Back to Brief Action */}
-            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-2.5 bg-surface-50 dark:bg-[#22201D] border-b border-surface-200 dark:border-[#2E2B27] shrink-0">
+            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-2.5 bg-surface-50 dark:bg-[#25221F]/80 border-b border-surface-200 dark:border-white/10 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}

@@ -303,9 +303,9 @@ export function GroundedPdfViewer() {
   // List View (shown when no candidate is active yet, or when user toggles "All PDFs")
   if (!activeCandidate || isListViewOpen) {
     return (
-      <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/60 dark:bg-[#141312] overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/60 dark:bg-[#121110]/60 dark:backdrop-blur-xl overflow-hidden">
         {/* List View Header */}
-        <div className="px-4 py-2.5 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] flex items-center justify-between gap-2 shrink-0">
+        <div className="px-4 py-2.5 border-b border-[#E6E4DD] dark:border-white/10 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl flex items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2">
             <List className="w-3.5 h-3.5 text-stone-600 dark:text-stone-400" />
             <span className="text-xs font-semibold text-stone-900 dark:text-stone-100">
@@ -329,7 +329,7 @@ export function GroundedPdfViewer() {
 
         {/* Optional Quick Search when pool has > 4 candidates */}
         {candidates.length > 4 && (
-          <div className="px-4 py-2 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white/80 dark:bg-[#1C1A18]/80 shrink-0">
+          <div className="px-4 py-2 border-b border-[#E6E4DD] dark:border-white/10 bg-white/80 dark:bg-[#1E1C1A]/60 dark:backdrop-blur-lg shrink-0">
             <div className="relative">
               <Search className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
@@ -362,8 +362,8 @@ export function GroundedPdfViewer() {
                 onClick={() => handleSelectCandidate(candidate)}
                 className={`w-full min-h-[52px] px-3.5 py-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer ${
                   isSelected
-                    ? "bg-white dark:bg-[#262422] border-stone-900 dark:border-amber-400 shadow-xs ring-1 ring-stone-900/5 dark:ring-amber-400/20"
-                    : "bg-white dark:bg-[#1C1A18] hover:bg-stone-50/90 dark:hover:bg-[#24211E] border-[#E6E4DD] dark:border-[#2E2B27] hover:border-stone-300 dark:hover:border-stone-600"
+                    ? "bg-white dark:bg-[#282522]/80 dark:backdrop-blur-md border-stone-900 dark:border-amber-400 shadow-xs ring-1 ring-stone-900/5 dark:ring-amber-400/20"
+                    : "bg-white dark:bg-[#1E1C1A]/60 dark:backdrop-blur-md hover:bg-stone-50/90 dark:hover:bg-[#25221F]/80 border-[#E6E4DD] dark:border-white/[0.08] hover:border-stone-300 dark:hover:border-white/20"
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -423,9 +423,9 @@ export function GroundedPdfViewer() {
   }
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/70 dark:bg-[#141312] overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-[#F7F6F2]/70 dark:bg-[#121110]/60 dark:backdrop-blur-xl overflow-hidden">
       {/* Active Candidate Header Bar (Replaces Horizontal Tabs) */}
-      <div className="px-3 sm:px-4 py-2 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white dark:bg-[#1C1A18] flex items-center justify-between gap-2 shrink-0">
+      <div className="px-3 sm:px-4 py-2 border-b border-[#E6E4DD] dark:border-white/10 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl flex items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           {candidates.length > 1 && (
             <button
@@ -456,7 +456,7 @@ export function GroundedPdfViewer() {
       </div>
 
       {/* Pagination & Zoom Toolbar */}
-      <div className="px-3 sm:px-4 py-1.5 border-b border-[#E6E4DD] dark:border-[#2E2B27] bg-white/95 dark:bg-[#1C1A18]/95 flex items-center justify-between gap-2 text-xs shrink-0">
+      <div className="px-3 sm:px-4 py-1.5 border-b border-[#E6E4DD] dark:border-white/10 bg-white/95 dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl flex items-center justify-between gap-2 text-xs shrink-0">
         {/* Page Navigation */}
         <div className="flex items-center gap-1">
           <button
@@ -486,7 +486,7 @@ export function GroundedPdfViewer() {
         </div>
 
         {/* Zoom Controls */}
-        <div className="flex items-center gap-1 bg-[#F7F6F2] dark:bg-[#262422] border border-[#E6E4DD] dark:border-[#38342F] rounded-lg px-1 py-0.5">
+        <div className="flex items-center gap-1 bg-[#F7F6F2] dark:bg-[#282522]/80 border border-[#E6E4DD] dark:border-white/10 rounded-lg px-1 py-0.5">
           <button
             type="button"
             onClick={handleZoomOut}

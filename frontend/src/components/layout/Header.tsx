@@ -53,7 +53,7 @@ export function Header() {
   const needsCandidates = Boolean(activePool) && candidates.length === 0;
 
   return (
-    <header className="w-full rounded-2xl md:rounded-full h-auto md:h-[52px] p-2.5 md:px-5 bg-white dark:bg-[#1C1A18] border border-[#E6E4DD] dark:border-[#2E2B27] shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_1px_4px_rgba(0,0,0,0.4)] flex flex-col md:flex-row md:items-center justify-between gap-2.5 md:gap-3 shrink-0 z-20 transition-colors duration-200">
+    <header className="w-full rounded-2xl md:rounded-full h-auto md:h-[52px] p-2.5 md:px-5 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl border border-[#E6E4DD] dark:border-white/10 shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.12)] flex flex-col md:flex-row md:items-center justify-between gap-2.5 md:gap-3 shrink-0 z-20 transition-all duration-200">
       {/* Row 1 on Mobile / Left on Desktop: Brand Logo, Popover, & Mobile Quick Actions */}
       <div className="flex items-center justify-between w-full md:w-auto gap-2">
         {/* Brand & AI Architecture Info */}
@@ -83,9 +83,9 @@ export function Header() {
               </button>
 
               {showTooltip && (
-                <div className="absolute top-full left-0 mt-2.5 w-72 p-4 z-50 text-[11px] text-stone-900 dark:text-stone-100 bg-white/95 dark:bg-[#1C1A18]/95 backdrop-blur-md border border-[#E6E4DD] dark:border-[#2E2B27] rounded-2xl shadow-lg animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3 frosted-glass-card">
+                <div className="absolute top-full left-0 mt-2.5 w-72 p-4 z-50 text-[11px] text-stone-900 dark:text-stone-100 rounded-2xl shadow-lg animate-in fade-in zoom-in-95 duration-150 before:absolute before:-top-3 before:left-0 before:w-full before:h-3 frosted-glass-card">
                   <div className="space-y-2.5">
-                    <div className="flex items-center gap-1.5 pb-2 border-b border-stone-200/80 dark:border-stone-800">
+                    <div className="flex items-center gap-1.5 pb-2 border-b border-stone-200/80 dark:border-white/10">
                       <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                       <span className="font-semibold text-xs text-stone-900 dark:text-stone-100">
                         AI Architecture & Models

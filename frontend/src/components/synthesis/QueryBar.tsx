@@ -58,7 +58,7 @@ export function QueryBar() {
   return (
     <div className="space-y-2.5">
       {/* High-Contrast Thumb-Friendly Prompt Input Card */}
-      <div className="bg-white dark:bg-[#1C1A18] border border-[#D6D3C9] dark:border-[#2E2B27] rounded-2xl p-2.5 md:p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] dark:shadow-[0_2px_6px_rgba(0,0,0,0.3)] focus-within:border-stone-900 dark:focus-within:border-amber-400/80 focus-within:ring-2 focus-within:ring-stone-900/10 dark:focus-within:ring-amber-400/10 transition-[border-color,box-shadow] duration-150">
+      <div className="bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl border border-[#D6D3C9] dark:border-white/10 rounded-2xl p-2.5 md:p-3 shadow-[0_1px_2px_rgba(0,0,0,0.03)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.35),inset_0_1px_1px_rgba(255,255,255,0.1)] focus-within:border-stone-900 dark:focus-within:border-amber-400/80 focus-within:ring-2 focus-within:ring-stone-900/10 dark:focus-within:ring-amber-400/10 transition-[border-color,box-shadow] duration-150">
         <textarea
           rows={2}
           value={query}
@@ -75,7 +75,7 @@ export function QueryBar() {
           className="w-full appearance-none text-base md:text-xs font-medium p-1 bg-transparent border-0 outline-none focus:outline-none focus:ring-0 resize-none placeholder:text-stone-400 dark:placeholder:text-stone-500 text-stone-900 dark:text-stone-100 leading-relaxed disabled:cursor-not-allowed"
         />
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-stone-100 dark:border-[#262422] gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-2 border-t border-stone-100 dark:border-white/10 gap-2">
           {/* Left: Input Helpers & Clear */}
           <div className="flex items-center justify-between sm:justify-start gap-2">
             {query && !isStreaming ? (
@@ -142,7 +142,7 @@ export function QueryBar() {
                   runSynthesis(tmpl.text);
                 }}
                 disabled={isStreaming || !activePool || candidates.length === 0}
-                className="w-full text-left p-3.5 rounded-xl bg-white dark:bg-[#1C1A18] hover:bg-surface-50 dark:hover:bg-[#23201D] border border-surface-200 dark:border-[#2E2B27] hover:border-amber-700/40 dark:hover:border-amber-400/40 transition-all shadow-2xs group cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full text-left p-3.5 rounded-xl bg-white dark:bg-[#1E1C1A]/60 dark:backdrop-blur-lg hover:bg-surface-50 dark:hover:bg-[#25221F]/80 border border-surface-200 dark:border-white/[0.08] hover:border-amber-700/40 dark:hover:border-amber-400/50 transition-all shadow-2xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)] group cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-semibold text-ink-primary dark:text-stone-100 group-hover:text-amber-900 dark:group-hover:text-amber-400 transition-colors">

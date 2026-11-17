@@ -8,7 +8,7 @@
 }
 
 .dark {
-  --background: #121110;
+  --background: #0E0D0C;
   --foreground: #F5F4F0;
 }
 
@@ -18,6 +18,16 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Atmospheric Ambient Glow for Dark Mode Acrylic Glass Refraction */
+.dark body {
+  background-color: #0E0D0C;
+  background-image: 
+    radial-gradient(ellipse 70% 45% at 50% -10%, rgba(217, 119, 6, 0.14), transparent 75%),
+    radial-gradient(ellipse 50% 35% at 90% 20%, rgba(180, 83, 9, 0.09), transparent 65%),
+    radial-gradient(ellipse 60% 45% at 10% 80%, rgba(217, 119, 6, 0.08), transparent 70%);
+  background-attachment: fixed;
 }
 
 /* Custom mouse cursor text selection highlight (Vibrant warm yellow highlighter instead of default OS blue) */
@@ -101,43 +111,53 @@ body {
 
 /* Executive Frosted Glass Design System — Dark Mode */
 .dark .frosted-glass-card {
-  background: linear-gradient(135deg, rgba(30, 28, 26, 0.80) 0%, rgba(22, 20, 19, 0.65) 100%);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(135deg, rgba(32, 29, 27, 0.65) 0%, rgba(20, 18, 17, 0.48) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow:
-    0 24px 48px -12px rgba(0, 0, 0, 0.55),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
+    0 20px 40px -15px rgba(0, 0, 0, 0.65),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.45) !important;
   border-radius: 22px;
 }
 
 .dark .frosted-glass-dropdown {
-  background: linear-gradient(135deg, rgba(34, 32, 29, 0.90) 0%, rgba(24, 22, 20, 0.78) 100%);
-  backdrop-filter: blur(32px) saturate(190%);
-  -webkit-backdrop-filter: blur(32px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(34, 31, 28, 0.82) 0%, rgba(22, 20, 18, 0.68) 100%) !important;
+  backdrop-filter: blur(32px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
   box-shadow:
-    0 24px 48px -10px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.14);
+    0 24px 48px -10px rgba(0, 0, 0, 0.75),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.25) !important;
   border-radius: 20px;
 }
 
 .dark .frosted-glass-modal {
-  background: linear-gradient(135deg, rgba(38, 35, 32, 0.94) 0%, rgba(26, 24, 22, 0.86) 100%);
-  backdrop-filter: blur(36px) saturate(190%);
-  -webkit-backdrop-filter: blur(36px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(36, 33, 30, 0.88) 0%, rgba(24, 22, 20, 0.76) 100%) !important;
+  backdrop-filter: blur(36px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(36px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
   box-shadow:
-    0 32px 64px -16px rgba(0, 0, 0, 0.75),
-    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.18);
+    0 32px 64px -16px rgba(0, 0, 0, 0.85),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.28) !important;
   border-radius: 24px;
 }
 
+.dark .frosted-glass-surface {
+  background: linear-gradient(135deg, rgba(28, 26, 24, 0.65) 0%, rgba(18, 16, 15, 0.45) 100%) !important;
+  backdrop-filter: blur(24px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow:
+    0 16px 36px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
 .dark .frosted-glass-overlay {
-  background: rgba(8, 7, 6, 0.70);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(8, 7, 6, 0.65) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
 }
 
 /* Hide scrollbar utility for clean mobile horizontal snap carousels */

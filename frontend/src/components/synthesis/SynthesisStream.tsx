@@ -93,24 +93,24 @@ export function SynthesisStream() {
         </h3>
       ),
       table: ({ children }: any) => (
-        <div className="overflow-x-auto my-3 border border-surface-200 dark:border-[#2E2B27] rounded-md">
-          <table className="w-full text-[11px] border-collapse bg-white dark:bg-[#1C1A18]">
+        <div className="overflow-x-auto my-3 border border-surface-200 dark:border-white/10 rounded-xl overflow-hidden shadow-xs dark:shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+          <table className="w-full text-[11px] border-collapse bg-white dark:bg-[#1E1C1A]/50">
             {children}
           </table>
         </div>
       ),
       thead: ({ children }: any) => (
-        <thead className="bg-surface-100 dark:bg-[#262422] text-ink-primary dark:text-stone-100 font-semibold border-b border-surface-200 dark:border-[#2E2B27]">
+        <thead className="bg-surface-100 dark:bg-[#282522]/80 text-ink-primary dark:text-stone-100 font-semibold border-b border-surface-200 dark:border-white/10">
           {children}
         </thead>
       ),
       th: ({ children }: any) => (
-        <th className="px-2.5 py-1.5 text-left border-r border-surface-200 dark:border-[#2E2B27] last:border-r-0">
+        <th className="px-2.5 py-1.5 text-left border-r border-surface-200 dark:border-white/10 last:border-r-0">
           {children}
         </th>
       ),
       td: ({ children }: any) => (
-        <td className="px-2.5 py-1.5 border-t border-surface-200 dark:border-[#2E2B27] border-r border-surface-200 dark:border-[#2E2B27] last:border-r-0 text-ink-secondary dark:text-stone-300">
+        <td className="px-2.5 py-1.5 border-t border-surface-200 dark:border-white/10 border-r border-surface-200 dark:border-white/10 last:border-r-0 text-ink-secondary dark:text-stone-300">
           {React.Children.map(children, (child) => renderTextWithBadges(child))}
         </td>
       ),
@@ -122,9 +122,9 @@ export function SynthesisStream() {
   );
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#1C1A18] rounded-2xl border border-surface-200 dark:border-[#2E2B27] shadow-2xs overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl rounded-2xl border border-surface-200 dark:border-white/10 shadow-2xs dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.12)] overflow-hidden">
       {/* Trust & Grounding Status Bar */}
-      <div className="px-4 py-2.5 border-b border-surface-200 dark:border-[#2E2B27] bg-surface-50 dark:bg-[#22201D] flex items-center justify-between text-xs">
+      <div className="px-4 py-2.5 border-b border-surface-200 dark:border-white/10 bg-surface-50 dark:bg-[#25221F]/70 flex items-center justify-between text-xs">
         <div className="flex items-center space-x-2">
           <FileCheck2 className="w-4 h-4 text-stone-700 dark:text-amber-400" />
           <span className="font-medium text-ink-primary dark:text-stone-100">

@@ -23,7 +23,7 @@ export function OnboardingCard() {
   } = useEngine();
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white dark:bg-[#1C1A18] border border-[#E6E4DD] dark:border-[#2E2B27] rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.4)] p-5 sm:p-8 transition-all">
+    <div className="w-full max-w-xl mx-auto bg-white dark:bg-[#1E1C1A]/70 dark:backdrop-blur-xl border border-[#E6E4DD] dark:border-white/12 rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.18)] p-5 sm:p-8 transition-all">
       {/* Brand & Introduction */}
       <div className="flex flex-col items-center text-center">
         <div className="w-12 h-12 rounded-2xl bg-stone-900 dark:bg-amber-400/10 dark:border dark:border-amber-400/20 flex items-center justify-center text-white shadow-2xs mb-3.5">
@@ -47,7 +47,7 @@ export function OnboardingCard() {
           className={`p-3.5 rounded-xl border transition-all ${
             activePool
               ? "bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40 text-emerald-950 dark:text-emerald-300"
-              : "bg-surface-50 dark:bg-[#22201D] border-surface-200 dark:border-[#2E2B27] text-ink-primary dark:text-stone-200"
+              : "bg-surface-50 dark:bg-[#25221F]/60 dark:backdrop-blur-md border-surface-200 dark:border-white/10 text-ink-primary dark:text-stone-200"
           }`}
         >
           <div className="flex items-center justify-between mb-1">
@@ -72,8 +72,8 @@ export function OnboardingCard() {
             candidates.length > 0
               ? "bg-emerald-50/60 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/40 text-emerald-950 dark:text-emerald-300"
               : activePool
-              ? "bg-surface-50 dark:bg-[#22201D] border-amber-300 dark:border-amber-500/50 ring-1 ring-amber-400/30 text-ink-primary dark:text-stone-200"
-              : "bg-surface-50/50 dark:bg-[#1E1C1A] border-surface-200/80 dark:border-[#2E2B27]/80 text-ink-muted dark:text-stone-500 opacity-70"
+              ? "bg-surface-50 dark:bg-[#25221F]/60 dark:backdrop-blur-md border-amber-300 dark:border-amber-500/50 ring-1 ring-amber-400/30 text-ink-primary dark:text-stone-200"
+              : "bg-surface-50/50 dark:bg-[#1E1C1A]/40 border-surface-200/80 dark:border-white/[0.06] text-ink-muted dark:text-stone-500 opacity-70"
           }`}
         >
           <div className="flex items-center justify-between mb-1">
@@ -98,8 +98,8 @@ export function OnboardingCard() {
         <div
           className={`p-3.5 rounded-xl border transition-all ${
             candidates.length > 0
-              ? "bg-surface-50 dark:bg-[#22201D] border-surface-200 dark:border-[#2E2B27] text-ink-primary dark:text-stone-200"
-              : "bg-surface-50/50 dark:bg-[#1E1C1A] border-surface-200/80 dark:border-[#2E2B27]/80 text-ink-muted dark:text-stone-500 opacity-70"
+              ? "bg-surface-50 dark:bg-[#25221F]/60 dark:backdrop-blur-md border-surface-200 dark:border-white/10 text-ink-primary dark:text-stone-200"
+              : "bg-surface-50/50 dark:bg-[#1E1C1A]/40 border-surface-200/80 dark:border-white/[0.06] text-ink-muted dark:text-stone-500 opacity-70"
           }`}
         >
           <div className="flex items-center justify-between mb-1">
@@ -142,7 +142,7 @@ export function OnboardingCard() {
           type="button"
           onClick={loadSamplePool}
           disabled={isSeedingSample}
-          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-surface-50 dark:bg-[#262422] hover:bg-surface-100 dark:hover:bg-[#2F2C29] border border-surface-200 dark:border-[#38342F] hover:border-surface-300 text-xs font-semibold text-ink-primary dark:text-stone-200 shadow-2xs flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-surface-50 dark:bg-[#262422]/80 dark:backdrop-blur-md hover:bg-surface-100 dark:hover:bg-[#2F2C29] border border-surface-200 dark:border-white/10 hover:border-surface-300 text-xs font-semibold text-ink-primary dark:text-stone-200 shadow-2xs flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
         >
           {isSeedingSample ? (
             <>
@@ -159,7 +159,7 @@ export function OnboardingCard() {
       </div>
 
       {/* Helper Footer Note */}
-      <div className="mt-6 pt-4 border-t border-surface-100 dark:border-[#2E2B27] flex items-center justify-center space-x-2 text-[11px] text-ink-muted dark:text-stone-400">
+      <div className="mt-6 pt-4 border-t border-surface-100 dark:border-white/10 flex items-center justify-center space-x-2 text-[11px] text-ink-muted dark:text-stone-400">
         <Users className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
         <span>
           Sample pool includes 3 pre-indexed engineering profiles (Kafka Streaming, CockroachDB, and High-Throughput SRE).
