@@ -57,12 +57,12 @@ export function PoolDropdown() {
 
   return (
     <>
-      <div className="relative w-64" ref={dropdownRef}>
+      <div className="relative w-full md:w-64" ref={dropdownRef}>
         {/* Pill Trigger Button */}
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between space-x-2 bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 transition-all shadow-2xs cursor-pointer"
+          className="w-full flex items-center justify-between space-x-2 bg-surface-50 hover:bg-surface-100 border border-surface-200 hover:border-surface-300 text-ink-primary text-xs font-medium rounded-full pl-3.5 pr-3 py-1.5 min-h-[40px] md:min-h-[34px] transition-all shadow-2xs cursor-pointer"
         >
           <div className="flex items-center space-x-2 truncate flex-1 mr-1">
             <Layers className="w-3.5 h-3.5 text-stone-700 shrink-0" />

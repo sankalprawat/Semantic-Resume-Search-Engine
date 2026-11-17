@@ -241,50 +241,28 @@ export function GroundedPdfViewer() {
             <span className="text-xs">Rendering candidate PDF...</span>
           </div>
         ) : (
-          <div className="relative shadow-md border border-surface-300 rounded-sm bg-white overflow-hidden">
+          <div className="relative shadow-md border border-surface-300 rounded-sm bg-white overflow-hidden max-w-full">
             {/* The PDF Canvas */}
-            <canvas ref={canvasRef} className="block" />
+            <canvas ref={canvasRef} className="block max-w-full h-auto" />
 
-            {/* The SVG Grounded Highlight Coordinate Overlay */}
-            {canvasDims.width > 0 && isCurrentCitationTarget && (
-              <svg
-                className="absolute inset-0 pointer-events-none"
-                width={canvasDims.width}
-                height={canvasDims.height}
-              >
+            {/* Responsive Percentage-Based Grounded Highlight Overlay */}
+            {isCurrentCitationTarget && (
+              <div className="absolute inset-0 pointer-events-none">
                 {activeCitation.boundingBoxes.map((box, idx) => {
-                  const x = box.x0 * canvasDims.width;
-                  const y = box.y0 * canvasDims.height;
-                  const w = (box.x1 - box.x0) * canvasDims.width;
-                  const h = (box.y1 - box.y0) * canvasDims.height;
+                  const left = `${box.x0 * 100}%`;
+                  const top = `${box.y0 * 100}%`;
+                  const width = `${(box.x1 - box.x0) * 100}%`;
+                  const height = `${(box.y1 - box.y0) * 100}%`;
 
                   return (
-                    <g key={idx}>
-                      {/* Highlight Fill Rectangle */}
-                      <rect
-                        x={x}
-                        y={y}
-                        width={w}
-                        height={h}
-                        fill="rgba(253, 230, 138, 0.45)"
-                        stroke="#D97706"
-                        strokeWidth="1.5"
-                        rx="2"
-                        className="transition-all duration-300"
-                      />
-                      {/* Left border indicator pulse */}
-                      <line
-                        x1={x}
-                        y1={y}
-                        x2={x}
-                        y2={y + h}
-                        stroke="#B45309"
-                        strokeWidth="3.5"
-                      />
-                    </g>
+                    <div
+                      key={idx}
+                      style={{ left, top, width, height }}
+                      className="absolute bg-amber-300/40 border border-amber-500 rounded-xs shadow-[0_0_8px_rgba(217,119,6,0.25)] border-l-[3.5px] border-l-amber-700 animate-in fade-in duration-300"
+                    />
                   );
                 })}
-              </svg>
+              </div>
             )}
           </div>
         )}

@@ -70,7 +70,7 @@ export function CitationBadge({ candidateName, chunkId }: CitationBadgeProps) {
     <button
       onClick={handleClick}
       title={`Click to inspect evidence in ${candidateName}'s PDF resume`}
-      className={`inline-flex items-center space-x-1 px-2 py-0.5 my-0.5 mx-1 rounded-md text-[11px] font-medium transition-all cursor-pointer border ${
+      className={`inline-flex items-center space-x-1 px-2.5 py-1 sm:py-0.5 my-0.5 mx-1 min-h-[36px] sm:min-h-0 rounded-md text-xs sm:text-[11px] font-medium transition-all cursor-pointer border ${
         isSelected
           ? "bg-amber-100 text-amber-900 border-amber-400 ring-2 ring-amber-300/50 shadow-xs scale-102"
           : "bg-surface-100 hover:bg-amber-50 text-ink-primary hover:text-amber-900 border-surface-200 hover:border-amber-300 shadow-2xs"

@@ -23,19 +23,19 @@ export function OnboardingCard() {
   } = useEngine();
 
   return (
-    <div className="w-full max-w-[760px] mx-auto bg-white border border-[#E6E4DD] rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-8 transition-all">
+    <div className="w-full max-w-xl mx-auto bg-white border border-[#E6E4DD] rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] p-5 sm:p-8 transition-all">
       {/* Brand & Introduction */}
       <div className="flex flex-col items-center text-center">
-        <div className="w-12 h-12 rounded-2xl bg-stone-900 flex items-center justify-center text-white shadow-2xs mb-4">
+        <div className="w-12 h-12 rounded-2xl bg-stone-900 flex items-center justify-center text-white shadow-2xs mb-3.5">
           <Briefcase className="w-6 h-6 text-amber-400" />
         </div>
 
-        <h2 className="text-xl font-bold text-ink-primary tracking-tight">
+        <h2 className="text-lg sm:text-xl font-bold text-ink-primary tracking-tight">
           Semantic Talent Intelligence Console
         </h2>
-        <p className="text-xs text-ink-secondary mt-1.5 max-w-lg leading-relaxed">
+        <p className="text-xs text-ink-secondary mt-1.5 max-w-md leading-relaxed">
           Dense semantic vector search and multi-candidate comparative briefs powered by{" "}
-          <strong className="text-ink-primary font-semibold">Gemini 2.5 Flash</strong> and{" "}
+          <strong className="text-ink-primary font-semibold">Gemini</strong> and{" "}
           <strong className="text-ink-primary font-semibold">gemini-embedding-2</strong> with synchronized PDF bounding-box verification.
         </p>
       </div>
