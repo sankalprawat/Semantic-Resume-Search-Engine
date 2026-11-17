@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useEngine } from "@/context/EngineContext";
 import { QueryBar } from "@/components/synthesis/QueryBar";
 import { SynthesisStream } from "@/components/synthesis/SynthesisStream";
-import { CandidateTabs } from "@/components/viewer/CandidateTabs";
 import { GroundedPdfViewer } from "@/components/viewer/GroundedPdfViewer";
 import { OnboardingCard } from "@/components/onboarding/OnboardingCard";
 import { ArrowLeft, FileText, Sparkles, X } from "lucide-react";
@@ -34,35 +33,8 @@ export function SplitPane() {
   }
 
   // Right pane inspector component (reusable for desktop pane & mobile drawer)
-  const renderPdfInspector = (inDrawer = false) => (
+  const renderPdfInspector = () => (
     <div className="flex-1 flex flex-col min-h-0 bg-white overflow-hidden">
-      {/* Persistent Top Header Bar */}
-      <div className="px-4 py-2.5 border-b border-surface-200 bg-surface-50 flex items-center justify-between text-xs shrink-0">
-        <div className="flex items-center space-x-2">
-          <FileText className="w-4 h-4 text-stone-700" />
-          <span className="font-semibold text-ink-primary">
-            Original PDF Inspector
-          </span>
-          {activeCandidate && (
-            <span className="text-[11px] text-ink-muted hidden sm:inline">
-              · {activeCandidate.filename} ({activeCandidate.page_count}{" "}
-              {activeCandidate.page_count === 1 ? "page" : "pages"})
-            </span>
-          )}
-        </div>
-
-        {activeCitation && (
-          <span className="inline-flex items-center space-x-1.5 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse" />
-            <span>Highlight Synced</span>
-          </span>
-        )}
-      </div>
-
-      {/* Candidate Tabs Strip with horizontal scroll & touch ergonomics */}
-      <CandidateTabs />
-
-      {/* PDF Canvas Viewport with Synchronized Bounding Box Overlays */}
       <GroundedPdfViewer />
     </div>
   );
@@ -116,7 +88,7 @@ export function SplitPane() {
             mobileView === "inspector" ? "flex" : "hidden lg:flex"
           }`}
         >
-          {renderPdfInspector(false)}
+          {renderPdfInspector()}
         </section>
       </div>
 
@@ -163,7 +135,6 @@ export function SplitPane() {
 
             {/* Content within drawer */}
             <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
-              <CandidateTabs />
               <GroundedPdfViewer />
             </div>
           </div>
