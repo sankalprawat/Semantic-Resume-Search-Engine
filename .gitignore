@@ -72,12 +72,16 @@ lerna-debug.log*
 .pnpm-store/
 
 # Local Storage & Uploads
-backend/storage/resumes/
-backend/storage/temp/
 uploads/
-storage/
 temp/
+backend/storage/temp/
 *.log
+
+# Ignore dynamic resume uploads except committed sample pool resumes
+storage/resumes/*
+!storage/resumes/0310dece-8d3a-4504-802e-f39f03895052/
+backend/storage/resumes/*
+!backend/storage/resumes/0310dece-8d3a-4504-802e-f39f03895052/
 
 # Keep sample test fixtures if explicitly committed under tests/fixtures/
 !backend/tests/fixtures/*.pdf

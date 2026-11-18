@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile, status
 from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -127,7 +127,7 @@ async def upload_resumes(
 async def get_candidate_resume_file(
     candidate_id: UUID,
     db: AsyncSession = Depends(get_db),
-) -> FileResponse:
+) -> Response:
     """Streams the raw candidate resume PDF file for client-side rendering."""
     resume = await vector_store.get_candidate_resume(session=db, candidate_id=candidate_id)
     if not resume:
@@ -136,15 +136,49 @@ async def get_candidate_resume_file(
             detail=f"Resume for candidate {candidate_id} not found",
         )
 
-    file_path = Path(resume.file_path)
-    if not file_path.exists():
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Resume PDF file does not exist on disk",
-        )
+    clean_path_str = resume.file_path.replace("\\", "/")
+    filename = Path(clean_path_str).name
 
-    return FileResponse(
-        path=str(file_path),
-        filename=resume.filename,
-        media_type="application/pdf",
+    possible_paths = [
+        Path(clean_path_str),
+        Path("backend") / clean_path_str,
+        Path("..") / clean_path_str,
+        settings.STORAGE_LOCAL_DIR / filename,
+        Path("backend/storage/resumes/0310dece-8d3a-4504-802e-f39f03895052") / filename,
+        Path("storage/resumes/0310dece-8d3a-4504-802e-f39f03895052") / filename,
+    ]
+
+    for p in possible_paths:
+        if p.exists() and p.is_file():
+            return FileResponse(
+                path=str(p),
+                filename=resume.filename,
+                media_type="application/pdf",
+            )
+
+    # Ephemeral cloud fallback: Reconstruct PDF document on the fly from raw_text
+    if resume.raw_text:
+        try:
+            import pymupdf
+
+            doc = pymupdf.open()
+            page = doc.new_page(width=595, height=842)  # Standard A4
+            rect = pymupdf.Rect(50, 50, 545, 792)
+            page.insert_textbox(rect, resume.raw_text, fontsize=10)
+            pdf_bytes = doc.tobytes()
+            doc.close()
+
+            return Response(
+                content=pdf_bytes,
+                media_type="application/pdf",
+                headers={
+                    "Content-Disposition": f'inline; filename="{resume.filename}"'
+                },
+            )
+        except Exception as e:
+            logger.error(f"Failed to generate fallback PDF for candidate {candidate_id}: {e}")
+
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Resume PDF file does not exist on disk",
     )
