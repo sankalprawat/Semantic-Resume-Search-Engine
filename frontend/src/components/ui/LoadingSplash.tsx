@@ -57,7 +57,7 @@ export function LoadingSplash({ isVisible }: LoadingSplashProps) {
 
         {/* Status text */}
         <p className="text-[11px] font-medium text-stone-500 dark:text-stone-400 mt-3 tracking-wide">
-          Setting up the envionment...
+          Setting up the enviornment...
         </p>
       </div>
     </div>
