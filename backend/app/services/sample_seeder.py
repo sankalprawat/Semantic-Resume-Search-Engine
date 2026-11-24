@@ -1,10 +1,8 @@
 import logging
-from pathlib import Path
 import pymupdf
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.models.pool import TalentPool
 from app.schemas.pool import TalentPoolResponse
 from app.services.chunking import chunker
 from app.services.embeddings import embedding_service

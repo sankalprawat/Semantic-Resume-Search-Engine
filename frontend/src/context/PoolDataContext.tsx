@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Candidate, TalentPool } from "@/types";
 import { fetchCandidates, fetchPools, seedSamplePool } from "@/lib/api";
 
-export interface PoolDataContextType {
+interface PoolDataContextType {
   pools: TalentPool[];
   activePool: TalentPool | null;
   candidates: Candidate[];

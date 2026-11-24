@@ -19,14 +19,14 @@ export interface Candidate {
   created_at: string;
 }
 
-export interface BoundingBox {
+interface BoundingBox {
   x0: number;
   y0: number;
   x1: number;
   y1: number;
 }
 
-export interface CitationDetail {
+interface CitationDetail {
   id: string;
   citation_index: number;
   candidate_id: string;

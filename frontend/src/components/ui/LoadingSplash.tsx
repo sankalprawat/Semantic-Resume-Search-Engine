@@ -63,4 +63,4 @@ export function LoadingSplash({ isVisible }: LoadingSplashProps) {
     </div>
   );
 }
-export default LoadingSplash;
+

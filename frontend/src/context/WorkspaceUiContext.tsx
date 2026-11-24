@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 
 export type MobileWorkspaceView = "brief" | "inspector";
 
-export interface WorkspaceUiContextType {
+interface WorkspaceUiContextType {
   isUploadModalOpen: boolean;
   isCreatePoolOpen: boolean;
   mobileView: MobileWorkspaceView;

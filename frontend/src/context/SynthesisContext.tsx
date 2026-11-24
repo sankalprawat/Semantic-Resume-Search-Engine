@@ -12,7 +12,7 @@ import { ActiveCitationTarget, EvaluationDonePayload } from "@/types";
 import { streamEvaluation } from "@/lib/api";
 import { usePoolData } from "./PoolDataContext";
 
-export interface SynthesisContextType {
+interface SynthesisContextType {
   query: string;
   isStreaming: boolean;
   streamedContent: string;

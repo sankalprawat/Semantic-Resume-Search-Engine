@@ -24,7 +24,7 @@ export function EngineProvider({ children }: { children: React.ReactNode }) {
  * To optimize performance and eliminate streaming re-render cascades, components can also
  * directly consume usePoolData(), useSynthesis(), or useWorkspaceUi().
  */
-export function useEngine() {
+function useEngine() {
   const poolData = usePoolData();
   const synthesis = useSynthesis();
   const workspaceUi = useWorkspaceUi();
