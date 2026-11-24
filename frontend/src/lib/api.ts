@@ -122,7 +122,9 @@ export async function streamEvaluation(
   onToken: (token: string) => void,
   onDone: (data: EvaluationDonePayload) => void,
   onError: (error: string) => void,
-  signal?: AbortSignal
+  signal?: AbortSignal,
+  onReset?: () => void,
+  onModelChange?: (model: string) => void
 ): Promise<void> {
   try {
     const res = await fetch(`${API_BASE_URL}/pools/${poolId}/evaluate/stream`, {
@@ -177,6 +179,10 @@ export async function streamEvaluation(
             const data = JSON.parse(trimmed.slice(6));
             if (data.type === "token") {
               onToken(data.content);
+            } else if (data.type === "model" && data.model) {
+              onModelChange?.(data.model);
+            } else if (data.type === "reset") {
+              onReset?.();
             } else if (data.type === "done") {
               onDone(data as EvaluationDonePayload);
             } else if (data.type === "error") {

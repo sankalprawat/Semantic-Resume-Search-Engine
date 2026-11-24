@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 
 export type MobileWorkspaceView = "brief" | "inspector";
 
@@ -24,19 +24,22 @@ export function WorkspaceUiProvider({ children }: { children: React.ReactNode })
   const [mobileView, setMobileView] = useState<MobileWorkspaceView>("brief");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const value = useMemo(
+    () => ({
+      isUploadModalOpen,
+      isCreatePoolOpen,
+      mobileView,
+      isDrawerOpen,
+      setIsUploadModalOpen,
+      setIsCreatePoolOpen,
+      setMobileView,
+      setIsDrawerOpen,
+    }),
+    [isUploadModalOpen, isCreatePoolOpen, mobileView, isDrawerOpen]
+  );
+
   return (
-    <WorkspaceUiContext.Provider
-      value={{
-        isUploadModalOpen,
-        isCreatePoolOpen,
-        mobileView,
-        isDrawerOpen,
-        setIsUploadModalOpen,
-        setIsCreatePoolOpen,
-        setMobileView,
-        setIsDrawerOpen,
-      }}
-    >
+    <WorkspaceUiContext.Provider value={value}>
       {children}
     </WorkspaceUiContext.Provider>
   );

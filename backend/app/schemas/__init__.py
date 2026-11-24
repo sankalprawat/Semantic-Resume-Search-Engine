@@ -4,7 +4,7 @@ from app.schemas.evaluation import (
     EvaluationRequest,
     EvaluationResponse,
 )
-from app.schemas.pool import TalentPoolCreate, TalentPoolResponse, TalentPoolUpdate
+from app.schemas.pool import TalentPoolCreate, TalentPoolResponse
 from app.schemas.resume import (
     BatchResumeUploadResponse,
     CandidateListItem,
@@ -19,7 +19,6 @@ from app.schemas.search import (
 
 __all__ = [
     "TalentPoolCreate",
-    "TalentPoolUpdate",
     "TalentPoolResponse",
     "CandidateListItem",
     "ResumeUploadResponse",

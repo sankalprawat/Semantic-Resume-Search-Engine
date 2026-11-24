@@ -94,6 +94,7 @@ export function GroundedPdfViewer() {
     }
 
     let isCancelled = false;
+    let loadingTask: any = null;
     setLoading(true);
     setCurrentPage(1);
     setIsListViewOpen(false);
@@ -105,9 +106,10 @@ export function GroundedPdfViewer() {
           pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
           pdfjsModuleRef.current = pdfjs;
         }
+        if (isCancelled) return;
 
         const pdfUrl = getCandidateResumeUrl(activeCandidate.id);
-        const loadingTask = pdfjsModuleRef.current.getDocument(pdfUrl);
+        loadingTask = pdfjsModuleRef.current.getDocument(pdfUrl);
         const doc = await loadingTask.promise;
 
         if (isCancelled) return;
@@ -120,8 +122,8 @@ export function GroundedPdfViewer() {
         setScale(initialScale);
         setLoading(false);
       } catch (err) {
-        console.error("Error loading candidate PDF:", err);
         if (!isCancelled) {
+          console.error("Error loading candidate PDF:", err);
           setLoading(false);
           setPdfDoc(null);
         }
@@ -132,6 +134,9 @@ export function GroundedPdfViewer() {
 
     return () => {
       isCancelled = true;
+      if (loadingTask?.destroy) {
+        loadingTask.destroy();
+      }
     };
   }, [activeCandidate?.id, computeFitScale]);
 

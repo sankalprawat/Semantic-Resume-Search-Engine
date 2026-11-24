@@ -101,13 +101,11 @@ Education & Skills:
 
 def _create_sample_pdf_bytes(text: str) -> bytes:
     """Create a formatted single-page PDF in memory using PyMuPDF."""
-    doc = pymupdf.open()
-    page = doc.new_page(width=595, height=842)  # A4 dimensions
-    rect = pymupdf.Rect(45, 45, 550, 800)
-    page.insert_textbox(rect, text, fontsize=9.5, fontname="helv", lineheight=1.25)
-    pdf_bytes = doc.tobytes()
-    doc.close()
-    return pdf_bytes
+    with pymupdf.open() as doc:
+        page = doc.new_page(width=595, height=842)  # A4 dimensions
+        rect = pymupdf.Rect(45, 45, 550, 800)
+        page.insert_textbox(rect, text, fontsize=9.5, fontname="helv", lineheight=1.25)
+        return doc.tobytes()
 
 
 async def seed_or_get_sample_pool(session: AsyncSession) -> TalentPoolResponse:
@@ -156,7 +154,7 @@ async def seed_or_get_sample_pool(session: AsyncSession) -> TalentPoolResponse:
             pool_id=pool.id,
             candidate_name=cand["name"],
             filename=cand["filename"],
-            file_path=str(file_path),
+            file_path=file_path.as_posix(),
             file_size_bytes=len(pdf_bytes),
             page_count=extracted_doc.page_count,
             raw_text=extracted_doc.raw_text,

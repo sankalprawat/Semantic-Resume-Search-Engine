@@ -45,6 +45,7 @@ export interface EvaluationDonePayload {
   total_citations: number;
   citations: CitationDetail[];
   hallucinations_detected: number;
+  model?: string;
 }
 
 export interface ActiveCitationTarget {

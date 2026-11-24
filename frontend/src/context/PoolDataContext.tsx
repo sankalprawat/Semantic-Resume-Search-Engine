@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Candidate, TalentPool } from "@/types";
 import { fetchCandidates, fetchPools, seedSamplePool } from "@/lib/api";
 
@@ -29,19 +36,19 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
   const [isSeedingSample, setIsSeedingSample] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
-  const refreshPools = async () => {
+  const refreshPools = useCallback(async () => {
     try {
       const data = await fetchPools();
       setPools(data);
-      if (data.length > 0 && !activePool) {
-        setActivePoolState(data[0]);
+      if (data.length > 0) {
+        setActivePoolState((prev) => prev ?? data[0]);
       }
     } catch (e) {
       console.error("Error refreshing pools:", e);
     }
-  };
+  }, []);
 
-  const refreshCandidates = async (poolId: string) => {
+  const refreshCandidates = useCallback(async (poolId: string) => {
     try {
       const data = await fetchCandidates(poolId);
       setCandidates(data);
@@ -55,9 +62,22 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
       setCandidates([]);
       setActiveCandidate(null);
     }
-  };
+  }, []);
 
-  const loadSamplePool = async () => {
+  const setActivePool = useCallback(
+    (pool: TalentPool | null) => {
+      setActivePoolState(pool);
+      if (pool) {
+        refreshCandidates(pool.id);
+      } else {
+        setCandidates([]);
+        setActiveCandidate(null);
+      }
+    },
+    [refreshCandidates]
+  );
+
+  const loadSamplePool = useCallback(async () => {
     setIsSeedingSample(true);
     try {
       const samplePool = await seedSamplePool();
@@ -68,17 +88,7 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsSeedingSample(false);
     }
-  };
-
-  const setActivePool = (pool: TalentPool | null) => {
-    setActivePoolState(pool);
-    if (pool) {
-      refreshCandidates(pool.id);
-    } else {
-      setCandidates([]);
-      setActiveCandidate(null);
-    }
-  };
+  }, [refreshPools, setActivePool]);
 
   useEffect(() => {
     let isMounted = true;
@@ -119,22 +129,36 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
     }
   }, [activePool?.id]);
 
+  const value = useMemo(
+    () => ({
+      pools,
+      activePool,
+      candidates,
+      activeCandidate,
+      isSeedingSample,
+      isInitialLoading,
+      setActivePool,
+      setActiveCandidate,
+      refreshPools,
+      refreshCandidates,
+      loadSamplePool,
+    }),
+    [
+      pools,
+      activePool,
+      candidates,
+      activeCandidate,
+      isSeedingSample,
+      isInitialLoading,
+      setActivePool,
+      refreshPools,
+      refreshCandidates,
+      loadSamplePool,
+    ]
+  );
+
   return (
-    <PoolDataContext.Provider
-      value={{
-        pools,
-        activePool,
-        candidates,
-        activeCandidate,
-        isSeedingSample,
-        isInitialLoading,
-        setActivePool,
-        setActiveCandidate,
-        refreshPools,
-        refreshCandidates,
-        loadSamplePool,
-      }}
-    >
+    <PoolDataContext.Provider value={value}>
       {children}
     </PoolDataContext.Provider>
   );

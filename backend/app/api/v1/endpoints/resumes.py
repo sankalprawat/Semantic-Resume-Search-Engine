@@ -69,18 +69,23 @@ async def upload_resumes(
     uploaded_results: list[ResumeUploadResponse] = []
 
     for file in files:
-        if not file.filename or not file.filename.lower().endswith(".pdf"):
+        safe_filename = Path(file.filename).name if file.filename else ""
+        if not safe_filename or not safe_filename.lower().endswith(".pdf"):
             logger.warning(f"Skipping non-PDF file: {file.filename}")
             continue
 
         content = await file.read()
-        file_path = pool_storage / file.filename
+        if not content:
+            logger.warning(f"Skipping empty PDF file: {safe_filename}")
+            continue
+
+        file_path = pool_storage / safe_filename
         with open(file_path, "wb") as f:
             f.write(content)
 
         # 1. PyMuPDF Ingestion
-        extracted_doc = ingestion_service.extract_from_bytes(content, filename=file.filename)
-        candidate_name = extract_candidate_name(extracted_doc.raw_text, file.filename)
+        extracted_doc = ingestion_service.extract_from_bytes(content, filename=safe_filename)
+        candidate_name = extract_candidate_name(extracted_doc.raw_text, safe_filename)
 
         # 2. Sliding-Window Chunking
         chunks = chunker.chunk_document(extracted_doc)
@@ -94,8 +99,8 @@ async def upload_resumes(
             session=db,
             pool_id=pool_id,
             candidate_name=candidate_name,
-            filename=file.filename,
-            file_path=str(file_path),
+            filename=safe_filename,
+            file_path=file_path.as_posix(),
             file_size_bytes=len(content),
             page_count=extracted_doc.page_count,
             raw_text=extracted_doc.raw_text,

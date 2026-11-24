@@ -13,11 +13,6 @@ class TalentPoolCreate(TalentPoolBase):
     pass
 
 
-class TalentPoolUpdate(BaseModel):
-    title: str | None = Field(None, min_length=1, max_length=255)
-    description: str | None = None
-
-
 class TalentPoolResponse(TalentPoolBase):
     id: UUID
     candidate_count: int = 0

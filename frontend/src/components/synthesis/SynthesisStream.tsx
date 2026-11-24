@@ -10,15 +10,31 @@ import {
   FileCheck2,
   Layers,
   Loader2,
+  RotateCcw,
   ShieldAlert,
   Sparkles,
 } from "lucide-react";
 
 const CITATION_REGEX = /\[Candidate:\s*([^|\]]+)\s*\|\s*Chunk:\s*([A-Za-z0-9_-]+)\]/g;
 
+function formatModelLabel(modelId: string): string {
+  return modelId
+    .split("-")
+    .map((part) => (part ? part[0].toUpperCase() + part.slice(1) : ""))
+    .join(" ");
+}
+
 export function SynthesisStream() {
   const { activePool, candidates } = usePoolData();
-  const { streamedContent, isStreaming, doneData, streamError } = useSynthesis();
+  const {
+    query,
+    activeModel,
+    streamedContent,
+    isStreaming,
+    doneData,
+    streamError,
+    runSynthesis,
+  } = useSynthesis();
 
   // Custom text transformer that converts [Candidate: Name | Chunk: CX] into interactive badges
   const renderTextWithBadges = (children: React.ReactNode) => {
@@ -127,7 +143,11 @@ export function SynthesisStream() {
           {isStreaming && (
             <span className="inline-flex items-center space-x-1 text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800/60">
               <Loader2 className="w-2.5 h-2.5 animate-spin" />
-              <span>Streaming Gemini-4...</span>
+              <span>
+                {activeModel
+                  ? `Streaming ${formatModelLabel(activeModel)}...`
+                  : "Connecting to Gemini..."}
+              </span>
             </span>
           )}
         </div>
@@ -154,8 +174,20 @@ export function SynthesisStream() {
       {/* Main Content Area */}
       <div className="flex-1 p-5 overflow-y-auto">
         {streamError && (
-          <div className="p-3 mb-4 rounded-md bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/60 text-xs text-red-700 dark:text-red-300">
-            <strong>Evaluation Error:</strong> {streamError}
+          <div className="p-3 mb-4 rounded-md bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/60 text-xs text-red-700 dark:text-red-300 flex items-center justify-between gap-3">
+            <div>
+              <strong>Evaluation Error:</strong> {streamError}
+            </div>
+            {query.trim() && !isStreaming && (
+              <button
+                type="button"
+                onClick={() => runSynthesis()}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-[#262422] hover:bg-red-100/70 dark:hover:bg-red-950/60 border border-red-200 dark:border-red-800/60 text-[11px] font-medium text-red-700 dark:text-red-300 shrink-0 transition-colors cursor-pointer"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Retry</span>
+              </button>
+            )}
           </div>
         )}
 
@@ -170,6 +202,51 @@ export function SynthesisStream() {
             {isStreaming && (
               <span className="inline-block w-1.5 h-3.5 bg-amber-600 dark:bg-amber-400 animate-pulse ml-0.5" />
             )}
+          </div>
+        ) : isStreaming ? (
+          <div
+            aria-busy="true"
+            aria-label="Generating comparative synthesis"
+            className="space-y-5 animate-pulse"
+          >
+            {/* Executive Summary Matrix Skeleton */}
+            <div className="space-y-2.5">
+              <div className="h-3.5 w-44 rounded-md bg-stone-200 dark:bg-[#2E2B27]" />
+              <div className="border border-surface-200 dark:border-white/10 rounded-xl overflow-hidden bg-surface-50/50 dark:bg-[#1E1C1A]/50">
+                <div className="grid grid-cols-4 gap-3 px-3 py-2 border-b border-surface-200 dark:border-white/10 bg-surface-100/80 dark:bg-[#282522]/80">
+                  <div className="h-2.5 w-16 rounded bg-stone-300/80 dark:bg-stone-700/70" />
+                  <div className="h-2.5 w-14 rounded bg-stone-300/80 dark:bg-stone-700/70" />
+                  <div className="h-2.5 w-20 rounded bg-stone-300/80 dark:bg-stone-700/70" />
+                  <div className="h-2.5 w-24 rounded bg-stone-300/80 dark:bg-stone-700/70" />
+                </div>
+                {[0, 1, 2].map((row) => (
+                  <div
+                    key={row}
+                    className="grid grid-cols-4 gap-3 px-3 py-2.5 border-t border-surface-200/70 dark:border-white/[0.06]"
+                  >
+                    <div className="h-2.5 w-24 rounded bg-stone-200 dark:bg-[#2A2724]" />
+                    <div className="h-2.5 w-28 rounded bg-stone-200/80 dark:bg-[#2A2724]/80" />
+                    <div className="h-2.5 w-16 rounded bg-stone-200/80 dark:bg-[#2A2724]/80" />
+                    <div className="h-2.5 w-full rounded bg-stone-200/70 dark:bg-[#2A2724]/70" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Comparative Analysis Paragraphs Skeleton */}
+            <div className="space-y-2.5">
+              <div className="h-3.5 w-52 rounded-md bg-stone-200 dark:bg-[#2E2B27]" />
+              <div className="space-y-2">
+                <div className="h-2.5 w-full rounded bg-stone-200/80 dark:bg-[#2A2724]" />
+                <div className="h-2.5 w-11/12 rounded bg-stone-200/80 dark:bg-[#2A2724]" />
+                <div className="h-2.5 w-4/5 rounded bg-stone-200/70 dark:bg-[#2A2724]/80" />
+              </div>
+              <div className="space-y-2 pt-1">
+                <div className="h-2.5 w-full rounded bg-stone-200/80 dark:bg-[#2A2724]" />
+                <div className="h-2.5 w-5/6 rounded bg-stone-200/70 dark:bg-[#2A2724]/80" />
+                <div className="h-2.5 w-2/3 rounded bg-stone-200/60 dark:bg-[#2A2724]/70" />
+              </div>
+            </div>
           </div>
         ) : (
           <div className="h-full flex flex-col items-center justify-center text-center p-8 text-ink-muted dark:text-stone-400">

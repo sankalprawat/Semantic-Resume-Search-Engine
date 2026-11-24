@@ -25,7 +25,7 @@ async def test_health_endpoints():
         data = res.json()
         assert data["status"] == "healthy"
         assert data["embedding_model"] == "gemini-embedding-2"
-        assert data["completion_model"] == "gemini-4-hydrogen"
+        assert data["completion_model"] == "gemini-3.5-flash-lite"
 
 
 @pytest.mark.asyncio

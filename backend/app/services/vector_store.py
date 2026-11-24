@@ -69,7 +69,11 @@ class VectorStoreService:
         session: AsyncSession,
         pool_id: UUID,
     ) -> TalentPool | None:
-        query = select(TalentPool).where(TalentPool.id == pool_id)
+        query = (
+            select(TalentPool)
+            .where(TalentPool.id == pool_id)
+            .options(selectinload(TalentPool.candidates))
+        )
         result = await session.execute(query)
         return result.scalar_one_or_none()
 

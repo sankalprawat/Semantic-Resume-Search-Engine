@@ -1,4 +1,3 @@
-import re
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -39,9 +38,6 @@ class SlidingWindowChunker:
         self.target_chars = int(target_tokens * chars_per_token)
         self.overlap_chars = int(overlap_tokens * chars_per_token)
         self.step_chars = max(100, self.target_chars - self.overlap_chars)
-
-        # Regex for sentence and bullet delimiters
-        self.sentence_delimiter_pattern = re.compile(r"(?<=[.!?])\s+|(?<=\n)\s*|(?<=[•\-\*])\s+")
 
     def chunk_document(self, document: ExtractedDocument) -> list[ChunkResult]:
         """

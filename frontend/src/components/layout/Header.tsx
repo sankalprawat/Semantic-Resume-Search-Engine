@@ -24,7 +24,7 @@ interface ModelInfo {
 }
 
 const DEFAULT_MODEL_INFO: ModelInfo = {
-  completion_model: "gemini-4-hydrogen",
+  completion_model: "gemini-3.5-flash-lite",
   embedding_model: "gemini-embedding-2",
 };
 

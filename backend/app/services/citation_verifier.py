@@ -6,9 +6,9 @@ from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
-# Matches [Candidate: Name | Chunk: CX] or [Candidate: Name | Chunk: UUID]
+# Matches [Candidate: Name | Chunk: CX], [Candidate: Name | Chunk: C1, C2], or UUID
 CITATION_REGEX = re.compile(
-    r"\[(?:Candidate:\s*)?([^\|\]]+?)\s*\|\s*(?:Chunk:\s*)?([C\d]+|[a-f0-9\-]+)\]",
+    r"\[(?:Candidate:\s*)?([^\|\]]+?)\s*\|\s*(?:Chunk:\s*)?([C\d]+(?:\s*,\s*[C\d]+)*|[a-f0-9\-]+)\]",
     re.IGNORECASE,
 )
 
@@ -55,8 +55,9 @@ class CitationVerifier:
         for match in CITATION_REGEX.finditer(text):
             full_match = match.group(0)
             candidate_name = match.group(1).strip()
-            chunk_key = match.group(2).strip()
-            matches.append((full_match, candidate_name, chunk_key))
+            raw_chunk_keys = match.group(2).strip()
+            for chunk_key in (k.strip() for k in raw_chunk_keys.split(",") if k.strip()):
+                matches.append((full_match, candidate_name, chunk_key))
         return matches
 
     def verify_synthesis(

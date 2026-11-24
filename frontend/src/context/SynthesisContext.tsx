@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -15,6 +16,7 @@ import { usePoolData } from "./PoolDataContext";
 interface SynthesisContextType {
   query: string;
   isStreaming: boolean;
+  activeModel: string | null;
   streamedContent: string;
   doneData: EvaluationDonePayload | null;
   streamError: string | null;
@@ -33,6 +35,7 @@ export function SynthesisProvider({ children }: { children: React.ReactNode }) {
 
   const [query, setQuery] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [activeModel, setActiveModel] = useState<string | null>(null);
   const [streamedContent, setStreamedContent] = useState("");
   const [doneData, setDoneData] = useState<EvaluationDonePayload | null>(null);
   const [streamError, setStreamError] = useState<string | null>(null);
@@ -46,6 +49,7 @@ export function SynthesisProvider({ children }: { children: React.ReactNode }) {
       abortControllerRef.current = null;
     }
     setIsStreaming(false);
+    setActiveModel(null);
     setStreamedContent("");
     setDoneData(null);
     setStreamError(null);
@@ -57,53 +61,76 @@ export function SynthesisProvider({ children }: { children: React.ReactNode }) {
     clearSynthesis();
   }, [activePool?.id, clearSynthesis]);
 
-  const runSynthesis = async (mandateQuery?: string) => {
-    const q = mandateQuery ?? query;
-    if (!activePool || !q.trim() || isStreaming) return;
+  const runSynthesis = useCallback(
+    async (mandateQuery?: string) => {
+      const q = mandateQuery ?? query;
+      if (!activePool || !q.trim() || isStreaming) return;
 
-    clearSynthesis();
-    setIsStreaming(true);
+      clearSynthesis();
+      setIsStreaming(true);
 
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
 
-    await streamEvaluation(
-      activePool.id,
-      q.trim(),
-      (token) => {
-        setStreamedContent((prev) => prev + token);
-      },
-      (donePayload) => {
-        setDoneData(donePayload);
-        setIsStreaming(false);
-        abortControllerRef.current = null;
-      },
-      (err) => {
-        if (!controller.signal.aborted) {
-          setStreamError(err);
+      await streamEvaluation(
+        activePool.id,
+        q.trim(),
+        (token) => {
+          setStreamedContent((prev) => prev + token);
+        },
+        (donePayload) => {
+          setDoneData(donePayload);
           setIsStreaming(false);
           abortControllerRef.current = null;
+        },
+        (err) => {
+          if (!controller.signal.aborted) {
+            setStreamError(err);
+            setIsStreaming(false);
+            abortControllerRef.current = null;
+          }
+        },
+        controller.signal,
+        () => {
+          setStreamedContent("");
+        },
+        (model) => {
+          setActiveModel(model);
         }
-      },
-      controller.signal
-    );
-  };
+      );
+    },
+    [activePool, query, isStreaming, clearSynthesis]
+  );
+
+  const value = useMemo(
+    () => ({
+      query,
+      isStreaming,
+      activeModel,
+      streamedContent,
+      doneData,
+      streamError,
+      activeCitation,
+      setQuery,
+      setActiveCitation,
+      runSynthesis,
+      clearSynthesis,
+    }),
+    [
+      query,
+      isStreaming,
+      activeModel,
+      streamedContent,
+      doneData,
+      streamError,
+      activeCitation,
+      runSynthesis,
+      clearSynthesis,
+    ]
+  );
 
   return (
-    <SynthesisContext.Provider
-      value={{
-        query,
-        isStreaming,
-        streamedContent,
-        doneData,
-        streamError,
-        activeCitation,
-        setQuery,
-        setActiveCitation,
-        runSynthesis,
-        clearSynthesis,
-      }}
-    >
+    <SynthesisContext.Provider value={value}>
       {children}
     </SynthesisContext.Provider>
   );

@@ -25,9 +25,23 @@ class Settings(BaseSettings):
     # Google Gemini AI Platform
     GEMINI_API_KEY: str = ""
     EMBEDDING_MODEL: str = "gemini-embedding-2"
-    COMPLETION_MODEL: str = "gemini-4-hydrogen"
+    COMPLETION_MODEL: str = "gemini-3.5-flash-lite"
+    COMPLETION_FALLBACK_MODELS: list[str] | str = [
+        "gemini-3.1-flash-lite",
+        "gemini-3.5-flash",
+        "gemini-3.6-flash",
+        "gemini-4-hydrogen",
+        "gemini-3.8-flash",
+    ]
     EMBEDDING_DIMENSION: int = 768
-    MAX_OUTPUT_TOKENS: int = 2048
+    MAX_OUTPUT_TOKENS: int = 8192
+
+    @field_validator("COMPLETION_FALLBACK_MODELS", mode="before")
+    @classmethod
+    def assemble_fallback_models(cls, v: str | list[str]) -> list[str]:
+        if isinstance(v, str):
+            return [m.strip() for m in v.split(",") if m.strip()]
+        return v
 
     # Security & CORS
     CORS_ORIGINS: list[str] | str = ["http://localhost:3000", "http://127.0.0.1:3000"]
