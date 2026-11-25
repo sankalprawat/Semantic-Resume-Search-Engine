@@ -1,0 +1,93 @@
+{
+  "run": "02k_sse_cascade_15vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/ [probe]",
+      "requests": 23,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 0.85,
+      "p50_ms": 7.0,
+      "p95_ms": 220.0,
+      "p99_ms": 240.0,
+      "max_ms": 237.74
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/pools/[pool]/evaluate/stream",
+      "requests": 135,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 4.98,
+      "p50_ms": 2900.0,
+      "p95_ms": 3200.0,
+      "p99_ms": 3500.0,
+      "max_ms": 3467.9
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 158,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 5.83,
+      "p50_ms": 2900.0,
+      "p95_ms": 3200.0,
+      "p99_ms": 3500.0,
+      "max_ms": 3467.9
+    }
+  ],
+  "system": {
+    "samples": 31,
+    "app_cpu_avg": 8.2,
+    "app_cpu_max": 26.5,
+    "app_rss_start_mb": 134.51,
+    "app_rss_max_mb": 155.87,
+    "app_rss_end_mb": 155.87,
+    "pg_cpu_avg": 0.1,
+    "pg_cpu_max": 3.1,
+    "pg_rss_max_mb": 131.75,
+    "max_idle_in_tx": 15,
+    "max_pg_active": 1
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 15,
+    "max_overflow_obs": 5,
+    "summary": {
+      "checkouts": 173,
+      "checkins": 173,
+      "connects": 15,
+      "queries": 773,
+      "avg_query_ms": 4.619,
+      "max_checkedout": 15,
+      "max_overflow": 5,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 173,
+          "total_ms": 648.04,
+          "avg_ms": 3.746,
+          "max_ms": 49.288
+        },
+        "SELECT_CANDIDATES": {
+          "count": 150,
+          "total_ms": 496.79,
+          "avg_ms": 3.312,
+          "max_ms": 47.037
+        },
+        "SEMANTIC_SEARCH_CTE": {
+          "count": 150,
+          "total_ms": 1145.55,
+          "avg_ms": 7.637,
+          "max_ms": 62.792
+        },
+        "INSERT": {
+          "count": 300,
+          "total_ms": 1280.18,
+          "avg_ms": 4.267,
+          "max_ms": 20.427
+        }
+      }
+    }
+  }
+}

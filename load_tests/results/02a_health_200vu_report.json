@@ -1,0 +1,56 @@
+{
+  "run": "02a_health_200vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/health",
+      "requests": 31636,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1694.37,
+      "p50_ms": 54.0,
+      "p95_ms": 66.0,
+      "p99_ms": 84.0,
+      "max_ms": 287.88
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 31636,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1694.37,
+      "p50_ms": 54.0,
+      "p95_ms": 66.0,
+      "p99_ms": 84.0,
+      "max_ms": 287.88
+    }
+  ],
+  "system": {
+    "samples": 21,
+    "app_cpu_avg": 33.7,
+    "app_cpu_max": 40.5,
+    "app_rss_start_mb": 134.66,
+    "app_rss_max_mb": 149.49,
+    "app_rss_end_mb": 149.49,
+    "pg_cpu_avg": 0.0,
+    "pg_cpu_max": 0.0,
+    "pg_rss_max_mb": 130.43,
+    "max_idle_in_tx": 0,
+    "max_pg_active": 1
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 0,
+    "max_overflow_obs": -10,
+    "summary": {
+      "checkouts": 0,
+      "checkins": 0,
+      "connects": 0,
+      "queries": 0,
+      "avg_query_ms": 0.0,
+      "max_checkedout": 0,
+      "max_overflow": 0,
+      "query_buckets": {}
+    }
+  }
+}

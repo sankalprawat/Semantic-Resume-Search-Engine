@@ -1,0 +1,119 @@
+=== TOP 50 BY CUMULATIVE TIME ===
+         27205983 function calls (27082032 primitive calls) in 41.088 seconds
+
+   Ordered by: cumulative time
+   List reduced from 3593 to 50 due to restriction <50>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    43148    0.058    0.000  621.963    0.014 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\events.py:87(_run)
+     4354    0.151    0.000  559.271    0.128 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:1981(_run_once)
+43716/42465    0.240    0.000  496.437    0.012 {method 'run' of '_contextvars.Context' objects}
+     6432    0.061    0.000  362.467    0.056 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py:420(run_asgi)
+     6434    0.031    0.000  229.180    0.036 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py:28(__call__)
+     6434    0.015    0.000  198.973    0.031 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\applications.py:1130(__call__)
+     6434    0.011    0.000  190.366    0.030 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\applications.py:109(__call__)
+     6434    0.013    0.000  162.071    0.025 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\middleware\errors.py:149(__call__)
+     6434    0.026    0.000  155.559    0.024 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\middleware\cors.py:75(__call__)
+     6434    0.038    0.000  146.150    0.023 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\middleware\exceptions.py:47(__call__)
+12864/6432    0.058    0.000  141.618    0.022 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\_exception_handler.py:31(wrapped_app)
+     6434    0.272    0.000  136.184    0.021 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py:15(__call__)
+     4662    0.023    0.000  119.567    0.026 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\routing.py:318(app)
+     6434    0.208    0.000  118.356    0.018 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\routing.py:712(__call__)
+     6378    0.016    0.000  113.845    0.018 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:167(greenlet_spawn)
+  918/685    0.004    0.000   84.228    0.123 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py:2490(close)
+ 3356/479    0.011    0.000   84.009    0.175 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:93(_go)
+  554/401    0.001    0.000   83.941    0.209 <string>:1(close)
+  918/685    0.002    0.000   83.904    0.122 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py:2592(_close_impl)
+     4662    0.038    0.000   83.270    0.018 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\routing.py:280(run_endpoint_function)
+  554/401    0.005    0.000   82.954    0.207 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py:1405(close)
+     6434    0.012    0.000   82.433    0.013 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\routing.py:718(app)
+  481/478    0.003    0.000   76.449    0.160 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\base.py:1259(close)
+  481/478    0.001    0.000   75.414    0.158 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\pool\base.py:1574(close)
+  481/478    0.001    0.000   75.409    0.158 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\pool\base.py:1447(_checkin)
+  481/478    0.005    0.000   75.407    0.158 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\pool\base.py:960(_finalize_fairy)
+     4354    0.006    0.000   57.779    0.013 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py:444(select)
+     4355    0.059    0.000   42.072    0.010 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py:762(_poll)
+    31183    2.406    0.000   41.164    0.001 {built-in method _overlapped.GetQueuedCompletionStatus}
+        3    0.000    0.000   41.058   13.686 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py:323(_run_forever_cleanup)
+       34    0.000    0.000   41.053    1.207 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py:84(cancel)
+       50    0.000    0.000   41.051    0.821 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py:68(_cancel_overlapped)
+       49    0.000    0.000   41.051    0.838 {method 'cancel' of '_overlapped.Overlapped' objects}
+     6432    0.032    0.000   39.822    0.006 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\routing.py:281(handle)
+   287/15    0.003    0.000   38.916    2.594 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\queue.py:177(get)
+   290/14    0.003    0.000   38.915    2.780 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\threading.py:327(wait)
+ 2399/149    0.007    0.000   38.915    0.261 {method 'acquire' of '_thread.lock' objects}
+      3/1    0.000    0.000   38.915   38.915 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\anyio\_backends\_asyncio.py:1110(run)
+      4/1    0.000    0.000   38.914   38.914 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\threading.py:1001(_bootstrap)
+      4/1    0.066    0.017   38.914   38.914 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\threading.py:1028(_bootstrap_inner)
+   7028/3    0.067    0.000   37.826   12.609 {method 'switch' of 'greenlet.greenlet' objects}
+      271    0.012    0.000   31.156    0.115 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\pathlib\_abc.py:442(exists)
+      660    1.497    0.002   24.303    0.037 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\app\api\v1\endpoints\evaluations.py:57(list_pool_evaluations)
+     6432    0.008    0.000   19.413    0.003 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\routing.py:100(app)
+     6483    0.010    0.000   18.969    0.003 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\routing.py:103(app)
+      173    7.420    0.043   17.705    0.102 {built-in method time.sleep}
+    73/53    0.000    0.000   16.012    0.302 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\session.py:1999(commit)
+   146/53    0.000    0.000   15.985    0.302 <string>:1(commit)
+     1350    0.003    0.000   15.884    0.012 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\anyio\_core\_tasks.py:322(_run_coro)
+    19914    0.218    0.000   14.989    0.001 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py:276(_loop_reading)
+
+
+
+=== TOP 50 BY SELF TIME (TOTTIME) ===
+         27205983 function calls (27082032 primitive calls) in 41.088 seconds
+
+   Ordered by: internal time
+   List reduced from 3593 to 50 due to restriction <50>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   456084    7.466    0.000    7.466    0.000 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:351(raw_decode)
+      173    7.420    0.043   17.705    0.102 {built-in method time.sleep}
+    31183    2.406    0.000   41.164    0.001 {built-in method _overlapped.GetQueuedCompletionStatus}
+      660    1.497    0.002   24.303    0.037 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\app\api\v1\endpoints\evaluations.py:57(list_pool_evaluations)
+    19762    1.198    0.000   12.666    0.001 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py:251(_data_received)
+   455185    1.158    0.000    4.328    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\loading.py:1068(_instance)
+     1314    0.933    0.001    1.061    0.001 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\result.py:576(_raw_all_rows)
+   456084    0.764    0.000    8.313    0.000 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\json\decoder.py:340(decode)
+    19807    0.742    0.000    0.742    0.000 {method 'WSARecvInto' of '_overlapped.Overlapped' objects}
+   455285    0.672    0.000    0.672    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\state.py:201(__init__)
+   454891    0.662    0.000    0.662    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\loading.py:1329(_populate_full)
+   454847    0.554    0.000    1.788    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\instrumentation.py:501(new_instance)
+   381235    0.515    0.000    0.864    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\result.py:550(iterrows)
+   380569    0.424    0.000    0.499    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\collections.py:1138(append)
+   637399    0.415    0.000    0.596    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\row.py:204(_op)
+   454746    0.386    0.000   10.592    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py:1227(_jsonb_decoder)
+   509650    0.329    0.000    3.058    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\strategies.py:3440(<genexpr>)
+   456084    0.317    0.000    9.112    0.000 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py:304(loads)
+   922022    0.299    0.000    0.299    0.000 {method 'match' of 're.Pattern' objects}
+     6608    0.293    0.000    0.293    0.000 {method 'WSASend' of '_overlapped.Overlapped' objects}
+   380569    0.281    0.000    0.281    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\row.py:173(_filter_on_values)
+   637399    0.278    0.000    0.917    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\engine\row.py:235(__eq__)
+     6434    0.272    0.000  136.184    0.021 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py:15(__call__)
+   455285    0.271    0.000    0.596    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\state.py:539(_cleanup)
+   455141    0.256    0.000    0.256    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\identity.py:219(get)
+   455285    0.251    0.000    0.324    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\identity.py:262(_fast_discard)
+  2628/24    0.245    0.000    0.022    0.001 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\loading.py:208(chunks)
+43716/42465    0.240    0.000  496.437    0.012 {method 'run' of '_contextvars.Context' objects}
+     1306    0.238    0.000    0.281    0.000 {method 'to_python' of 'pydantic_core._pydantic_core.SchemaSerializer' objects}
+   380569    0.238    0.000    0.238    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\util.py:1817(proc)
+      367    0.226    0.001    1.642    0.004 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\app\services\rag_engine.py:447(list_evaluations_for_pool)
+    19914    0.218    0.000   14.989    0.001 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py:276(_loop_reading)
+1676967/1671887    0.213    0.000    0.261    0.000 {built-in method builtins.isinstance}
+     6434    0.208    0.000  118.356    0.018 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\starlette\routing.py:712(__call__)
+     2167    0.202    0.000    0.202    0.000 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py:207(iterencode)
+   675002    0.178    0.000    0.178    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py:555(__get__)
+79875/79365    0.151    0.000    0.298    0.000 {method 'validate_python' of 'pydantic_core._pydantic_core.SchemaValidator' objects}
+     4354    0.151    0.000  559.271    0.128 C:\Users\sanka\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py:1981(_run_once)
+   473485    0.137    0.000    0.139    0.000 {method 'decode' of 'bytes' objects}
+   479809    0.132    0.000    0.132    0.000 {built-in method __new__ of type object at 0x00007FFB7921A8A0}
+  510/508    0.124    0.000    0.158    0.000 {built-in method nt.stat}
+   912168    0.119    0.000    0.119    0.000 {method 'end' of 're.Match' objects}
+4199/4190    0.110    0.000    0.122    0.000 {method 'flush' of '_io.TextIOWrapper' objects}
+   133947    0.110    0.000    3.908    0.000 {method 'extend' of 'list' objects}
+   302233    0.101    0.000    0.265    0.000 {method 'get' of 'dict' objects}
+    74795    0.101    0.000    1.232    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\attributes.py:2022(set_committed_value)
+   454847    0.101    0.000    0.101    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\identity.py:207(_add_unpresent)
+   566661    0.097    0.000    0.097    0.000 {method 'pop' of 'dict' objects}
+   456928    0.097    0.000    0.097    0.000 {method 'issuperset' of 'frozenset' objects}
+    74795    0.096    0.000    0.324    0.000 C:\Users\sanka\OneDrive\Desktop\Multi-Candidate Semantic Talent Engine\backend\.venv\Lib\site-packages\sqlalchemy\orm\collections.py:577(append_multiple_without_event)
+
+

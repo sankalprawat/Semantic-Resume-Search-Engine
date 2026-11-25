@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
@@ -49,10 +49,12 @@ async def create_talent_pool(
 @router.get("", response_model=list[TalentPoolResponse])
 @router.get("/", response_model=list[TalentPoolResponse])
 async def list_talent_pools(
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
 ) -> list[TalentPoolResponse]:
-    """List all hiring requisition pools with candidate counts."""
-    pools = await vector_store.list_pools(session=db)
+    """List hiring requisition pools with candidate counts."""
+    pools = await vector_store.list_pools(session=db, limit=limit, offset=offset)
     return [TalentPoolResponse(**p) for p in pools]
 
 
@@ -62,35 +64,34 @@ async def get_talent_pool(
     db: AsyncSession = Depends(get_db),
 ) -> TalentPoolResponse:
     """Fetch details of a single talent pool."""
-    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
+    pool = await vector_store.get_pool_with_count(session=db, pool_id=pool_id)
     if not pool:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Talent pool with id {pool_id} not found",
         )
-    return TalentPoolResponse(
-        id=pool.id,
-        title=pool.title,
-        description=pool.description,
-        candidate_count=len(pool.candidates) if pool.candidates else 0,
-        created_at=pool.created_at,
-        updated_at=pool.updated_at,
-    )
+    return TalentPoolResponse(**pool)
 
 
 @router.get("/{pool_id}/candidates", response_model=list[CandidateListItem])
 async def list_pool_candidates(
     pool_id: UUID,
+    limit: int = Query(200, ge=1, le=1000),
+    offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
 ) -> list[CandidateListItem]:
-    """Fetch all candidates and their resume details within a talent pool."""
-    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
-    if not pool:
+    """Fetch candidates and their resume metadata within a talent pool."""
+    if not await vector_store.pool_exists(session=db, pool_id=pool_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Talent pool with id {pool_id} not found",
         )
-    return await vector_store.list_candidates_for_pool(session=db, pool_id=pool_id)
+    return await vector_store.list_candidates_for_pool(
+        session=db,
+        pool_id=pool_id,
+        limit=limit,
+        offset=offset,
+    )
 
 
 @router.delete("/{pool_id}", status_code=status.HTTP_204_NO_CONTENT)

@@ -1,22 +1,25 @@
+import asyncio
 import logging
 from pathlib import Path
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, File, HTTPException, Response, UploadFile, status
+import aiofiles
+from fastapi import APIRouter, File, HTTPException, Response, UploadFile, status
 from fastapi.responses import FileResponse
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.core.database import get_db
+from app.core.database import AsyncSessionLocal
 from app.schemas.resume import BatchResumeUploadResponse, ResumeUploadResponse
-from app.services.chunking import chunker
+from app.services.chunking import ChunkResult, chunker
 from app.services.embeddings import embedding_service
-from app.services.ingestion import ingestion_service
+from app.services.ingestion import ExtractedDocument, ingestion_service
 from app.services.vector_store import vector_store
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+_READ_CHUNK_BYTES = 1024 * 1024  # 1 MiB
 
 
 def extract_candidate_name(raw_text: str, filename: str) -> str:
@@ -42,29 +45,77 @@ def extract_candidate_name(raw_text: str, filename: str) -> str:
     return cleaned or "Candidate"
 
 
+def _parse_and_chunk_pdf(
+    content: bytes,
+    filename: str,
+) -> tuple[ExtractedDocument, str, list[ChunkResult]]:
+    """CPU-bound PDF extraction + sliding-window chunking helper executed off the event loop."""
+    extracted_doc = ingestion_service.extract_from_bytes(content, filename=filename)
+    candidate_name = extract_candidate_name(extracted_doc.raw_text, filename)
+    chunks = chunker.chunk_document(extracted_doc)
+    return extracted_doc, candidate_name, chunks
+
+
+def _resolve_existing_file(possible_paths: list[Path]) -> Path | None:
+    for p in possible_paths:
+        if p.exists() and p.is_file():
+            return p
+    return None
+
+
+def _build_fallback_pdf_bytes(raw_text: str) -> bytes:
+    import pymupdf
+
+    doc = pymupdf.open()
+    page = doc.new_page(width=595, height=842)  # Standard A4
+    rect = pymupdf.Rect(50, 50, 545, 792)
+    page.insert_textbox(rect, raw_text, fontsize=10)
+    pdf_bytes = doc.tobytes()
+    doc.close()
+    return pdf_bytes
+
+
+async def _read_bounded_upload(file: UploadFile, max_bytes: int, filename: str) -> bytes:
+    chunks: list[bytes] = []
+    total = 0
+    while True:
+        chunk = await file.read(_READ_CHUNK_BYTES)
+        if not chunk:
+            break
+        total += len(chunk)
+        if total > max_bytes:
+            raise HTTPException(
+                status_code=413,
+                detail=(
+                    f"File '{filename}' exceeds maximum upload size "
+                    f"of {settings.MAX_UPLOAD_SIZE_MB} MB"
+                ),
+            )
+        chunks.append(chunk)
+    return b"".join(chunks)
+
+
 @router.post("/{pool_id}/upload", response_model=BatchResumeUploadResponse)
 async def upload_resumes(
     pool_id: UUID,
     files: list[UploadFile] = File(...),
-    db: AsyncSession = Depends(get_db),
 ) -> BatchResumeUploadResponse:
     """
     Batch upload candidate PDF resumes into a talent pool.
-    Pipeline:
-    1. PyMuPDF extracts text streams and bounding boxes.
-    2. SlidingWindowChunker generates 400-token chunks with sentence boundary snapping.
-    3. GeminiEmbeddingService generates 768-dim embeddings using gemini-embedding-2.
-    4. Database atomically persists Candidate, Resume, and ResumeChunks with HNSW vectors.
+    Offloads CPU-bound PDF parsing/chunking and disk writes from the event loop,
+    uses batched embeddings, and opens short-lived DB sessions only for SQL steps.
     """
-    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
-    if not pool:
+    async with AsyncSessionLocal() as db:
+        exists = await vector_store.pool_exists(session=db, pool_id=pool_id)
+    if not exists:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Talent pool with id {pool_id} not found",
         )
 
     pool_storage = settings.STORAGE_LOCAL_DIR / str(pool_id)
-    pool_storage.mkdir(parents=True, exist_ok=True)
+    await asyncio.to_thread(pool_storage.mkdir, parents=True, exist_ok=True)
+    max_upload_bytes = settings.MAX_UPLOAD_SIZE_MB * 1024 * 1024
 
     uploaded_results: list[ResumeUploadResponse] = []
 
@@ -74,40 +125,41 @@ async def upload_resumes(
             logger.warning(f"Skipping non-PDF file: {file.filename}")
             continue
 
-        content = await file.read()
+        content = await _read_bounded_upload(file, max_upload_bytes, safe_filename)
         if not content:
             logger.warning(f"Skipping empty PDF file: {safe_filename}")
             continue
 
         file_path = pool_storage / safe_filename
-        with open(file_path, "wb") as f:
-            f.write(content)
+        async with aiofiles.open(file_path, "wb") as f:
+            await f.write(content)
 
-        # 1. PyMuPDF Ingestion
-        extracted_doc = ingestion_service.extract_from_bytes(content, filename=safe_filename)
-        candidate_name = extract_candidate_name(extracted_doc.raw_text, safe_filename)
+        # 1 & 2. PyMuPDF Ingestion + Sliding-Window Chunking (offloaded to worker thread)
+        extracted_doc, candidate_name, chunks = await asyncio.to_thread(
+            _parse_and_chunk_pdf,
+            content,
+            safe_filename,
+        )
 
-        # 2. Sliding-Window Chunking
-        chunks = chunker.chunk_document(extracted_doc)
-
-        # 3. Gemini Embeddings Generation
+        # 3. Batched Gemini Embeddings Generation (no DB connection held)
         chunk_texts = [c.text_content for c in chunks]
         embeddings = await embedding_service.embed_texts_batch(chunk_texts)
 
-        # 4. Atomic PostgreSQL Persistence
-        candidate, resume, chunk_rows = await vector_store.save_candidate_and_resume(
-            session=db,
-            pool_id=pool_id,
-            candidate_name=candidate_name,
-            filename=safe_filename,
-            file_path=file_path.as_posix(),
-            file_size_bytes=len(content),
-            page_count=extracted_doc.page_count,
-            raw_text=extracted_doc.raw_text,
-            is_scanned=extracted_doc.is_scanned,
-            chunks=chunks,
-            embeddings=embeddings,
-        )
+        # 4. Atomic PostgreSQL Persistence in short-lived session
+        async with AsyncSessionLocal() as db:
+            candidate, resume, chunk_rows = await vector_store.save_candidate_and_resume(
+                session=db,
+                pool_id=pool_id,
+                candidate_name=candidate_name,
+                filename=safe_filename,
+                file_path=file_path.as_posix(),
+                file_size_bytes=len(content),
+                page_count=extracted_doc.page_count,
+                raw_text=extracted_doc.raw_text,
+                is_scanned=extracted_doc.is_scanned,
+                chunks=chunks,
+                embeddings=embeddings,
+            )
 
         uploaded_results.append(
             ResumeUploadResponse(
@@ -131,10 +183,10 @@ async def upload_resumes(
 @router.get("/{candidate_id}/file")
 async def get_candidate_resume_file(
     candidate_id: UUID,
-    db: AsyncSession = Depends(get_db),
 ) -> Response:
     """Streams the raw candidate resume PDF file for client-side rendering."""
-    resume = await vector_store.get_candidate_resume(session=db, candidate_id=candidate_id)
+    async with AsyncSessionLocal() as db:
+        resume = await vector_store.get_candidate_resume(session=db, candidate_id=candidate_id)
     if not resume:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -153,26 +205,18 @@ async def get_candidate_resume_file(
         Path("storage/resumes/0310dece-8d3a-4504-802e-f39f03895052") / filename,
     ]
 
-    for p in possible_paths:
-        if p.exists() and p.is_file():
-            return FileResponse(
-                path=str(p),
-                filename=resume.filename,
-                media_type="application/pdf",
-            )
+    found_path = await asyncio.to_thread(_resolve_existing_file, possible_paths)
+    if found_path is not None:
+        return FileResponse(
+            path=str(found_path),
+            filename=resume.filename,
+            media_type="application/pdf",
+        )
 
-    # Ephemeral cloud fallback: Reconstruct PDF document on the fly from raw_text
+    # Ephemeral cloud fallback: Reconstruct PDF document on the fly off the event loop
     if resume.raw_text:
         try:
-            import pymupdf
-
-            doc = pymupdf.open()
-            page = doc.new_page(width=595, height=842)  # Standard A4
-            rect = pymupdf.Rect(50, 50, 545, 792)
-            page.insert_textbox(rect, resume.raw_text, fontsize=10)
-            pdf_bytes = doc.tobytes()
-            doc.close()
-
+            pdf_bytes = await asyncio.to_thread(_build_fallback_pdf_bytes, resume.raw_text)
             return Response(
                 content=pdf_bytes,
                 media_type="application/pdf",

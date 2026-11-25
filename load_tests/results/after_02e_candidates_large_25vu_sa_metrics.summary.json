@@ -1,0 +1,23 @@
+{
+  "checkouts": 3746,
+  "checkins": 3746,
+  "connects": 46,
+  "queries": 7492,
+  "avg_query_ms": 31.359,
+  "max_checkedout": 24,
+  "max_overflow": 15,
+  "query_buckets": {
+    "SELECT_TALENT_POOLS": {
+      "count": 3746,
+      "total_ms": 137832.18,
+      "avg_ms": 36.794,
+      "max_ms": 167.779
+    },
+    "SELECT_RESUME_CHUNKS": {
+      "count": 3746,
+      "total_ms": 97112.28,
+      "avg_ms": 25.924,
+      "max_ms": 144.788
+    }
+  }
+}

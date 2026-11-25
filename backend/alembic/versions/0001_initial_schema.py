@@ -221,6 +221,18 @@ def upgrade() -> None:
         ["evaluation_id"],
         unique=False,
     )
+    op.create_index(
+        op.f("ix_evaluation_citations_candidate_id"),
+        "evaluation_citations",
+        ["candidate_id"],
+        unique=False,
+    )
+    op.create_index(
+        op.f("ix_evaluation_citations_chunk_id"),
+        "evaluation_citations",
+        ["chunk_id"],
+        unique=False,
+    )
 
 
 def downgrade() -> None:

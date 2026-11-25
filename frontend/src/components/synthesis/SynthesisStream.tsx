@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { usePoolData, useSynthesis } from "@/context/EngineContext";
+import { useSynthesis } from "@/context/EngineContext";
 import { CitationBadge } from "./CitationBadge";
 import {
   CheckCircle2,
@@ -25,7 +25,6 @@ function formatModelLabel(modelId: string): string {
 }
 
 export function SynthesisStream() {
-  const { activePool, candidates } = usePoolData();
   const {
     query,
     activeModel,
@@ -35,6 +34,24 @@ export function SynthesisStream() {
     streamError,
     runSynthesis,
   } = useSynthesis();
+
+  // Throttle ReactMarkdown re-parses during active SSE streaming (~60ms cadence)
+  const [renderedContent, setRenderedContent] = useState(streamedContent);
+  const latestContentRef = useRef(streamedContent);
+  latestContentRef.current = streamedContent;
+
+  useEffect(() => {
+    if (!isStreaming || !streamedContent) {
+      setRenderedContent(streamedContent);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setRenderedContent(latestContentRef.current);
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [streamedContent, isStreaming]);
 
   // Custom text transformer that converts [Candidate: Name | Chunk: CX] into interactive badges
   const renderTextWithBadges = (children: React.ReactNode) => {
@@ -128,7 +145,7 @@ export function SynthesisStream() {
         <strong className="font-semibold text-ink-primary dark:text-stone-100">{children}</strong>
       ),
     }),
-    [doneData, candidates]
+    []
   );
 
   return (
@@ -191,13 +208,13 @@ export function SynthesisStream() {
           </div>
         )}
 
-        {streamedContent ? (
+        {renderedContent ? (
           <div className="prose-xs max-w-none text-ink-primary dark:text-stone-200">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={markdownComponents}
             >
-              {streamedContent}
+              {renderedContent}
             </ReactMarkdown>
             {isStreaming && (
               <span className="inline-block w-1.5 h-3.5 bg-amber-600 dark:bg-amber-400 animate-pulse ml-0.5" />

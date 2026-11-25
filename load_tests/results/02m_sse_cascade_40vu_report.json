@@ -1,0 +1,93 @@
+{
+  "run": "02m_sse_cascade_40vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/ [probe]",
+      "requests": 114,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1.73,
+      "p50_ms": 310.0,
+      "p95_ms": 2400.0,
+      "p99_ms": 3400.0,
+      "max_ms": 3376.02
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/pools/[pool]/evaluate/stream",
+      "requests": 660,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 10.04,
+      "p50_ms": 3300.0,
+      "p95_ms": 5200.0,
+      "p99_ms": 5800.0,
+      "max_ms": 6283.75
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 774,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 11.77,
+      "p50_ms": 3200.0,
+      "p95_ms": 5200.0,
+      "p99_ms": 5400.0,
+      "max_ms": 6283.75
+    }
+  ],
+  "system": {
+    "samples": 69,
+    "app_cpu_avg": 13.7,
+    "app_cpu_max": 34.3,
+    "app_rss_start_mb": 134.68,
+    "app_rss_max_mb": 184.1,
+    "app_rss_end_mb": 173.9,
+    "pg_cpu_avg": 0.2,
+    "pg_cpu_max": 6.2,
+    "pg_rss_max_mb": 131.45,
+    "max_idle_in_tx": 30,
+    "max_pg_active": 5
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 30,
+    "max_overflow_obs": 20,
+    "summary": {
+      "checkouts": 783,
+      "checkins": 783,
+      "connects": 30,
+      "queries": 3459,
+      "avg_query_ms": 6.159,
+      "max_checkedout": 30,
+      "max_overflow": 20,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 783,
+          "total_ms": 4059.91,
+          "avg_ms": 5.185,
+          "max_ms": 66.232
+        },
+        "SELECT_CANDIDATES": {
+          "count": 669,
+          "total_ms": 3133.74,
+          "avg_ms": 4.684,
+          "max_ms": 52.257
+        },
+        "SEMANTIC_SEARCH_CTE": {
+          "count": 669,
+          "total_ms": 6826.82,
+          "avg_ms": 10.205,
+          "max_ms": 69.074
+        },
+        "INSERT": {
+          "count": 1338,
+          "total_ms": 7281.79,
+          "avg_ms": 5.442,
+          "max_ms": 22.552
+        }
+      }
+    }
+  }
+}

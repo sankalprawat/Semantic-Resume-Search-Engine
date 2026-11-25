@@ -6,6 +6,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { Candidate, TalentPool } from "@/types";
@@ -35,6 +36,7 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
   const [activeCandidate, setActiveCandidate] = useState<Candidate | null>(null);
   const [isSeedingSample, setIsSeedingSample] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const candidatesAbortRef = useRef<AbortController | null>(null);
 
   const refreshPools = useCallback(async () => {
     try {
@@ -49,15 +51,23 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const refreshCandidates = useCallback(async (poolId: string) => {
+    if (candidatesAbortRef.current) {
+      candidatesAbortRef.current.abort();
+    }
+    const controller = new AbortController();
+    candidatesAbortRef.current = controller;
+
     try {
-      const data = await fetchCandidates(poolId);
+      const data = await fetchCandidates(poolId, controller.signal);
+      if (controller.signal.aborted) return;
       setCandidates(data);
       if (data.length > 0) {
         setActiveCandidate(data[0]);
       } else {
         setActiveCandidate(null);
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e?.name === "AbortError" || controller.signal.aborted) return;
       console.error("Error refreshing candidates:", e);
       setCandidates([]);
       setActiveCandidate(null);
@@ -70,6 +80,10 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
       if (pool) {
         refreshCandidates(pool.id);
       } else {
+        if (candidatesAbortRef.current) {
+          candidatesAbortRef.current.abort();
+          candidatesAbortRef.current = null;
+        }
         setCandidates([]);
         setActiveCandidate(null);
       }
@@ -120,14 +134,9 @@ export function PoolDataProvider({ children }: { children: React.ReactNode }) {
     init();
     return () => {
       isMounted = false;
+      candidatesAbortRef.current?.abort();
     };
   }, []);
-
-  useEffect(() => {
-    if (activePool && !isInitialLoading) {
-      refreshCandidates(activePool.id);
-    }
-  }, [activePool?.id]);
 
   const value = useMemo(
     () => ({

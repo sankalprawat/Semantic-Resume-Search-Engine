@@ -1,0 +1,69 @@
+{
+  "run": "after_02g_eval_list_25vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/[pool]/evaluations",
+      "requests": 4903,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 257.5,
+      "p50_ms": 63.0,
+      "p95_ms": 97.0,
+      "p99_ms": 190.0,
+      "max_ms": 322.36
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 4903,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 257.5,
+      "p50_ms": 63.0,
+      "p95_ms": 97.0,
+      "p99_ms": 190.0,
+      "max_ms": 322.36
+    }
+  ],
+  "system": {
+    "samples": 21,
+    "app_cpu_avg": 90.5,
+    "app_cpu_max": 101.3,
+    "app_rss_start_mb": 135.2,
+    "app_rss_max_mb": 148.2,
+    "app_rss_end_mb": 148.12,
+    "pg_cpu_avg": 0.9,
+    "pg_cpu_max": 3.1,
+    "pg_rss_max_mb": 151.16,
+    "max_idle_in_tx": 18,
+    "max_pg_active": 7
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 21,
+    "max_overflow_obs": 15,
+    "summary": {
+      "checkouts": 4982,
+      "checkins": 4982,
+      "connects": 63,
+      "queries": 9964,
+      "avg_query_ms": 22.418,
+      "max_checkedout": 25,
+      "max_overflow": 15,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 4982,
+          "total_ms": 119509.02,
+          "avg_ms": 23.988,
+          "max_ms": 148.496
+        },
+        "SELECT_EVAL_CITATIONS": {
+          "count": 4982,
+          "total_ms": 103859.88,
+          "avg_ms": 20.847,
+          "max_ms": 137.124
+        }
+      }
+    }
+  }
+}

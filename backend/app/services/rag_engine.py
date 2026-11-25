@@ -7,12 +7,15 @@ from typing import Any
 from uuid import UUID, uuid4
 
 from google import genai
-from google.genai import errors as genai_errors, types
-from sqlalchemy import select
+from google.genai import errors as genai_errors
+from google.genai import types
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from app.core.config import settings
+from app.core.database import AsyncSessionLocal
+from app.models.candidate import Candidate
+from app.models.chunk import ResumeChunk
 from app.models.evaluation import Evaluation, EvaluationCitation
 from app.schemas.evaluation import CitationDetail, EvaluationListItem, EvaluationResponse
 from app.schemas.search import CandidateSearchResult
@@ -168,7 +171,7 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
 
     async def stream_comparative_synthesis(
         self,
-        session: AsyncSession,
+        session: AsyncSession | None,
         pool_id: UUID,
         query: str,
         top_k: int = 15,
@@ -178,19 +181,32 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
         """
         Asynchronous generator yielding Server-Sent Events (SSE) formatted data.
         Streams markdown tokens, runs anti-hallucination verification, persists the
-        completed evaluation to Supabase, and delivers final metadata.
+        completed evaluation to PostgreSQL, and delivers final metadata.
+        Uses short-lived DB sessions when `session` is None so no connection stays pinned
+        during embedding calls or multi-second LLM streaming.
         """
-        # 1. Vectorize query & retrieve relevant candidate chunks
+        # 1. Vectorize query (external API) & retrieve relevant candidate chunks
         try:
             query_vector = await embedding_service.embed_text(query)
-            candidates = await vector_store.semantic_search(
-                session=session,
-                pool_id=pool_id,
-                query_vector=query_vector,
-                top_k=top_k,
-                min_similarity=min_similarity,
-                max_per_candidate=settings.MAX_CHUNKS_PER_CANDIDATE,
-            )
+            if session is not None:
+                candidates = await vector_store.semantic_search(
+                    session=session,
+                    pool_id=pool_id,
+                    query_vector=query_vector,
+                    top_k=top_k,
+                    min_similarity=min_similarity,
+                    max_per_candidate=settings.MAX_CHUNKS_PER_CANDIDATE,
+                )
+            else:
+                async with AsyncSessionLocal() as db:
+                    candidates = await vector_store.semantic_search(
+                        session=db,
+                        pool_id=pool_id,
+                        query_vector=query_vector,
+                        top_k=top_k,
+                        min_similarity=min_similarity,
+                        max_per_candidate=settings.MAX_CHUNKS_PER_CANDIDATE,
+                    )
         except Exception as e:
             logger.error(f"Error retrieving candidate chunks: {e}", exc_info=True)
             err_event = {
@@ -344,22 +360,23 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
             synthesis_markdown=full_synthesis,
             candidate_ids=[str(c.candidate_id) for c in candidates],
         )
-        session.add(eval_row)
 
+        cit_rows: list[EvaluationCitation] = []
         citation_dtos: list[CitationDetail] = []
         for v_cit in grounding_report.valid_citations:
             cit_id = uuid4()
-            cit_row = EvaluationCitation(
-                id=cit_id,
-                evaluation_id=eval_id,
-                candidate_id=v_cit.candidate_id,
-                chunk_id=v_cit.chunk_id,
-                citation_index=v_cit.citation_index,
-                source_text=v_cit.source_text,
-                page_number=v_cit.page_number,
-                bounding_boxes=v_cit.bounding_boxes,
+            cit_rows.append(
+                EvaluationCitation(
+                    id=cit_id,
+                    evaluation_id=eval_id,
+                    candidate_id=v_cit.candidate_id,
+                    chunk_id=v_cit.chunk_id,
+                    citation_index=v_cit.citation_index,
+                    source_text=v_cit.source_text,
+                    page_number=v_cit.page_number,
+                    bounding_boxes=v_cit.bounding_boxes,
+                )
             )
-            session.add(cit_row)
 
             citation_dtos.append(
                 CitationDetail(
@@ -375,7 +392,17 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
                 )
             )
 
-        await session.commit()
+        if session is not None:
+            session.add(eval_row)
+            if cit_rows:
+                session.add_all(cit_rows)
+            await session.commit()
+        else:
+            async with AsyncSessionLocal() as db:
+                db.add(eval_row)
+                if cit_rows:
+                    db.add_all(cit_rows)
+                await db.commit()
 
         # 6. Final Stream Event
         done_event = {
@@ -394,37 +421,46 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
         session: AsyncSession,
         evaluation_id: UUID,
     ) -> EvaluationResponse | None:
-        """Fetches a persisted evaluation with its citations."""
-        query = (
-            select(Evaluation)
-            .where(Evaluation.id == evaluation_id)
-            .options(
-                selectinload(Evaluation.citations).selectinload(EvaluationCitation.candidate),
-                selectinload(Evaluation.citations).selectinload(EvaluationCitation.chunk),
-            )
-        )
-        res = await session.execute(query)
-        eval_obj = res.scalar_one_or_none()
+        """Fetches a persisted evaluation with projected citations (no chunk vector hydration)."""
+        eval_obj = (
+            await session.execute(select(Evaluation).where(Evaluation.id == evaluation_id))
+        ).scalar_one_or_none()
         if not eval_obj:
             return None
 
-        cit_dtos = sorted(
-            [
-                CitationDetail(
-                    id=c.id,
-                    citation_index=c.citation_index,
-                    candidate_id=c.candidate_id,
-                    candidate_name=c.candidate.full_name if c.candidate else "Candidate",
-                    chunk_id=c.chunk_id,
-                    chunk_index=c.chunk.chunk_index if c.chunk else 0,
-                    page_number=c.page_number,
-                    source_text=c.source_text,
-                    bounding_boxes=c.bounding_boxes or [],
-                )
-                for c in eval_obj.citations
-            ],
-            key=lambda c: c.citation_index,
+        cit_query = (
+            select(
+                EvaluationCitation.id,
+                EvaluationCitation.citation_index,
+                EvaluationCitation.candidate_id,
+                func.coalesce(Candidate.full_name, "Candidate").label("candidate_name"),
+                EvaluationCitation.chunk_id,
+                func.coalesce(ResumeChunk.chunk_index, 0).label("chunk_index"),
+                EvaluationCitation.page_number,
+                EvaluationCitation.source_text,
+                EvaluationCitation.bounding_boxes,
+            )
+            .outerjoin(Candidate, EvaluationCitation.candidate_id == Candidate.id)
+            .outerjoin(ResumeChunk, EvaluationCitation.chunk_id == ResumeChunk.id)
+            .where(EvaluationCitation.evaluation_id == evaluation_id)
+            .order_by(EvaluationCitation.citation_index.asc())
         )
+        cit_rows = (await session.execute(cit_query)).all()
+
+        cit_dtos = [
+            CitationDetail(
+                id=row.id,
+                citation_index=row.citation_index,
+                candidate_id=row.candidate_id,
+                candidate_name=row.candidate_name,
+                chunk_id=row.chunk_id,
+                chunk_index=row.chunk_index,
+                page_number=row.page_number,
+                source_text=row.source_text,
+                bounding_boxes=row.bounding_boxes or [],
+            )
+            for row in cit_rows
+        ]
 
         total_parsed = len(citation_verifier.parse_citations(eval_obj.synthesis_markdown))
         grounding_score = (
@@ -448,30 +484,69 @@ evaluation assessing multiple engineers side-by-side against a specific hiring m
         self,
         session: AsyncSession,
         pool_id: UUID,
+        limit: int = 50,
+        offset: int = 0,
     ) -> list[EvaluationListItem]:
-        """Lists previous evaluations generated for a talent pool."""
-        query = (
-            select(Evaluation)
+        """Lists historical evaluations using SQL projections without hydrating citation JSONB."""
+        paged_evals = (
+            select(
+                Evaluation.id,
+                Evaluation.pool_id,
+                Evaluation.query_text,
+                func.left(Evaluation.synthesis_markdown, 201).label("synthesis_head"),
+                func.jsonb_array_length(Evaluation.candidate_ids).label("candidate_count"),
+                Evaluation.created_at,
+            )
             .where(Evaluation.pool_id == pool_id)
-            .options(selectinload(Evaluation.citations))
             .order_by(Evaluation.created_at.desc())
+            .limit(limit)
+            .offset(offset)
+            .cte("paged_evals")
         )
-        res = await session.execute(query)
-        evals = res.scalars().all()
 
+        citation_counts = (
+            select(
+                EvaluationCitation.evaluation_id,
+                func.count(EvaluationCitation.id).label("citation_count"),
+            )
+            .where(EvaluationCitation.evaluation_id.in_(select(paged_evals.c.id)))
+            .group_by(EvaluationCitation.evaluation_id)
+            .subquery()
+        )
+
+        query = (
+            select(
+                paged_evals.c.id,
+                paged_evals.c.pool_id,
+                paged_evals.c.query_text,
+                paged_evals.c.synthesis_head,
+                paged_evals.c.candidate_count,
+                func.coalesce(citation_counts.c.citation_count, 0).label("citation_count"),
+                paged_evals.c.created_at,
+            )
+            .outerjoin(
+                citation_counts,
+                citation_counts.c.evaluation_id == paged_evals.c.id,
+            )
+            .order_by(paged_evals.c.created_at.desc())
+        )
+
+        rows = (await session.execute(query)).all()
         return [
             EvaluationListItem(
-                id=e.id,
-                pool_id=e.pool_id,
-                query_text=e.query_text,
-                synthesis_preview=e.synthesis_markdown[:200] + "..."
-                if len(e.synthesis_markdown) > 200
-                else e.synthesis_markdown,
-                candidate_count=len(e.candidate_ids),
-                citation_count=len(e.citations) if e.citations else 0,
-                created_at=e.created_at,
+                id=row.id,
+                pool_id=row.pool_id,
+                query_text=row.query_text,
+                synthesis_preview=(
+                    row.synthesis_head[:200] + "..."
+                    if len(row.synthesis_head) > 200
+                    else row.synthesis_head
+                ),
+                candidate_count=row.candidate_count,
+                citation_count=row.citation_count,
+                created_at=row.created_at,
             )
-            for e in evals
+            for row in rows
         ]
 
 

@@ -1,0 +1,179 @@
+[
+  {
+    "run": "03_soak_18vu_180s",
+    "endpoints": [
+      {
+        "type": "GET",
+        "name": "GET /api/v1/pools/",
+        "requests": 712,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 3.95,
+        "p50_ms": 35.0,
+        "p95_ms": 260.0,
+        "p99_ms": 350.0,
+        "max_ms": 421.6
+      },
+      {
+        "type": "GET",
+        "name": "GET /api/v1/pools/[pool]/evaluations",
+        "requests": 187,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 1.04,
+        "p50_ms": 1200.0,
+        "p95_ms": 3600.0,
+        "p99_ms": 4200.0,
+        "max_ms": 4331.35
+      },
+      {
+        "type": "GET",
+        "name": "GET /api/v1/pools/[small]/candidates",
+        "requests": 502,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 2.79,
+        "p50_ms": 52.0,
+        "p95_ms": 320.0,
+        "p99_ms": 440.0,
+        "max_ms": 722.54
+      },
+      {
+        "type": "GET",
+        "name": "GET /api/v1/resumes/[id]/file",
+        "requests": 326,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 1.81,
+        "p50_ms": 54.0,
+        "p95_ms": 330.0,
+        "p99_ms": 430.0,
+        "max_ms": 517.96
+      },
+      {
+        "type": "POST",
+        "name": "POST /api/v1/pools/[pool]/evaluate/stream",
+        "requests": 402,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 2.23,
+        "p50_ms": 3000.0,
+        "p95_ms": 3300.0,
+        "p99_ms": 3500.0,
+        "max_ms": 3731.22
+      },
+      {
+        "type": "POST",
+        "name": "POST /api/v1/pools/[pool]/search",
+        "requests": 396,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 2.2,
+        "p50_ms": 350.0,
+        "p95_ms": 680.0,
+        "p99_ms": 870.0,
+        "max_ms": 975.83
+      },
+      {
+        "type": "POST",
+        "name": "POST /api/v1/resumes/[pool]/upload",
+        "requests": 130,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 0.72,
+        "p50_ms": 470.0,
+        "p95_ms": 1000.0,
+        "p99_ms": 1300.0,
+        "max_ms": 1498.01
+      },
+      {
+        "type": "",
+        "name": "Aggregated",
+        "requests": 2655,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 14.74,
+        "p50_ms": 190.0,
+        "p95_ms": 3100.0,
+        "p99_ms": 3400.0,
+        "max_ms": 4331.35
+      }
+    ],
+    "system": {
+      "samples": 182,
+      "app_cpu_avg": 72.8,
+      "app_cpu_max": 102.8,
+      "app_rss_start_mb": 134.51,
+      "app_rss_max_mb": 477.86,
+      "app_rss_end_mb": 419.45,
+      "pg_cpu_avg": 0.1,
+      "pg_cpu_max": 1.6,
+      "pg_rss_max_mb": 142.58,
+      "max_idle_in_tx": 15,
+      "max_pg_active": 7
+    },
+    "sqlalchemy": {
+      "max_checkedout_obs": 17,
+      "max_overflow_obs": 8,
+      "summary": {
+        "checkouts": 2790,
+        "checkins": 2790,
+        "connects": 50,
+        "queries": 8990,
+        "avg_query_ms": 32.65,
+        "max_checkedout": 17,
+        "max_overflow": 8,
+        "query_buckets": {
+          "SELECT_RESUMES": {
+            "count": 958,
+            "total_ms": 7553.03,
+            "avg_ms": 7.884,
+            "max_ms": 283.974
+          },
+          "SELECT_TALENT_POOLS": {
+            "count": 2334,
+            "total_ms": 26630.23,
+            "avg_ms": 11.41,
+            "max_ms": 329.713
+          },
+          "SELECT_CANDIDATES": {
+            "count": 2254,
+            "total_ms": 15607.24,
+            "avg_ms": 6.924,
+            "max_ms": 253.214
+          },
+          "SELECT_RESUME_CHUNKS": {
+            "count": 502,
+            "total_ms": 6401.45,
+            "avg_ms": 12.752,
+            "max_ms": 353.949
+          },
+          "INSERT": {
+            "count": 1204,
+            "total_ms": 10505.09,
+            "avg_ms": 8.725,
+            "max_ms": 250.599
+          },
+          "SEMANTIC_SEARCH_CTE": {
+            "count": 803,
+            "total_ms": 7280.3,
+            "avg_ms": 9.066,
+            "max_ms": 339.477
+          },
+          "SELECT_EVALUATIONS": {
+            "count": 187,
+            "total_ms": 15098.46,
+            "avg_ms": 80.74,
+            "max_ms": 504.244
+          },
+          "SELECT_EVAL_CITATIONS": {
+            "count": 748,
+            "total_ms": 204445.67,
+            "avg_ms": 273.323,
+            "max_ms": 1142.21
+          }
+        }
+      }
+    }
+  }
+]

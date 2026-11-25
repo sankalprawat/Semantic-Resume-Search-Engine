@@ -1,0 +1,3 @@
+{"ts": 1795613578.666259, "pool_size": 10, "pool_checkedout": 0, "pool_overflow": -10, "pool_checkedin": 0, "total_checkouts": 0, "total_queries": 0, "max_checkedout": 0, "max_overflow": 0}
+{"ts": 1795613579.6837127, "pool_size": 10, "pool_checkedout": 1, "pool_overflow": -9, "pool_checkedin": 0, "total_checkouts": 1, "total_queries": 0, "max_checkedout": 1, "max_overflow": 0}
+{"ts": 1795613580.6861436, "pool_size": 10, "pool_checkedout": 0, "pool_overflow": -9, "pool_checkedin": 1, "total_checkouts": 4, "total_queries": 8, "max_checkedout": 1, "max_overflow": 0}

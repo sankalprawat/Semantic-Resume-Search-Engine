@@ -1,0 +1,4 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,GET /api/v1/resumes/[id]/file,"ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)",2,2026-11-25T13:46:59Z,2026-11-25T13:47:23Z
+POST,POST /api/v1/pools/[pool]/search,"ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)",2,2026-11-25T13:47:23Z,2026-11-25T13:47:29Z
+GET,GET /api/v1/resumes/[id]/file,RemoteDisconnected('Remote end closed connection without response'),1,2026-11-25T13:47:22Z,2026-11-25T13:47:22Z

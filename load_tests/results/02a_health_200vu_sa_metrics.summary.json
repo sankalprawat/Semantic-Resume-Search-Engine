@@ -1,0 +1,10 @@
+{
+  "checkouts": 0,
+  "checkins": 0,
+  "connects": 0,
+  "queries": 0,
+  "avg_query_ms": 0.0,
+  "max_checkedout": 0,
+  "max_overflow": 0,
+  "query_buckets": {}
+}

@@ -1,0 +1,81 @@
+{
+  "run": "after_02j2_upload_dense_health_8vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/health [dense-probe]",
+      "requests": 254,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 13.31,
+      "p50_ms": 48.0,
+      "p95_ms": 170.0,
+      "p99_ms": 180.0,
+      "max_ms": 197.66
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/resumes/[pool]/upload",
+      "requests": 197,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 10.32,
+      "p50_ms": 600.0,
+      "p95_ms": 800.0,
+      "p99_ms": 970.0,
+      "max_ms": 1168.39
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 451,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 23.64,
+      "p50_ms": 130.0,
+      "p95_ms": 730.0,
+      "p99_ms": 910.0,
+      "max_ms": 1168.39
+    }
+  ],
+  "system": {
+    "samples": 21,
+    "app_cpu_avg": 90.4,
+    "app_cpu_max": 104.4,
+    "app_rss_start_mb": 135.04,
+    "app_rss_max_mb": 169.09,
+    "app_rss_end_mb": 167.57,
+    "pg_cpu_avg": 0.1,
+    "pg_cpu_max": 1.6,
+    "pg_rss_max_mb": 151.41,
+    "max_idle_in_tx": 3,
+    "max_pg_active": 2
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 5,
+    "max_overflow_obs": -3,
+    "summary": {
+      "checkouts": 404,
+      "checkins": 404,
+      "connects": 7,
+      "queries": 808,
+      "avg_query_ms": 35.641,
+      "max_checkedout": 7,
+      "max_overflow": 0,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 202,
+          "total_ms": 5433.91,
+          "avg_ms": 26.901,
+          "max_ms": 197.584
+        },
+        "INSERT": {
+          "count": 606,
+          "total_ms": 23363.78,
+          "avg_ms": 38.554,
+          "max_ms": 347.998
+        }
+      }
+    }
+  }
+}

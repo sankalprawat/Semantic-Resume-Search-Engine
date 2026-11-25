@@ -1,0 +1,35 @@
+{
+  "checkouts": 173,
+  "checkins": 173,
+  "connects": 15,
+  "queries": 773,
+  "avg_query_ms": 4.619,
+  "max_checkedout": 15,
+  "max_overflow": 5,
+  "query_buckets": {
+    "SELECT_TALENT_POOLS": {
+      "count": 173,
+      "total_ms": 648.04,
+      "avg_ms": 3.746,
+      "max_ms": 49.288
+    },
+    "SELECT_CANDIDATES": {
+      "count": 150,
+      "total_ms": 496.79,
+      "avg_ms": 3.312,
+      "max_ms": 47.037
+    },
+    "SEMANTIC_SEARCH_CTE": {
+      "count": 150,
+      "total_ms": 1145.55,
+      "avg_ms": 7.637,
+      "max_ms": 62.792
+    },
+    "INSERT": {
+      "count": 300,
+      "total_ms": 1280.18,
+      "avg_ms": 4.267,
+      "max_ms": 20.427
+    }
+  }
+}

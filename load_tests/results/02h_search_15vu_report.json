@@ -1,0 +1,75 @@
+{
+  "run": "02h_search_15vu",
+  "endpoints": [
+    {
+      "type": "POST",
+      "name": "POST /api/v1/pools/[pool]/search",
+      "requests": 654,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 27.09,
+      "p50_ms": 520.0,
+      "p95_ms": 650.0,
+      "p99_ms": 1000.0,
+      "max_ms": 1019.64
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 654,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 27.09,
+      "p50_ms": 520.0,
+      "p95_ms": 650.0,
+      "p99_ms": 1000.0,
+      "max_ms": 1019.64
+    }
+  ],
+  "system": {
+    "samples": 26,
+    "app_cpu_avg": 69.8,
+    "app_cpu_max": 87.2,
+    "app_rss_start_mb": 134.52,
+    "app_rss_max_mb": 172.87,
+    "app_rss_end_mb": 172.82,
+    "pg_cpu_avg": 0.2,
+    "pg_cpu_max": 6.2,
+    "pg_rss_max_mb": 127.66,
+    "max_idle_in_tx": 15,
+    "max_pg_active": 8
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 15,
+    "max_overflow_obs": 5,
+    "summary": {
+      "checkouts": 669,
+      "checkins": 669,
+      "connects": 15,
+      "queries": 2007,
+      "avg_query_ms": 22.081,
+      "max_checkedout": 15,
+      "max_overflow": 5,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 669,
+          "total_ms": 3646.11,
+          "avg_ms": 5.45,
+          "max_ms": 175.263
+        },
+        "SELECT_CANDIDATES": {
+          "count": 669,
+          "total_ms": 19496.03,
+          "avg_ms": 29.142,
+          "max_ms": 184.927
+        },
+        "SEMANTIC_SEARCH_CTE": {
+          "count": 669,
+          "total_ms": 21175.36,
+          "avg_ms": 31.652,
+          "max_ms": 209.589
+        }
+      }
+    }
+  }
+}

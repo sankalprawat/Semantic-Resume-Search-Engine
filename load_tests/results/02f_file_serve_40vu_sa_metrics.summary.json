@@ -1,0 +1,17 @@
+{
+  "checkouts": 6091,
+  "checkins": 6091,
+  "connects": 59,
+  "queries": 6091,
+  "avg_query_ms": 13.381,
+  "max_checkedout": 30,
+  "max_overflow": 20,
+  "query_buckets": {
+    "SELECT_RESUMES": {
+      "count": 6091,
+      "total_ms": 81500.74,
+      "avg_ms": 13.381,
+      "max_ms": 53.479
+    }
+  }
+}

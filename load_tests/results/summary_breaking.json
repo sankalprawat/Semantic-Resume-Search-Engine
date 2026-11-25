@@ -1,0 +1,188 @@
+[
+  {
+    "run": "02j2_upload_dense_health_8vu",
+    "endpoints": [
+      {
+        "type": "GET",
+        "name": "GET /api/v1/health [dense-probe]",
+        "requests": 107,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 4.29,
+        "p50_ms": 2.0,
+        "p95_ms": 20.0,
+        "p99_ms": 56.0,
+        "max_ms": 185.18
+      },
+      {
+        "type": "POST",
+        "name": "POST /api/v1/resumes/[pool]/upload",
+        "requests": 108,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 4.33,
+        "p50_ms": 1700.0,
+        "p95_ms": 2000.0,
+        "p99_ms": 2100.0,
+        "max_ms": 2111.77
+      },
+      {
+        "type": "",
+        "name": "Aggregated",
+        "requests": 215,
+        "failures": 0,
+        "error_pct": 0.0,
+        "rps": 8.61,
+        "p50_ms": 640.0,
+        "p95_ms": 1900.0,
+        "p99_ms": 2100.0,
+        "max_ms": 2111.77
+      }
+    ],
+    "system": {
+      "samples": 26,
+      "app_cpu_avg": 54.4,
+      "app_cpu_max": 81.0,
+      "app_rss_start_mb": 134.63,
+      "app_rss_max_mb": 173.08,
+      "app_rss_end_mb": 173.08,
+      "pg_cpu_avg": 0.1,
+      "pg_cpu_max": 3.0,
+      "pg_rss_max_mb": 130.53,
+      "max_idle_in_tx": 8,
+      "max_pg_active": 2
+    },
+    "sqlalchemy": {
+      "max_checkedout_obs": 8,
+      "max_overflow_obs": -2,
+      "summary": {
+        "checkouts": 220,
+        "checkins": 220,
+        "connects": 8,
+        "queries": 770,
+        "avg_query_ms": 5.618,
+        "max_checkedout": 8,
+        "max_overflow": 0,
+        "query_buckets": {
+          "SELECT_TALENT_POOLS": {
+            "count": 110,
+            "total_ms": 234.66,
+            "avg_ms": 2.133,
+            "max_ms": 76.18
+          },
+          "SELECT_CANDIDATES": {
+            "count": 220,
+            "total_ms": 824.88,
+            "avg_ms": 3.749,
+            "max_ms": 154.711
+          },
+          "INSERT": {
+            "count": 330,
+            "total_ms": 3176.77,
+            "avg_ms": 9.627,
+            "max_ms": 301.024
+          },
+          "SELECT_RESUMES": {
+            "count": 110,
+            "total_ms": 89.3,
+            "avg_ms": 0.812,
+            "max_ms": 11.617
+          }
+        }
+      }
+    }
+  },
+  {
+    "run": "02n_sse_pool_timeout_130vu",
+    "endpoints": [
+      {
+        "type": "GET",
+        "name": "GET /api/v1/pools/ [probe]",
+        "requests": 53,
+        "failures": 5,
+        "error_pct": 9.43,
+        "rps": 0.84,
+        "p50_ms": 21000.0,
+        "p95_ms": 30000.0,
+        "p99_ms": 31000.0,
+        "max_ms": 30656.93
+      },
+      {
+        "type": "POST",
+        "name": "POST /api/v1/pools/[pool]/evaluate/stream",
+        "requests": 236,
+        "failures": 70,
+        "error_pct": 29.66,
+        "rps": 3.72,
+        "p50_ms": 31000.0,
+        "p95_ms": 33000.0,
+        "p99_ms": 33000.0,
+        "max_ms": 32588.05
+      },
+      {
+        "type": "",
+        "name": "Aggregated",
+        "requests": 289,
+        "failures": 75,
+        "error_pct": 25.95,
+        "rps": 4.56,
+        "p50_ms": 30000.0,
+        "p95_ms": 32000.0,
+        "p99_ms": 33000.0,
+        "max_ms": 32588.05
+      }
+    ],
+    "system": {
+      "samples": 65,
+      "app_cpu_avg": 5.9,
+      "app_cpu_max": 28.0,
+      "app_rss_start_mb": 134.81,
+      "app_rss_max_mb": 183.43,
+      "app_rss_end_mb": 183.43,
+      "pg_cpu_avg": 0.5,
+      "pg_cpu_max": 12.5,
+      "pg_rss_max_mb": 140.0,
+      "max_idle_in_tx": 30,
+      "max_pg_active": 8
+    },
+    "sqlalchemy": {
+      "max_checkedout_obs": 30,
+      "max_overflow_obs": 20,
+      "summary": {
+        "checkouts": 300,
+        "checkins": 300,
+        "connects": 30,
+        "queries": 1113,
+        "avg_query_ms": 8.929,
+        "max_checkedout": 30,
+        "max_overflow": 20,
+        "query_buckets": {
+          "SELECT_TALENT_POOLS": {
+            "count": 300,
+            "total_ms": 3206.6,
+            "avg_ms": 10.689,
+            "max_ms": 67.895
+          },
+          "SELECT_CANDIDATES": {
+            "count": 243,
+            "total_ms": 1756.89,
+            "avg_ms": 7.23,
+            "max_ms": 55.525
+          },
+          "SEMANTIC_SEARCH_CTE": {
+            "count": 210,
+            "total_ms": 2857.94,
+            "avg_ms": 13.609,
+            "max_ms": 65.316
+          },
+          "INSERT": {
+            "count": 360,
+            "total_ms": 2116.1,
+            "avg_ms": 5.878,
+            "max_ms": 23.737
+          }
+        }
+      }
+    }
+  }
+]

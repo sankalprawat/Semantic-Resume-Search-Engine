@@ -1,0 +1,177 @@
+{
+  "run": "01_baseline_mixed",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/",
+      "requests": 70,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1.57,
+      "p50_ms": 4.0,
+      "p95_ms": 9.0,
+      "p99_ms": 83.0,
+      "max_ms": 83.25
+    },
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/[pool]/evaluations",
+      "requests": 29,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 0.65,
+      "p50_ms": 22.0,
+      "p95_ms": 100.0,
+      "p99_ms": 140.0,
+      "max_ms": 141.23
+    },
+    {
+      "type": "GET",
+      "name": "GET /api/v1/pools/[small]/candidates",
+      "requests": 75,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1.68,
+      "p50_ms": 9.0,
+      "p95_ms": 27.0,
+      "p99_ms": 110.0,
+      "max_ms": 110.75
+    },
+    {
+      "type": "GET",
+      "name": "GET /api/v1/resumes/[id]/file",
+      "requests": 43,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 0.96,
+      "p50_ms": 5.0,
+      "p95_ms": 12.0,
+      "p99_ms": 120.0,
+      "max_ms": 121.94
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/pools/[pool]/evaluate/stream",
+      "requests": 55,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1.23,
+      "p50_ms": 2900.0,
+      "p95_ms": 2900.0,
+      "p99_ms": 3000.0,
+      "max_ms": 3030.51
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/pools/[pool]/search",
+      "requests": 45,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 1.01,
+      "p50_ms": 270.0,
+      "p95_ms": 390.0,
+      "p99_ms": 450.0,
+      "max_ms": 449.57
+    },
+    {
+      "type": "POST",
+      "name": "POST /api/v1/resumes/[pool]/upload",
+      "requests": 16,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 0.36,
+      "p50_ms": 310.0,
+      "p95_ms": 460.0,
+      "p99_ms": 460.0,
+      "max_ms": 463.22
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 333,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 7.47,
+      "p50_ms": 12.0,
+      "p95_ms": 2900.0,
+      "p99_ms": 2900.0,
+      "max_ms": 3030.51
+    }
+  ],
+  "system": {
+    "samples": 47,
+    "app_cpu_avg": 8.9,
+    "app_cpu_max": 20.3,
+    "app_rss_start_mb": 134.78,
+    "app_rss_max_mb": 152.58,
+    "app_rss_end_mb": 151.24,
+    "pg_cpu_avg": 0.2,
+    "pg_cpu_max": 4.8,
+    "pg_rss_max_mb": 131.19,
+    "max_idle_in_tx": 6,
+    "max_pg_active": 2
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 7,
+    "max_overflow_obs": -2,
+    "summary": {
+      "checkouts": 351,
+      "checkins": 351,
+      "connects": 8,
+      "queries": 1136,
+      "avg_query_ms": 1.781,
+      "max_checkedout": 7,
+      "max_overflow": 0,
+      "query_buckets": {
+        "SELECT_TALENT_POOLS": {
+          "count": 292,
+          "total_ms": 287.23,
+          "avg_ms": 0.984,
+          "max_ms": 19.444
+        },
+        "SELECT_CANDIDATES": {
+          "count": 313,
+          "total_ms": 230.6,
+          "avg_ms": 0.737,
+          "max_ms": 11.078
+        },
+        "SELECT_RESUMES": {
+          "count": 134,
+          "total_ms": 138.42,
+          "avg_ms": 1.033,
+          "max_ms": 39.324
+        },
+        "SELECT_EVALUATIONS": {
+          "count": 29,
+          "total_ms": 75.85,
+          "avg_ms": 2.616,
+          "max_ms": 34.697
+        },
+        "SELECT_EVAL_CITATIONS": {
+          "count": 29,
+          "total_ms": 328.53,
+          "avg_ms": 11.329,
+          "max_ms": 90.339
+        },
+        "SEMANTIC_SEARCH_CTE": {
+          "count": 102,
+          "total_ms": 234.34,
+          "avg_ms": 2.297,
+          "max_ms": 36.63
+        },
+        "INSERT": {
+          "count": 162,
+          "total_ms": 603.32,
+          "avg_ms": 3.724,
+          "max_ms": 137.078
+        },
+        "SELECT_RESUME_CHUNKS": {
+          "count": 75,
+          "total_ms": 125.09,
+          "avg_ms": 1.668,
+          "max_ms": 26.611
+        }
+      }
+    }
+  }
+}

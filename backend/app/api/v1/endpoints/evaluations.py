@@ -1,10 +1,10 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.core.database import get_db
+from app.core.database import AsyncSessionLocal, get_db
 from app.schemas.evaluation import EvaluationListItem, EvaluationRequest, EvaluationResponse
 from app.services.rag_engine import rag_orchestrator
 from app.services.vector_store import vector_store
@@ -16,26 +16,22 @@ router = APIRouter()
 async def stream_candidate_evaluation(
     pool_id: UUID,
     request: EvaluationRequest,
-    db: AsyncSession = Depends(get_db),
 ) -> StreamingResponse:
     """
     Stream a multi-candidate comparative evaluation using Server-Sent Events (SSE).
-    Pipeline:
-    1. Cosine similarity retrieval with candidate diversity filtering.
-    2. Builds multi-candidate context with delimiter isolation.
-    3. Streams tokens in real time from gemini-4-hydrogen.
-    4. Automatically verifies citations with CitationVerifier regex guardrail.
-    5. Persists evaluation markdown and coordinate bounding boxes into PostgreSQL.
+    Uses short-lived DB sessions for retrieval and final persistence so no DB
+    connection is pinned during external Gemini API calls or streaming.
     """
-    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
-    if not pool:
+    async with AsyncSessionLocal() as db:
+        exists = await vector_store.pool_exists(session=db, pool_id=pool_id)
+    if not exists:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Talent pool with id {pool_id} not found",
         )
 
     stream_generator = rag_orchestrator.stream_comparative_synthesis(
-        session=db,
+        session=None,
         pool_id=pool_id,
         query=request.query,
         top_k=request.top_k,
@@ -57,16 +53,22 @@ async def stream_candidate_evaluation(
 @router.get("/{pool_id}/evaluations", response_model=list[EvaluationListItem])
 async def list_pool_evaluations(
     pool_id: UUID,
+    limit: int = Query(50, ge=1, le=200),
+    offset: int = Query(0, ge=0),
     db: AsyncSession = Depends(get_db),
 ) -> list[EvaluationListItem]:
     """List historical comparative evaluations generated for a talent pool."""
-    pool = await vector_store.get_pool(session=db, pool_id=pool_id)
-    if not pool:
+    if not await vector_store.pool_exists(session=db, pool_id=pool_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Talent pool with id {pool_id} not found",
         )
-    return await rag_orchestrator.list_evaluations_for_pool(session=db, pool_id=pool_id)
+    return await rag_orchestrator.list_evaluations_for_pool(
+        session=db,
+        pool_id=pool_id,
+        limit=limit,
+        offset=offset,
+    )
 
 
 @router.get("/{pool_id}/evaluations/{evaluation_id}", response_model=EvaluationResponse)

@@ -1,0 +1,6 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,GET /api/v1/pools/ [probe],"ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None)",1,2026-11-25T13:45:39Z,2026-11-25T13:45:39Z
+POST,POST /api/v1/pools/[pool]/evaluate/stream,RuntimeError('HTTP 500: Internal Server Error'),53,2026-11-25T13:45:39Z,2026-11-25T13:46:11Z
+GET,GET /api/v1/pools/ [probe],HTTPError('500 Server Error: Internal Server Error for url: GET /api/v1/pools/ [probe]'),4,2026-11-25T13:45:39Z,2026-11-25T13:46:11Z
+POST,POST /api/v1/pools/[pool]/evaluate/stream,"RuntimeError(""Stream exception: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))"")",16,2026-11-25T13:45:39Z,2026-11-25T13:45:39Z
+POST,POST /api/v1/pools/[pool]/evaluate/stream,"RuntimeError(""Stream exception: ('Connection aborted.', ConnectionAbortedError(10053, 'An established connection was aborted by the software in your host machine', None, 10053, None))"")",1,2026-11-25T13:45:39Z,2026-11-25T13:45:39Z

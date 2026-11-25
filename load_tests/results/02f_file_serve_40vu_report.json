@@ -1,0 +1,63 @@
+{
+  "run": "02f_file_serve_40vu",
+  "endpoints": [
+    {
+      "type": "GET",
+      "name": "GET /api/v1/resumes/[id]/file",
+      "requests": 6009,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 315.41,
+      "p50_ms": 91.0,
+      "p95_ms": 140.0,
+      "p99_ms": 260.0,
+      "max_ms": 401.2
+    },
+    {
+      "type": "",
+      "name": "Aggregated",
+      "requests": 6009,
+      "failures": 0,
+      "error_pct": 0.0,
+      "rps": 315.41,
+      "p50_ms": 91.0,
+      "p95_ms": 140.0,
+      "p99_ms": 260.0,
+      "max_ms": 401.2
+    }
+  ],
+  "system": {
+    "samples": 21,
+    "app_cpu_avg": 117.8,
+    "app_cpu_max": 149.5,
+    "app_rss_start_mb": 134.86,
+    "app_rss_max_mb": 147.08,
+    "app_rss_end_mb": 146.95,
+    "pg_cpu_avg": 0.9,
+    "pg_cpu_max": 9.3,
+    "pg_rss_max_mb": 127.39,
+    "max_idle_in_tx": 30,
+    "max_pg_active": 2
+  },
+  "sqlalchemy": {
+    "max_checkedout_obs": 30,
+    "max_overflow_obs": 20,
+    "summary": {
+      "checkouts": 6091,
+      "checkins": 6091,
+      "connects": 59,
+      "queries": 6091,
+      "avg_query_ms": 13.381,
+      "max_checkedout": 30,
+      "max_overflow": 20,
+      "query_buckets": {
+        "SELECT_RESUMES": {
+          "count": 6091,
+          "total_ms": 81500.74,
+          "avg_ms": 13.381,
+          "max_ms": 53.479
+        }
+      }
+    }
+  }
+}
